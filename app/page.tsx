@@ -1,8 +1,9 @@
 "use client";
 
 import Image from "next/image";
-import { useMemo, useState, type FormEvent } from "react";
+import { useMemo, useRef, useState, type FormEvent } from "react";
 
+import { CakeNextButton } from "@/components/CakeNextButton";
 import { PrimaryButton } from "@/components/PrimaryButton";
 import { brandName, instagramUrl } from "@/config/app";
 import { products } from "@/config/products";
@@ -130,6 +131,8 @@ export default function HomePage() {
     summary: string;
   } | null>(null);
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [nextWobble, setNextWobble] = useState(false);
+  const nextWobbleTimeoutRef = useRef<number | null>(null);
   const [formData, setFormData] = useState<OrderFormData>({
     productId: "",
     weightKg: undefined,
@@ -233,6 +236,16 @@ export default function HomePage() {
     setTimeout(() => {
       document.getElementById("order")?.scrollIntoView({ behavior: "smooth" });
     }, 0);
+  };
+
+  const triggerNextWobble = () => {
+    setNextWobble(true);
+    if (nextWobbleTimeoutRef.current) {
+      window.clearTimeout(nextWobbleTimeoutRef.current);
+    }
+    nextWobbleTimeoutRef.current = window.setTimeout(() => {
+      setNextWobble(false);
+    }, 600);
   };
 
   const handleBackToHero = () => {
@@ -470,9 +483,12 @@ export default function HomePage() {
   };
 
   const handleNext = () => {
-    if (validateStep(step)) {
+    const isValid = validateStep(step);
+    if (isValid) {
       setStep((prev) => (prev < 3 ? (prev + 1) : prev));
+      return;
     }
+    triggerNextWobble();
   };
 
   const handleBack = () => {
@@ -831,26 +847,30 @@ export default function HomePage() {
                 <div className="form-actions">
                   {step === 1 && (
                     <button
-                      className="btn btn-secondary"
+                      className="back-peek-btn"
                       type="button"
                       onClick={handleBackToHero}
+                      aria-label="Назад"
                     >
-                      Назад
+                      <span className="back-peek-btn__label">Назад</span>
                     </button>
                   )}
                   {step > 1 && (
                     <button
-                      className="btn btn-secondary"
+                      className="back-peek-btn"
                       type="button"
                       onClick={handleBack}
+                      aria-label="Назад"
                     >
-                      Назад
+                      <span className="back-peek-btn__label">Назад</span>
                     </button>
                   )}
                   {step < 3 && (
-                    <button className="btn" type="button" onClick={handleNext}>
-                      Далее
-                    </button>
+                    <CakeNextButton
+                      onClick={handleNext}
+                      shake={nextWobble}
+                      ariaLabel="Далее"
+                    />
                   )}
                   {step === 3 && (
                     <button className="btn" type="submit">
