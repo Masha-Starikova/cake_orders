@@ -1,0 +1,14 @@
+# Проект подключается к общей docker-сети "web", где его видит Caddy
+# из ~/proxy (см. docs-deploy-vps.md). Портов наружу не открывает.
+# Сеть создаётся один раз на сервере: docker network create web
+services:
+  app:
+    build: .
+    container_name: cake_orders-app
+    env_file: .env
+    restart: unless-stopped
+    networks: [web]
+
+networks:
+  web:
+    external: true

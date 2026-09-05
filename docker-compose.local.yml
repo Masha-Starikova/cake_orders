@@ -1,0 +1,8 @@
+# Локальная проверка образа без Caddy и общей сети:
+#   docker compose -f docker-compose.local.yml up --build
+# Сайт откроется на http://localhost:3000
+services:
+  app:
+    build: .
+    env_file: .env.local
+    ports: ["3000:3000"]

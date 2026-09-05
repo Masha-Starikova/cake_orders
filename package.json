@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "pages:build": "next build && next-on-pages"
+    "test": "vitest run"
   },
   "dependencies": {
     "next": "15.5.2",
@@ -15,12 +15,15 @@
     "react-dom": "18.2.0"
   },
   "devDependencies": {
-    "@cloudflare/next-on-pages": "1.13.16",
     "@types/node": "^20.11.0",
     "@types/react": "^18.2.0",
     "@types/react-dom": "^18.2.0",
     "eslint": "^8.56.0",
     "eslint-config-next": "15.5.2",
-    "typescript": "^5.4.0"
+    "typescript": "^5.4.0",
+    "vitest": "^2.1.9"
+  },
+  "engines": {
+    "node": ">=20"
   }
 }
