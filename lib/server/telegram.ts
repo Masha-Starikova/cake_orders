@@ -1,0 +1,184 @@
+import { DELIVERY_LABELS } from "@/lib/server/sheets";
+import type { SavedOrder } from "@/types/order";
+
+// Уведомление о новом заказе в Telegram-группу кондитера.
+// Бот только отправляет: без webhook и входящих команд.
+
+const CAPTION_LIMIT = 1024; // лимит подписи к фото
+const TEXT_LIMIT = 4096; // лимит обычного сообщения
+
+export type TelegramResult =
+  | { ok: true; messageId: number }
+  | { ok: false; error: string };
+
+export function escapeHtml(value: string | undefined | null): string {
+  return (value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
+}
+
+// Разделитель тысяч — обычный пробел, чтобы не зависеть от ICU в Node.
+export const money = (value: number) =>
+  `${Math.round(value).toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")} ₽`;
+
+const formatDueDate = (value: string) => {
+  const date = new Date(`${value}T00:00:00`);
+  if (Number.isNaN(date.getTime())) {
+    return value;
+  }
+  return date.toLocaleDateString("ru-RU", { day: "numeric", month: "long" });
+};
+
+export function formatOrderMessage(
+  order: SavedOrder,
+  options: { sheetsError?: string; sheetUrl?: string } = {}
+): string {
+  const e = escapeHtml;
+  const lines: string[] = [];
+
+  lines.push(`🎂 <b>Новый заказ #${e(order.orderId)}</b>`);
+  lines.push("");
+  lines.push(`<b>${e(order.productLabel)}</b>`);
+  lines.push(`Начинка: ${e(order.filling)}`);
+  if (order.decorLabel) {
+    lines.push(`Декор: ${e(order.decorLabel)}`);
+    for (const part of order.decorDetails.split("; ").filter(Boolean)) {
+      lines.push(`  • ${e(part)}`);
+    }
+  }
+  if (order.decor.referenceFileName) {
+    lines.push(`Референс: 📎 ${e(order.decor.referenceFileName)}`);
+  }
+  lines.push("");
+  lines.push(`📅 К дате: ${e(formatDueDate(order.dueDate))}`);
+  const delivery = DELIVERY_LABELS[order.deliveryType];
+  lines.push(
+    order.deliveryType === "delivery" && order.address
+      ? `🚚 ${delivery}: ${e(order.address)}`
+      : `🏠 ${delivery}`
+  );
+  const contact = [order.name, order.phone, order.instagram]
+    .filter(Boolean)
+    .map((v) => e(v))
+    .join(" · ");
+  lines.push(`👤 ${contact}`);
+  if (order.comment) {
+    lines.push("");
+    lines.push(`💬 ${e(order.comment)}`);
+  }
+  lines.push("");
+  const decorPart = order.decorQuoted
+    ? "декор по договорённости"
+    : `декор ${money(order.decorPrice)}`;
+  lines.push(
+    `💰 Торт ${money(order.cakePrice)} + ${decorPart} = <b>${money(order.totalPrice)}</b>`
+  );
+  lines.push("");
+  lines.push(`Код для Direct: <code>${e(order.directCode)}</code>`);
+  if (options.sheetUrl) {
+    lines.push(`📊 <a href="${options.sheetUrl}">Открыть таблицу</a>`);
+  }
+  if (options.sheetsError) {
+    lines.push("");
+    lines.push(`⚠️ В таблицу не записалось: ${e(options.sheetsError)}`);
+  }
+
+  return truncate(lines.join("\n"), TEXT_LIMIT);
+}
+
+function truncate(text: string, limit: number): string {
+  return text.length <= limit ? text : `${text.slice(0, limit - 1)}…`;
+}
+
+function readEnv() {
+  const token = process.env.TELEGRAM_BOT_TOKEN?.trim();
+  const chatId = process.env.TELEGRAM_CHAT_ID?.trim();
+  if (!token || !chatId) {
+    throw new Error("TELEGRAM_BOT_TOKEN или TELEGRAM_CHAT_ID не заданы");
+  }
+  return { api: `https://api.telegram.org/bot${token}`, chatId };
+}
+
+async function call(method: string, body: FormData | object): Promise<TelegramResult> {
+  try {
+    const { api, chatId } = readEnv();
+    const isForm = body instanceof FormData;
+    if (isForm) {
+      body.set("chat_id", chatId);
+    }
+    const response = await fetch(`${api}/${method}`, {
+      method: "POST",
+      headers: isForm ? undefined : { "Content-Type": "application/json" },
+      body: isForm ? body : JSON.stringify({ chat_id: chatId, ...body })
+    });
+    const data = (await response.json()) as {
+      ok: boolean;
+      description?: string;
+      result?: { message_id: number };
+    };
+    if (!data.ok) {
+      return { ok: false, error: `Telegram ${method}: ${data.description ?? response.status}` };
+    }
+    return { ok: true, messageId: data.result?.message_id ?? 0 };
+  } catch (error) {
+    return { ok: false, error: `Telegram ${method}: ${String(error)}` };
+  }
+}
+
+export function sendMessage(text: string): Promise<TelegramResult> {
+  return call("sendMessage", {
+    text,
+    parse_mode: "HTML",
+    disable_web_page_preview: true
+  });
+}
+
+// data URL (base64) → Blob для multipart-загрузки.
+export function dataUrlToBlob(dataUrl: string): { blob: Blob; ext: string } | null {
+  const match = /^data:(image\/[a-z+]+);base64,(.+)$/i.exec(dataUrl);
+  if (!match) {
+    return null;
+  }
+  const [, mime, base64] = match;
+  const bytes = Buffer.from(base64, "base64");
+  const ext = mime.split("/")[1].replace("jpeg", "jpg");
+  return { blob: new Blob([bytes], { type: mime }), ext };
+}
+
+export async function sendPhoto(
+  dataUrl: string,
+  caption?: string
+): Promise<TelegramResult> {
+  const photo = dataUrlToBlob(dataUrl);
+  if (!photo) {
+    return { ok: false, error: "Telegram sendPhoto: референс не является изображением" };
+  }
+  const form = new FormData();
+  form.set("photo", photo.blob, `reference.${photo.ext}`);
+  if (caption) {
+    form.set("caption", caption);
+    form.set("parse_mode", "HTML");
+  }
+  return call("sendPhoto", form);
+}
+
+export async function notifyNewOrder(
+  order: SavedOrder,
+  options: { sheetsError?: string; sheetUrl?: string } = {}
+): Promise<TelegramResult> {
+  const text = formatOrderMessage(order, options);
+  const photo = order.decor.referenceDataUrl;
+
+  if (!photo) {
+    return sendMessage(text);
+  }
+  if (text.length <= CAPTION_LIMIT) {
+    return sendPhoto(photo, text);
+  }
+  const sent = await sendMessage(text);
+  if (!sent.ok) {
+    return sent;
+  }
+  return sendPhoto(photo);
+}

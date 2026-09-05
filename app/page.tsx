@@ -1,9 +1,10 @@
 "use client";
 
 import Image from "next/image";
-import { useMemo, useRef, useState, type FormEvent } from "react";
+import { useEffect, useMemo, useRef, useState, type FormEvent } from "react";
 
 import { CakeNextButton } from "@/components/CakeNextButton";
+import { Calendar } from "@/components/Calendar";
 import { PrimaryButton } from "@/components/PrimaryButton";
 import { brandName, instagramUrl } from "@/config/app";
 import {
@@ -16,7 +17,10 @@ import {
 import { isFillingAllowedForProduct } from "@/config/fillings";
 import { quotedDecorLabel, quotedDecorNote } from "@/config/price-rules";
 import { products } from "@/config/products";
+import { compressImage } from "@/lib/client/image";
+import { addDays, fromIsoDate, startOfDay } from "@/lib/dates";
 import { calculatePrice } from "@/lib/pricing";
+import { getStepErrors as getSharedStepErrors, type OrderStep } from "@/lib/validators";
 import type { DecorType, OrderFormData, OrderPricingInput } from "@/types/order";
 import type { Product } from "@/types/product";
 
@@ -102,27 +106,6 @@ const fillingCards = [
   }
 ];
 
-const productCodeById: Record<string, string> = {
-  "bento-s": "S",
-  "bento-m": "M",
-  "bento-l": "L",
-  "cake-by-kg": "T",
-  "cup-cake": "G",
-  cupcakes: "K"
-};
-
-const fillingCodeByName: Record<string, string> = {
-  "Нежнейший пломбир": "NP",
-  "Молочная девочка": "MD",
-  "Красный бархат": "KB",
-  "Морковный с солёной карамелью": "MK",
-  "Морковный с соленой карамелью": "MK",
-  "Сникерс": "CN",
-  "Шоколадная классика": "SH",
-  "Банановый": "BA",
-  "Медовик": "ME"
-};
-
 const formatDate = (value: string) => {
   if (!value) {
     return "";
@@ -142,9 +125,16 @@ export default function HomePage() {
   const [step, setStep] = useState<1 | 2 | 3 | 4>(1);
   const [success, setSuccess] = useState<{
     orderId: string;
+    directCode: string;
+    cakePrice: number;
+    decorPrice: number;
+    decorQuoted: boolean;
     totalPrice: number;
-    summary: string;
   } | null>(null);
+  const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
+  // Honeypot: скрытое поле против ботов, люди его не видят.
+  const [website, setWebsite] = useState("");
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [nextWobble, setNextWobble] = useState(false);
   const nextWobbleTimeoutRef = useRef<number | null>(null);
@@ -163,11 +153,19 @@ export default function HomePage() {
     comment: ""
   });
 
-  const minDate = useMemo(() => {
-    const date = new Date();
-    date.setDate(date.getDate() + 1);
-    return date.toISOString().split("T")[0];
+  // Даты, закрытые администратором. Пустой список, пока не загрузились.
+  const [blockedDates, setBlockedDates] = useState<string[]>([]);
+  useEffect(() => {
+    fetch("/api/blocked-dates")
+      .then((response) => response.json())
+      .then((data) => setBlockedDates(Array.isArray(data.dates) ? data.dates : []))
+      .catch(() => undefined);
   }, []);
+
+  const minOrderDate = useMemo(() => startOfDay(addDays(new Date(), 1)), []);
+  const isDateUnavailable = (iso: string) =>
+    fromIsoDate(iso) < minOrderDate || blockedDates.includes(iso);
+  const isDateBlocked = (iso: string) => blockedDates.includes(iso);
 
   const selectedProduct = useMemo(
     () => products.find((product) => product.id === formData.productId),
@@ -250,8 +248,8 @@ export default function HomePage() {
   const [directCopied, setDirectCopied] = useState(false);
 
   const handleCopyDirectCode = async () => {
-    const code = `ZAKAZ${success?.orderId ?? ""}`;
-    if (!code || code === "ZAKAZ") {
+    const code = success?.directCode ?? "";
+    if (!code) {
       return;
     }
     await copyToClipboard(code);
@@ -331,25 +329,7 @@ export default function HomePage() {
     });
   };
 
-  const handleDecorFile = (file: File | null) => {
-    if (!file) {
-      updateDecorField("referenceFileName", undefined);
-      updateDecorField("referenceDataUrl", undefined);
-      return;
-    }
-    const reader = new FileReader();
-    reader.onload = () => {
-      setFormData((prev) => ({
-        ...prev,
-        decor: {
-          ...prev.decor,
-          referenceFileName: file.name,
-          referenceDataUrl:
-            typeof reader.result === "string" ? reader.result : undefined
-        }
-      }));
-    };
-    reader.readAsDataURL(file);
+  const clearReferenceError = () =>
     setErrors((prev) => {
       if (!prev["decor.reference"]) {
         return prev;
@@ -357,6 +337,31 @@ export default function HomePage() {
       const { ["decor.reference"]: _removed, ...rest } = prev;
       return rest;
     });
+
+  const handleDecorFile = async (file: File | null) => {
+    if (!file) {
+      updateDecorField("referenceFileName", undefined);
+      updateDecorField("referenceDataUrl", undefined);
+      return;
+    }
+    try {
+      const dataUrl = await compressImage(file);
+      setFormData((prev) => ({
+        ...prev,
+        decor: {
+          ...prev.decor,
+          referenceFileName: file.name,
+          referenceDataUrl: dataUrl
+        }
+      }));
+      clearReferenceError();
+    } catch (error) {
+      setErrors((prev) => ({
+        ...prev,
+        "decor.reference":
+          error instanceof Error ? error.message : "Не удалось загрузить фото"
+      }));
+    }
   };
 
   const handleProductSelect = (productId: string) => {
@@ -600,71 +605,8 @@ export default function HomePage() {
     );
   };
 
-  const getStepErrors = (currentStep: 1 | 2 | 3 | 4) => {
-    const nextErrors: Record<string, string> = {};
-
-    if (currentStep === 1) {
-      if (!formData.productId) {
-        nextErrors.productId = "Выберите продукт";
-      }
-      if (selectedProduct?.pricing.type === "perKg" && !formData.weightKg) {
-        nextErrors.weightKg = "Укажите вес";
-      }
-      if (selectedProduct?.pricing.type === "perItem" && !formData.qty) {
-        nextErrors.qty = "Укажите количество";
-      }
-    }
-
-    if (currentStep === 2) {
-      if (!formData.filling) {
-        nextErrors.filling = "Выберите начинку";
-      } else if (
-        !isFillingAllowedForProduct(formData.filling, formData.productId)
-      ) {
-        nextErrors.filling = "Эта начинка недоступна для выбранного продукта";
-      }
-    }
-
-    if (currentStep === 3) {
-      const decorOption = getDecorOption(formData.decor.type, formData.productId);
-      if (!decorOption) {
-        nextErrors["decor.type"] = "Выберите декор";
-      } else {
-        for (const field of decorOption.fields) {
-          if (!field.required) {
-            continue;
-          }
-          if (field.key === "reference") {
-            if (!formData.decor.referenceFileName) {
-              nextErrors["decor.reference"] = "Прикрепите фото";
-            }
-            continue;
-          }
-          const decorKey = field.key as Exclude<typeof field.key, "reference">;
-          if (!formData.decor[decorKey]) {
-            nextErrors[`decor.${decorKey}`] = "Заполните поле";
-          }
-        }
-      }
-    }
-
-    if (currentStep === 4) {
-      if (!formData.dueDate) {
-        nextErrors.dueDate = "Укажите дату";
-      }
-      if (!formData.name) {
-        nextErrors.name = "Введите имя";
-      }
-      if (!formData.phone) {
-        nextErrors.phone = "Введите телефон";
-      }
-      if (formData.deliveryType === "delivery" && !formData.address) {
-        nextErrors.address = "Укажите адрес доставки";
-      }
-    }
-
-    return nextErrors;
-  };
+  const getStepErrors = (currentStep: OrderStep) =>
+    getSharedStepErrors(formData, currentStep, { blockedDates });
 
   const validateStep = (currentStep: 1 | 2 | 3 | 4) => {
     const nextErrors = getStepErrors(currentStep);
@@ -697,22 +639,51 @@ export default function HomePage() {
     setStep((prev) => (prev > 1 ? ((prev - 1) as 1 | 2 | 3 | 4) : prev));
   };
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (!validateAll()) {
+    if (submitting || !validateAll()) {
       return;
     }
 
-    const productCode = productCodeById[formData.productId] ?? "X";
-    const fillingCode = fillingCodeByName[formData.filling] ?? "XX";
-    const randomDigits = Math.floor(1000 + Math.random() * 9000);
-    const orderId = `${productCode}${fillingCode}${randomDigits}`;
-    const priceSummary = calculatePrice(formData as OrderPricingInput);
-    setSuccess({
-      orderId,
-      totalPrice: priceSummary.totalPrice,
-      summary: priceSummary.summary
-    });
+    setSubmitting(true);
+    setSubmitError(null);
+    try {
+      const response = await fetch("/api/order", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...formData, website })
+      });
+      const data = await response.json().catch(() => ({}));
+
+      if (response.status === 422 && data.errors) {
+        setErrors(data.errors);
+        setSubmitError("Проверьте выделенные поля");
+        return;
+      }
+      if (!response.ok || !data.ok) {
+        setSubmitError(
+          response.status === 429
+            ? "Слишком много попыток. Подождите минуту и попробуйте снова."
+            : "Не удалось отправить заказ. Попробуйте ещё раз или напишите нам в Direct."
+        );
+        return;
+      }
+
+      setSuccess({
+        orderId: data.orderId,
+        directCode: data.directCode,
+        cakePrice: data.cakePrice,
+        decorPrice: data.decorPrice,
+        decorQuoted: data.decorQuoted,
+        totalPrice: data.totalPrice
+      });
+    } catch {
+      setSubmitError(
+        "Нет связи с сервером. Проверьте интернет и попробуйте ещё раз."
+      );
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const resetForm = () => {
@@ -733,6 +704,8 @@ export default function HomePage() {
     setErrors({});
     setStep(1);
     setSuccess(null);
+    setSubmitError(null);
+    setWebsite("");
     setDirectCopied(false);
   };
 
@@ -877,11 +850,15 @@ export default function HomePage() {
                 <div className="price-box price-box--breakdown">
                   <div className="price-row">
                     <span>Стоимость торта</span>
-                    <strong>{formattedCakePrice}</strong>
+                    <strong>{success.cakePrice.toLocaleString("ru-RU")} ₽</strong>
                   </div>
                   <div className="price-row">
                     <span>Доплата за декор</span>
-                    <strong>{formattedDecorPrice}</strong>
+                    <strong>
+                      {success.decorQuoted
+                        ? quotedDecorLabel
+                        : `${success.decorPrice.toLocaleString("ru-RU")} ₽`}
+                    </strong>
                   </div>
                   <div className="price-row price-row--total">
                     <span>Итого</span>
@@ -889,7 +866,7 @@ export default function HomePage() {
                       {success.totalPrice.toLocaleString("ru-RU")} ₽
                     </strong>
                   </div>
-                  {priceInfo.decorQuoted && (
+                  {success.decorQuoted && (
                     <p className="price-note">{quotedDecorNote}</p>
                   )}
                 </div>
@@ -908,7 +885,7 @@ export default function HomePage() {
                     </span>
                     <span className="order-summary__value order-summary__value--code">
                       <strong className="direct-code">
-                        ZAKAZ{success.orderId}
+                        {success.directCode}
                       </strong>
                       <button
                         type="button"
@@ -1088,17 +1065,22 @@ export default function HomePage() {
                 {step === 4 && (
                   <div className="form-step">
                     <div className="field">
-                      <label htmlFor="dueDate">К какому числу нужно</label>
-                      <input
-                        id="dueDate"
-                        type="date"
-                        className="date-input"
-                        min={minDate}
-                        value={formData.dueDate}
-                        onChange={(event) =>
-                          updateFormField("dueDate", event.target.value)
+                      <label>К какому числу нужно</label>
+                      <Calendar
+                        selected={formData.dueDate ? [formData.dueDate] : []}
+                        onToggle={(iso) => updateFormField("dueDate", iso)}
+                        isDisabled={isDateUnavailable}
+                        isBlocked={isDateBlocked}
+                        monthsAhead={6}
+                        initialMonth={
+                          formData.dueDate ? fromIsoDate(formData.dueDate) : undefined
                         }
                       />
+                      {formData.dueDate && (
+                        <p className="date-picked">
+                          Выбрано: <strong>{orderDateLabel}</strong>
+                        </p>
+                      )}
                       {errors.dueDate && (
                         <p className="field-error">{errors.dueDate}</p>
                       )}
@@ -1218,6 +1200,21 @@ export default function HomePage() {
                     </div>
                   </div>
                 )}
+                <input
+                  type="text"
+                  name="website"
+                  value={website}
+                  onChange={(event) => setWebsite(event.target.value)}
+                  tabIndex={-1}
+                  autoComplete="off"
+                  aria-hidden="true"
+                  className="hp-field"
+                />
+                {submitError && step === 4 && (
+                  <p className="field-error submit-error" role="alert">
+                    {submitError}
+                  </p>
+                )}
                 <div className="form-actions">
                   {step === 1 && (
                     <button
@@ -1247,8 +1244,8 @@ export default function HomePage() {
                     />
                   )}
                   {step === 4 && (
-                    <button className="btn" type="submit">
-                      Оформить заказ
+                    <button className="btn" type="submit" disabled={submitting}>
+                      {submitting ? "Отправляем…" : "Оформить заказ"}
                     </button>
                   )}
                 </div>
