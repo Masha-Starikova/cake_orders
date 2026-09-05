@@ -10,3 +10,13 @@ export const fillings: Filling[] = [
   "Банановый",
   "Медовик"
 ];
+
+// Начинки, которые нельзя выбрать для конкретного продукта.
+export const excludedFillingsByProduct: Record<string, string[]> = {
+  cupcakes: ["Молочная девочка", "Медовик"]
+};
+
+export const isFillingAllowedForProduct = (
+  filling: string,
+  productId: string
+) => !(excludedFillingsByProduct[productId] ?? []).includes(filling);

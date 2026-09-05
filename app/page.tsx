@@ -6,9 +6,18 @@ import { useMemo, useRef, useState, type FormEvent } from "react";
 import { CakeNextButton } from "@/components/CakeNextButton";
 import { PrimaryButton } from "@/components/PrimaryButton";
 import { brandName, instagramUrl } from "@/config/app";
+import {
+  buildDecorSummary,
+  getDecorOption,
+  getDecorOptionsForProduct,
+  isDecorAllowedForProduct,
+  type DecorField
+} from "@/config/decor";
+import { isFillingAllowedForProduct } from "@/config/fillings";
+import { quotedDecorLabel, quotedDecorNote } from "@/config/price-rules";
 import { products } from "@/config/products";
 import { calculatePrice } from "@/lib/pricing";
-import type { OrderFormData, OrderPricingInput } from "@/types/order";
+import type { DecorType, OrderFormData, OrderPricingInput } from "@/types/order";
 import type { Product } from "@/types/product";
 
 type ProductCardMeta = {
@@ -32,6 +41,11 @@ const productMetaById: Record<string, ProductCardMeta> = {
     title: "Бенто M",
     price: "3200 ₽",
     details: "Вес 1 кг, на 4–5 персон"
+  },
+  "bento-l": {
+    title: "Бенто L",
+    price: "4300 ₽",
+    details: "Вес 1,5 кг, на 6–8 персон"
   },
   "cup-cake": {
     title: "Тортик в стаканчике",
@@ -91,6 +105,7 @@ const fillingCards = [
 const productCodeById: Record<string, string> = {
   "bento-s": "S",
   "bento-m": "M",
+  "bento-l": "L",
   "cake-by-kg": "T",
   "cup-cake": "G",
   cupcakes: "K"
@@ -124,7 +139,7 @@ const formatDate = (value: string) => {
 
 export default function HomePage() {
   const [showOrder, setShowOrder] = useState(false);
-  const [step, setStep] = useState<1 | 2 | 3>(1);
+  const [step, setStep] = useState<1 | 2 | 3 | 4>(1);
   const [success, setSuccess] = useState<{
     orderId: string;
     totalPrice: number;
@@ -138,14 +153,14 @@ export default function HomePage() {
     weightKg: undefined,
     qty: undefined,
     filling: "",
+    decor: { type: "" },
     dueDate: "",
     deliveryType: "pickup",
     name: "",
     phone: "",
     instagram: "",
     address: "",
-    comment: "",
-    referenceUrl: ""
+    comment: ""
   });
 
   const minDate = useMemo(() => {
@@ -159,6 +174,20 @@ export default function HomePage() {
     [formData.productId]
   );
 
+  // Начинки и виды декора зависят от выбранного продукта.
+  const availableFillings = useMemo(
+    () =>
+      fillingCards.filter((filling) =>
+        isFillingAllowedForProduct(filling.name, formData.productId)
+      ),
+    [formData.productId]
+  );
+
+  const availableDecorOptions = useMemo(
+    () => getDecorOptionsForProduct(formData.productId),
+    [formData.productId]
+  );
+
   const priceInfo = useMemo(
     () => calculatePrice(formData as OrderPricingInput),
     [formData]
@@ -166,6 +195,17 @@ export default function HomePage() {
   const formattedPrice = priceInfo.totalPrice
     ? `${priceInfo.totalPrice.toLocaleString("ru-RU")} ₽`
     : "—";
+  const formattedCakePrice = priceInfo.cakePrice
+    ? `${priceInfo.cakePrice.toLocaleString("ru-RU")} ₽`
+    : "—";
+  const formattedDecorPrice = priceInfo.decorQuoted
+    ? quotedDecorLabel
+    : `${priceInfo.decorPrice.toLocaleString("ru-RU")} ₽`;
+
+  const decorSummary = useMemo(
+    () => buildDecorSummary(formData.decor, formData.productId),
+    [formData.decor, formData.productId]
+  );
 
   const orderProductLabel = useMemo(() => {
     if (!selectedProduct) {
@@ -189,18 +229,6 @@ export default function HomePage() {
     () => formatDate(formData.dueDate),
     [formData.dueDate]
   );
-
-  const orderDescriptionText = useMemo(() => {
-    if (
-      !formData.name ||
-      !orderProductLabel ||
-      !formData.filling ||
-      !orderDateLabel
-    ) {
-      return "";
-    }
-    return `${formData.name}, ваш заказ: ${orderProductLabel} с начинкой ${formData.filling}. Нужно приготовить к ${orderDateLabel}.`;
-  }, [formData.filling, formData.name, orderDateLabel, orderProductLabel]);
 
   const copyToClipboard = async (value: string) => {
     try {
@@ -268,58 +296,101 @@ export default function HomePage() {
     });
   };
 
+  const updateDecorField = <K extends keyof OrderFormData["decor"]>(
+    field: K,
+    value: OrderFormData["decor"][K]
+  ) => {
+    setFormData((prev) => ({
+      ...prev,
+      decor: { ...prev.decor, [field]: value }
+    }));
+    setErrors((prev) => {
+      const errorKey = `decor.${field as string}`;
+      if (!prev[errorKey]) {
+        return prev;
+      }
+      const { [errorKey]: _removed, ...rest } = prev;
+      return rest;
+    });
+  };
+
+  const handleDecorSelect = (type: DecorType) => {
+    setFormData((prev) => ({
+      ...prev,
+      // При смене типа сбрасываем поля предыдущего декора.
+      decor: prev.decor.type === type ? prev.decor : { type }
+    }));
+    setErrors((prev) => {
+      const rest: Record<string, string> = {};
+      for (const [key, value] of Object.entries(prev)) {
+        if (!key.startsWith("decor")) {
+          rest[key] = value;
+        }
+      }
+      return rest;
+    });
+  };
+
+  const handleDecorFile = (file: File | null) => {
+    if (!file) {
+      updateDecorField("referenceFileName", undefined);
+      updateDecorField("referenceDataUrl", undefined);
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = () => {
+      setFormData((prev) => ({
+        ...prev,
+        decor: {
+          ...prev.decor,
+          referenceFileName: file.name,
+          referenceDataUrl:
+            typeof reader.result === "string" ? reader.result : undefined
+        }
+      }));
+    };
+    reader.readAsDataURL(file);
+    setErrors((prev) => {
+      if (!prev["decor.reference"]) {
+        return prev;
+      }
+      const { ["decor.reference"]: _removed, ...rest } = prev;
+      return rest;
+    });
+  };
+
   const handleProductSelect = (productId: string) => {
     const nextProduct = products.find((product) => product.id === productId);
-    if (!nextProduct) {
-      setFormData((prev) => ({
-        ...prev,
-        productId: "",
-        weightKg: undefined,
-        qty: undefined
-      }));
-      setErrors((prev) => {
-        const { productId: _p, weightKg: _w, qty: _q, ...rest } = prev;
-        return rest;
-      });
-      return;
-    }
-
-    if (nextProduct.pricing.type === "perKg") {
-      setFormData((prev) => ({
-        ...prev,
-        productId,
-        weightKg: nextProduct.pricing.minWeightKg,
-        qty: undefined
-      }));
-      setErrors((prev) => {
-        const { productId: _p, weightKg: _w, qty: _q, ...rest } = prev;
-        return rest;
-      });
-      return;
-    }
-
-    if (nextProduct.pricing.type === "perItem") {
-      setFormData((prev) => ({
-        ...prev,
-        productId,
-        qty: nextProduct.pricing.minQty,
-        weightKg: undefined
-      }));
-      setErrors((prev) => {
-        const { productId: _p, weightKg: _w, qty: _q, ...rest } = prev;
-        return rest;
-      });
-      return;
-    }
+    const pricing = nextProduct?.pricing;
 
     setFormData((prev) => ({
       ...prev,
-      productId,
-      weightKg: undefined,
-      qty: undefined
+      productId: nextProduct ? productId : "",
+      weightKg: pricing?.type === "perKg" ? pricing.minWeightKg : undefined,
+      qty: pricing?.type === "perItem" ? pricing.minQty : undefined,
+      // Начинка и декор могут быть недоступны для нового продукта — сбрасываем.
+      filling:
+        nextProduct && isFillingAllowedForProduct(prev.filling, productId)
+          ? prev.filling
+          : "",
+      decor:
+        nextProduct && isDecorAllowedForProduct(prev.decor.type, productId)
+          ? prev.decor
+          : { type: "" }
     }));
     setErrors((prev) => {
-      const { productId: _p, weightKg: _w, qty: _q, ...rest } = prev;
+      const rest: Record<string, string> = {};
+      for (const [key, value] of Object.entries(prev)) {
+        if (
+          key !== "productId" &&
+          key !== "weightKg" &&
+          key !== "qty" &&
+          key !== "filling" &&
+          !key.startsWith("decor")
+        ) {
+          rest[key] = value;
+        }
+      }
       return rest;
     });
   };
@@ -429,7 +500,107 @@ export default function HomePage() {
     return null;
   };
 
-  const getStepErrors = (currentStep: 1 | 2 | 3) => {
+  const renderDecorField = (field: DecorField) => {
+    const errorKey =
+      field.key === "reference" ? "decor.reference" : `decor.${field.key}`;
+    const error = errors[errorKey];
+
+    if (field.kind === "file") {
+      return (
+        <div className="field" key={field.key}>
+          <label htmlFor={`decor-${field.key}`}>
+            {field.label}
+            {field.required ? " *" : ""}
+          </label>
+          <input
+            id={`decor-${field.key}`}
+            type="file"
+            accept="image/*"
+            className="decor-file-input"
+            onChange={(event) =>
+              handleDecorFile(event.target.files?.[0] ?? null)
+            }
+          />
+          {formData.decor.referenceDataUrl && (
+            <div className="decor-preview">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={formData.decor.referenceDataUrl}
+                alt={formData.decor.referenceFileName ?? "Референс"}
+              />
+              <button
+                type="button"
+                className="decor-preview__remove"
+                onClick={() => handleDecorFile(null)}
+              >
+                Удалить фото
+              </button>
+            </div>
+          )}
+          {error && <p className="field-error">{error}</p>}
+        </div>
+      );
+    }
+
+    const decorKey = field.key as Exclude<typeof field.key, "reference">;
+    const value = formData.decor[decorKey] ?? "";
+
+    if (field.kind === "choice") {
+      return (
+        <div className="field" key={field.key}>
+          <label>
+            {field.label}
+            {field.required ? " *" : ""}
+          </label>
+          <div className="toggle-group">
+            {(field.options ?? []).map((option) => (
+              <button
+                key={option}
+                type="button"
+                className={`toggle-option ${
+                  value === option ? "is-active" : ""
+                }`}
+                onClick={() => updateDecorField(decorKey, option)}
+                aria-pressed={value === option}
+              >
+                {option}
+              </button>
+            ))}
+          </div>
+          {error && <p className="field-error">{error}</p>}
+        </div>
+      );
+    }
+
+    return (
+      <div className="field" key={field.key}>
+        <label htmlFor={`decor-${field.key}`}>
+          {field.label}
+          {field.required ? " *" : ""}
+        </label>
+        {field.kind === "textarea" ? (
+          <textarea
+            id={`decor-${field.key}`}
+            rows={3}
+            value={value}
+            placeholder={field.placeholder}
+            onChange={(event) => updateDecorField(decorKey, event.target.value)}
+          />
+        ) : (
+          <input
+            id={`decor-${field.key}`}
+            type="text"
+            value={value}
+            placeholder={field.placeholder}
+            onChange={(event) => updateDecorField(decorKey, event.target.value)}
+          />
+        )}
+        {error && <p className="field-error">{error}</p>}
+      </div>
+    );
+  };
+
+  const getStepErrors = (currentStep: 1 | 2 | 3 | 4) => {
     const nextErrors: Record<string, string> = {};
 
     if (currentStep === 1) {
@@ -444,11 +615,40 @@ export default function HomePage() {
       }
     }
 
-    if (currentStep === 2 && !formData.filling) {
-      nextErrors.filling = "Выберите начинку";
+    if (currentStep === 2) {
+      if (!formData.filling) {
+        nextErrors.filling = "Выберите начинку";
+      } else if (
+        !isFillingAllowedForProduct(formData.filling, formData.productId)
+      ) {
+        nextErrors.filling = "Эта начинка недоступна для выбранного продукта";
+      }
     }
 
     if (currentStep === 3) {
+      const decorOption = getDecorOption(formData.decor.type, formData.productId);
+      if (!decorOption) {
+        nextErrors["decor.type"] = "Выберите декор";
+      } else {
+        for (const field of decorOption.fields) {
+          if (!field.required) {
+            continue;
+          }
+          if (field.key === "reference") {
+            if (!formData.decor.referenceFileName) {
+              nextErrors["decor.reference"] = "Прикрепите фото";
+            }
+            continue;
+          }
+          const decorKey = field.key as Exclude<typeof field.key, "reference">;
+          if (!formData.decor[decorKey]) {
+            nextErrors[`decor.${decorKey}`] = "Заполните поле";
+          }
+        }
+      }
+    }
+
+    if (currentStep === 4) {
       if (!formData.dueDate) {
         nextErrors.dueDate = "Укажите дату";
       }
@@ -466,7 +666,7 @@ export default function HomePage() {
     return nextErrors;
   };
 
-  const validateStep = (currentStep: 1 | 2 | 3) => {
+  const validateStep = (currentStep: 1 | 2 | 3 | 4) => {
     const nextErrors = getStepErrors(currentStep);
     setErrors(nextErrors);
     return Object.keys(nextErrors).length === 0;
@@ -476,7 +676,8 @@ export default function HomePage() {
     const combinedErrors = {
       ...getStepErrors(1),
       ...getStepErrors(2),
-      ...getStepErrors(3)
+      ...getStepErrors(3),
+      ...getStepErrors(4)
     };
     setErrors(combinedErrors);
     return Object.keys(combinedErrors).length === 0;
@@ -485,7 +686,7 @@ export default function HomePage() {
   const handleNext = () => {
     const isValid = validateStep(step);
     if (isValid) {
-      setStep((prev) => (prev < 3 ? (prev + 1) : prev));
+      setStep((prev) => (prev < 4 ? ((prev + 1) as 1 | 2 | 3 | 4) : prev));
       return;
     }
     triggerNextWobble();
@@ -493,7 +694,7 @@ export default function HomePage() {
 
   const handleBack = () => {
     setErrors({});
-    setStep((prev) => (prev > 1 ? (prev - 1) : prev));
+    setStep((prev) => (prev > 1 ? ((prev - 1) as 1 | 2 | 3 | 4) : prev));
   };
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
@@ -520,14 +721,14 @@ export default function HomePage() {
       weightKg: undefined,
       qty: undefined,
       filling: "",
+      decor: { type: "" },
       dueDate: "",
       deliveryType: "pickup",
       name: "",
       phone: "",
       instagram: "",
       address: "",
-      comment: "",
-      referenceUrl: ""
+      comment: ""
     });
     setErrors({});
     setStep(1);
@@ -553,7 +754,7 @@ export default function HomePage() {
             <p className="eyebrow">Онлайн-заказ</p>
             <h1 className="title">{brandName}</h1>
             <p className="subtitle">
-              Заполните короткую форму ниже — и мы подтвердим заказ в Direct.
+              Заполните короткую форму в 4 шага — и мы подтвердим заказ в Direct.
             </p>
           </header>
           <PrimaryButton type="button" onClick={handleShowOrder}>
@@ -566,49 +767,159 @@ export default function HomePage() {
         <>
           <section id="order" className="order-section">
             <div className="section-header">
-              <h2 className="section-title">
-                {success
-                  ? "Заказ сформирован"
-                  : step === 2
+              {!success && (
+                <h2 className="section-title">
+                  {step === 2
                     ? "Выбор начинки"
                     : step === 3
-                      ? "Оформление заказа"
-                      : "Форма заказа"}
-              </h2>
-              {success && (
-                <p className="success-description">{orderDescriptionText}</p>
+                      ? "Выбор декора"
+                      : step === 4
+                        ? "Оформление заказа"
+                        : "Форма заказа"}
+                </h2>
               )}
               {!success && step === 1 && (
                 <p className="section-subtitle">
-                  Заполните 3 шага — и мы подтвердим заказ в Direct.
+                  Заполните 4 шага — и мы подтвердим заказ в Direct.
                 </p>
               )}
             </div>
             {success ? (
               <div className="success-card">
-                <p className="success-title">Заказ создан ✅</p>
-                <p className="success-meta">
-                  Номер заказа: <strong>{success.orderId}</strong>
-                </p>
-                <p className="success-meta">
-                  Итоговая стоимость:{" "}
-                  <strong>
-                    {success.totalPrice.toLocaleString("ru-RU")} ₽
-                  </strong>
-                </p>
-                <p className="direct-label">Напишите в Direct код:</p>
-                <div className="direct-code-row">
-                  <strong className="direct-code">
-                    ZAKAZ{success.orderId}
-                  </strong>
-                  <button
-                    type="button"
-                    className="copy-btn"
-                    onClick={handleCopyDirectCode}
-                    aria-label="Скопировать код для Direct"
-                  >
-                    {directCopied ? "✅" : "⧉"}
-                  </button>
+                <h3 className="success-heading">Ваш заказ</h3>
+                <div className="order-summary">
+                  <div className="order-summary__row order-summary__row--product">
+                    <span className="order-summary__value order-summary__value--product">
+                      {orderProductLabel}
+                    </span>
+                  </div>
+                  <div className="order-summary__row">
+                    <span className="order-summary__label">Начинка</span>
+                    <span className="order-summary__value">
+                      {formData.filling}
+                    </span>
+                  </div>
+                  {decorSummary && (
+                    <>
+                      <div className="order-summary__row">
+                        <span className="order-summary__label">Декор</span>
+                        <span className="order-summary__value">
+                          {decorSummary.title}
+                        </span>
+                      </div>
+                      {decorSummary.details.map((detail) => (
+                        <div
+                          className="order-summary__row order-summary__row--sub"
+                          key={detail.label}
+                        >
+                          <span className="order-summary__label">
+                            {detail.label}
+                          </span>
+                          <span className="order-summary__value">
+                            {detail.value}
+                          </span>
+                        </div>
+                      ))}
+                    </>
+                  )}
+                  <div className="order-summary__row">
+                    <span className="order-summary__label">К дате</span>
+                    <span className="order-summary__value">
+                      {orderDateLabel}
+                    </span>
+                  </div>
+                  <div className="order-summary__row">
+                    <span className="order-summary__label">Получение</span>
+                    <span className="order-summary__value">
+                      {formData.deliveryType === "delivery"
+                        ? "Доставка"
+                        : "Самовывоз"}
+                    </span>
+                  </div>
+                  {formData.deliveryType === "delivery" && formData.address && (
+                    <div className="order-summary__row">
+                      <span className="order-summary__label">Адрес</span>
+                      <span className="order-summary__value">
+                        {formData.address}
+                      </span>
+                    </div>
+                  )}
+                  <div className="order-summary__row">
+                    <span className="order-summary__label">Имя</span>
+                    <span className="order-summary__value">
+                      {formData.name}
+                    </span>
+                  </div>
+                  <div className="order-summary__row">
+                    <span className="order-summary__label">Телефон</span>
+                    <span className="order-summary__value">
+                      {formData.phone}
+                    </span>
+                  </div>
+                  {formData.instagram && (
+                    <div className="order-summary__row">
+                      <span className="order-summary__label">Instagram</span>
+                      <span className="order-summary__value">
+                        {formData.instagram}
+                      </span>
+                    </div>
+                  )}
+                  {formData.comment && (
+                    <div className="order-summary__row">
+                      <span className="order-summary__label">Комментарий</span>
+                      <span className="order-summary__value">
+                        {formData.comment}
+                      </span>
+                    </div>
+                  )}
+                </div>
+
+                <div className="price-box price-box--breakdown">
+                  <div className="price-row">
+                    <span>Стоимость торта</span>
+                    <strong>{formattedCakePrice}</strong>
+                  </div>
+                  <div className="price-row">
+                    <span>Доплата за декор</span>
+                    <strong>{formattedDecorPrice}</strong>
+                  </div>
+                  <div className="price-row price-row--total">
+                    <span>Итого</span>
+                    <strong>
+                      {success.totalPrice.toLocaleString("ru-RU")} ₽
+                    </strong>
+                  </div>
+                  {priceInfo.decorQuoted && (
+                    <p className="price-note">{quotedDecorNote}</p>
+                  )}
+                </div>
+
+                <p className="success-title">ЗАКАЗ СОЗДАН</p>
+                <div className="order-summary">
+                  <div className="order-summary__row">
+                    <span className="order-summary__label">Номер заказа</span>
+                    <span className="order-summary__value">
+                      {success.orderId}
+                    </span>
+                  </div>
+                  <div className="order-summary__row">
+                    <span className="order-summary__label">
+                      Напишите в Direct код
+                    </span>
+                    <span className="order-summary__value order-summary__value--code">
+                      <strong className="direct-code">
+                        ZAKAZ{success.orderId}
+                      </strong>
+                      <button
+                        type="button"
+                        className="copy-btn"
+                        onClick={handleCopyDirectCode}
+                        aria-label="Скопировать код для Direct"
+                      >
+                        {directCopied ? "✅" : "⧉"}
+                      </button>
+                    </span>
+                  </div>
                 </div>
                 <p className="direct-note">мы подтвердим и уточним детали.</p>
                 <div className="form-actions">
@@ -627,7 +938,7 @@ export default function HomePage() {
               </div>
             ) : (
               <form className="order-form" onSubmit={handleSubmit}>
-                <p className="step-indicator">ШАГ {step} ИЗ 3</p>
+                <p className="step-indicator">ШАГ {step} ИЗ 4</p>
                 {step === 1 && (
                   <div className="form-step">
                     <div className="product-grid">
@@ -670,7 +981,7 @@ export default function HomePage() {
                 {step === 2 && (
                   <div className="form-step">
                     <div className="filling-grid">
-                      {fillingCards.map((filling) => (
+                      {availableFillings.map((filling) => (
                         <button
                           key={filling.name}
                           type="button"
@@ -694,10 +1005,87 @@ export default function HomePage() {
                     {errors.filling && (
                       <p className="field-error">{errors.filling}</p>
                     )}
-                    <p className="helper-text">Начинка без доплаты</p>
+                    <p className="helper-text">
+                      Начинка без доплаты
+                      {availableFillings.length < fillingCards.length
+                        ? " · для этого продукта доступны не все начинки"
+                        : ""}
+                    </p>
                   </div>
                 )}
                 {step === 3 && (
+                  <div className="form-step">
+                    <div className="decor-grid">
+                      {availableDecorOptions.map((option) => {
+                        const isSelected = formData.decor.type === option.id;
+                        return (
+                          <div
+                            key={option.id}
+                            className={`decor-card ${
+                              isSelected ? "is-selected" : ""
+                            }`}
+                          >
+                            <button
+                              type="button"
+                              className="decor-card__head"
+                              onClick={() => handleDecorSelect(option.id)}
+                              aria-pressed={isSelected}
+                            >
+                              <span className="decor-card__titles">
+                                <span className="decor-title">
+                                  {option.title}
+                                </span>
+                                <span
+                                  className={`decor-badge ${
+                                    option.hasSurcharge
+                                      ? "decor-badge--paid"
+                                      : ""
+                                  }`}
+                                >
+                                  {option.badgeLabel ??
+                                    (option.hasSurcharge
+                                      ? "доплата"
+                                      : "без доплаты")}
+                                </span>
+                              </span>
+                              <span className="decor-description">
+                                {option.description}
+                              </span>
+                            </button>
+                            {isSelected && (
+                              <div className="decor-fields">
+                                {option.fields.map((field) =>
+                                  renderDecorField(field)
+                                )}
+                              </div>
+                            )}
+                          </div>
+                        );
+                      })}
+                    </div>
+                    {errors["decor.type"] && (
+                      <p className="field-error">{errors["decor.type"]}</p>
+                    )}
+                    <div className="price-box price-box--breakdown">
+                      <div className="price-row">
+                        <span>Стоимость торта</span>
+                        <strong>{formattedCakePrice}</strong>
+                      </div>
+                      <div className="price-row">
+                        <span>Доплата за декор</span>
+                        <strong>{formattedDecorPrice}</strong>
+                      </div>
+                      <div className="price-row price-row--total">
+                        <span>Итого</span>
+                        <strong>{formattedPrice}</strong>
+                      </div>
+                      {priceInfo.decorQuoted && (
+                        <p className="price-note">{quotedDecorNote}</p>
+                      )}
+                    </div>
+                  </div>
+                )}
+                {step === 4 && (
                   <div className="form-step">
                     <div className="field">
                       <label htmlFor="dueDate">К какому числу нужно</label>
@@ -828,20 +1216,6 @@ export default function HomePage() {
                         }
                       />
                     </div>
-                    <div className="field">
-                      <label htmlFor="referenceUrl">
-                        Ссылка на референс (URL)
-                      </label>
-                      <input
-                        id="referenceUrl"
-                        type="url"
-                        value={formData.referenceUrl ?? ""}
-                        onChange={(event) =>
-                          updateFormField("referenceUrl", event.target.value)
-                        }
-                        placeholder="https://"
-                      />
-                    </div>
                   </div>
                 )}
                 <div className="form-actions">
@@ -865,14 +1239,14 @@ export default function HomePage() {
                       <span className="back-peek-btn__label">Назад</span>
                     </button>
                   )}
-                  {step < 3 && (
+                  {step < 4 && (
                     <CakeNextButton
                       onClick={handleNext}
                       shake={nextWobble}
                       ariaLabel="Далее"
                     />
                   )}
-                  {step === 3 && (
+                  {step === 4 && (
                     <button className="btn" type="submit">
                       Оформить заказ
                     </button>

@@ -1,0 +1,2449 @@
+0 verbose cli /Users/mariia/.nvm/versions/node/v20.20.0/bin/node /Users/mariia/.nvm/versions/node/v20.20.0/bin/npm
+1 info using npm@10.8.2
+2 info using node@v20.20.0
+3 silly config load:file:/Users/mariia/.nvm/versions/node/v20.20.0/lib/node_modules/npm/npmrc
+4 silly config load:file:/Users/mariia/code/my_progect/cake_orders/.npmrc
+5 silly config load:file:/Users/mariia/.npmrc
+6 silly config load:file:/Users/mariia/.nvm/versions/node/v20.20.0/etc/npmrc
+7 verbose title npm install
+8 verbose argv "install"
+9 verbose logfile logs-max:10 dir:/Users/mariia/code/my_progect/cake_orders/.npm-cache/_logs/2026-08-14T04_27_06_808Z-
+10 verbose logfile /Users/mariia/code/my_progect/cake_orders/.npm-cache/_logs/2026-08-14T04_27_06_808Z-debug-0.log
+11 silly packumentCache heap:4345298944 maxSize:1086324736 maxEntrySize:543162368
+12 silly logfile start cleaning logs, removing 1 files
+13 silly logfile done cleaning log files
+14 silly idealTree buildDeps
+15 silly reify moves {}
+16 silly audit bulk request {
+16 silly audit   '@cloudflare/kv-asset-handler': [ '0.4.2' ],
+16 silly audit   '@cloudflare/next-on-pages': [ '1.13.16' ],
+16 silly audit   '@cloudflare/workerd-darwin-64': [ '1.20250718.0', '1.20260305.0' ],
+16 silly audit   '@cloudflare/workerd-darwin-arm64': [ '1.20250718.0', '1.20260305.0' ],
+16 silly audit   '@cloudflare/workerd-linux-64': [ '1.20250718.0', '1.20260305.0' ],
+16 silly audit   '@cloudflare/workerd-linux-arm64': [ '1.20250718.0', '1.20260305.0' ],
+16 silly audit   '@cloudflare/workerd-windows-64': [ '1.20250718.0', '1.20260305.0' ],
+16 silly audit   '@cspotcode/source-map-support': [ '0.8.1' ],
+16 silly audit   '@edge-runtime/format': [ '2.2.1' ],
+16 silly audit   '@edge-runtime/node-utils': [ '2.3.0' ],
+16 silly audit   '@edge-runtime/ponyfill': [ '2.4.2' ],
+16 silly audit   '@edge-runtime/primitives': [ '4.1.0' ],
+16 silly audit   '@edge-runtime/vm': [ '3.2.0' ],
+16 silly audit   '@emnapi/core': [ '1.8.1' ],
+16 silly audit   '@emnapi/runtime': [ '1.8.1' ],
+16 silly audit   '@emnapi/wasi-threads': [ '1.1.0' ],
+16 silly audit   '@esbuild/aix-ppc64': [ '0.27.3' ],
+16 silly audit   '@esbuild/android-arm': [ '0.15.18', '0.27.3' ],
+16 silly audit   '@esbuild/android-arm64': [ '0.27.3' ],
+16 silly audit   '@esbuild/android-x64': [ '0.27.3' ],
+16 silly audit   '@esbuild/darwin-arm64': [ '0.27.3' ],
+16 silly audit   '@esbuild/darwin-x64': [ '0.27.3' ],
+16 silly audit   '@esbuild/freebsd-arm64': [ '0.27.3' ],
+16 silly audit   '@esbuild/freebsd-x64': [ '0.27.3' ],
+16 silly audit   '@esbuild/linux-arm': [ '0.27.3' ],
+16 silly audit   '@esbuild/linux-arm64': [ '0.27.3' ],
+16 silly audit   '@esbuild/linux-ia32': [ '0.27.3' ],
+16 silly audit   '@esbuild/linux-loong64': [ '0.15.18', '0.27.3' ],
+16 silly audit   '@esbuild/linux-mips64el': [ '0.27.3' ],
+16 silly audit   '@esbuild/linux-ppc64': [ '0.27.3' ],
+16 silly audit   '@esbuild/linux-riscv64': [ '0.27.3' ],
+16 silly audit   '@esbuild/linux-s390x': [ '0.27.3' ],
+16 silly audit   '@esbuild/linux-x64': [ '0.27.3' ],
+16 silly audit   '@esbuild/netbsd-arm64': [ '0.27.3' ],
+16 silly audit   '@esbuild/netbsd-x64': [ '0.27.3' ],
+16 silly audit   '@esbuild/openbsd-arm64': [ '0.27.3' ],
+16 silly audit   '@esbuild/openbsd-x64': [ '0.27.3' ],
+16 silly audit   '@esbuild/openharmony-arm64': [ '0.27.3' ],
+16 silly audit   '@esbuild/sunos-x64': [ '0.27.3' ],
+16 silly audit   '@esbuild/win32-arm64': [ '0.27.3' ],
+16 silly audit   '@esbuild/win32-ia32': [ '0.27.3' ],
+16 silly audit   '@esbuild/win32-x64': [ '0.27.3' ],
+16 silly audit   '@eslint-community/eslint-utils': [ '4.9.1' ],
+16 silly audit   '@eslint-community/regexpp': [ '4.12.2' ],
+16 silly audit   '@eslint/eslintrc': [ '2.1.4' ],
+16 silly audit   '@eslint/js': [ '8.57.1' ],
+16 silly audit   '@fastify/busboy': [ '2.1.1' ],
+16 silly audit   '@humanwhocodes/config-array': [ '0.13.0' ],
+16 silly audit   '@humanwhocodes/module-importer': [ '1.0.1' ],
+16 silly audit   '@humanwhocodes/object-schema': [ '2.0.3' ],
+16 silly audit   '@img/colour': [ '1.0.0' ],
+16 silly audit   '@img/sharp-darwin-arm64': [ '0.34.5' ],
+16 silly audit   '@img/sharp-darwin-x64': [ '0.34.5' ],
+16 silly audit   '@img/sharp-libvips-darwin-arm64': [ '1.2.4' ],
+16 silly audit   '@img/sharp-libvips-darwin-x64': [ '1.2.4' ],
+16 silly audit   '@img/sharp-libvips-linux-arm': [ '1.2.4' ],
+16 silly audit   '@img/sharp-libvips-linux-arm64': [ '1.2.4' ],
+16 silly audit   '@img/sharp-libvips-linux-ppc64': [ '1.2.4' ],
+16 silly audit   '@img/sharp-libvips-linux-riscv64': [ '1.2.4' ],
+16 silly audit   '@img/sharp-libvips-linux-s390x': [ '1.2.4' ],
+16 silly audit   '@img/sharp-libvips-linux-x64': [ '1.2.4' ],
+16 silly audit   '@img/sharp-libvips-linuxmusl-arm64': [ '1.2.4' ],
+16 silly audit   '@img/sharp-libvips-linuxmusl-x64': [ '1.2.4' ],
+16 silly audit   '@img/sharp-linux-arm': [ '0.34.5' ],
+16 silly audit   '@img/sharp-linux-arm64': [ '0.34.5' ],
+16 silly audit   '@img/sharp-linux-ppc64': [ '0.34.5' ],
+16 silly audit   '@img/sharp-linux-riscv64': [ '0.34.5' ],
+16 silly audit   '@img/sharp-linux-s390x': [ '0.34.5' ],
+16 silly audit   '@img/sharp-linux-x64': [ '0.34.5' ],
+16 silly audit   '@img/sharp-linuxmusl-arm64': [ '0.34.5' ],
+16 silly audit   '@img/sharp-linuxmusl-x64': [ '0.34.5' ],
+16 silly audit   '@img/sharp-wasm32': [ '0.34.5' ],
+16 silly audit   '@img/sharp-win32-arm64': [ '0.34.5' ],
+16 silly audit   '@img/sharp-win32-ia32': [ '0.34.5' ],
+16 silly audit   '@img/sharp-win32-x64': [ '0.34.5' ],
+16 silly audit   '@isaacs/fs-minipass': [ '4.0.1' ],
+16 silly audit   minipass: [ '7.1.3', '2.9.0' ],
+16 silly audit   '@jridgewell/resolve-uri': [ '3.1.2' ],
+16 silly audit   '@jridgewell/sourcemap-codec': [ '1.5.5' ],
+16 silly audit   '@jridgewell/trace-mapping': [ '0.3.9' ],
+16 silly audit   '@mapbox/node-pre-gyp': [ '2.0.3' ],
+16 silly audit   chownr: [ '3.0.0', '1.1.4' ],
+16 silly audit   minizlib: [ '3.1.0', '1.3.3' ],
+16 silly audit   tar: [ '7.5.9', '4.4.18' ],
+16 silly audit   yallist: [ '5.0.0', '4.0.0', '3.1.1' ],
+16 silly audit   '@napi-rs/wasm-runtime': [ '0.2.12' ],
+16 silly audit   '@next/env': [ '15.5.2' ],
+16 silly audit   '@next/eslint-plugin-next': [ '15.5.2' ],
+16 silly audit   '@next/swc-darwin-arm64': [ '15.5.2' ],
+16 silly audit   '@next/swc-darwin-x64': [ '15.5.2' ],
+16 silly audit   '@next/swc-linux-arm64-gnu': [ '15.5.2' ],
+16 silly audit   '@next/swc-linux-arm64-musl': [ '15.5.2' ],
+16 silly audit   '@next/swc-linux-x64-gnu': [ '15.5.2' ],
+16 silly audit   '@next/swc-linux-x64-musl': [ '15.5.2' ],
+16 silly audit   '@next/swc-win32-arm64-msvc': [ '15.5.2' ],
+16 silly audit   '@next/swc-win32-x64-msvc': [ '15.5.2' ],
+16 silly audit   '@nodelib/fs.scandir': [ '2.1.5' ],
+16 silly audit   '@nodelib/fs.stat': [ '2.0.5' ],
+16 silly audit   '@nodelib/fs.walk': [ '1.2.8' ],
+16 silly audit   '@nolyfill/is-core-module': [ '1.0.39' ],
+16 silly audit   '@poppinss/colors': [ '4.1.6' ],
+16 silly audit   '@poppinss/dumper': [ '0.6.5' ],
+16 silly audit   'supports-color': [ '10.2.2', '7.2.0' ],
+16 silly audit   '@poppinss/exception': [ '1.2.3' ],
+16 silly audit   '@rollup/pluginutils': [ '5.3.0' ],
+16 silly audit   picomatch: [ '4.0.3', '2.3.1' ],
+16 silly audit   '@rtsao/scc': [ '1.1.0' ],
+16 silly audit   '@rushstack/eslint-patch': [ '1.16.1' ],
+16 silly audit   '@sinclair/typebox': [ '0.25.24' ],
+16 silly audit   '@sindresorhus/is': [ '7.2.0' ],
+16 silly audit   '@speed-highlight/core': [ '1.2.14' ],
+16 silly audit   '@swc/helpers': [ '0.5.15' ],
+16 silly audit   '@tootallnate/once': [ '2.0.0' ],
+16 silly audit   '@ts-morph/common': [ '0.11.1' ],
+16 silly audit   mkdirp: [ '1.0.4', '0.5.6' ],
+16 silly audit   '@tsconfig/node10': [ '1.0.12' ],
+16 silly audit   '@tsconfig/node12': [ '1.0.11' ],
+16 silly audit   '@tsconfig/node14': [ '1.0.3' ],
+16 silly audit   '@tsconfig/node16': [ '1.0.4' ],
+16 silly audit   '@tybys/wasm-util': [ '0.10.1' ],
+16 silly audit   '@types/estree': [ '1.0.8' ],
+16 silly audit   '@types/json-schema': [ '7.0.15' ],
+16 silly audit   '@types/json5': [ '0.0.29' ],
+16 silly audit   '@types/node': [ '20.19.34', '16.18.11' ],
+16 silly audit   '@types/prop-types': [ '15.7.15' ],
+16 silly audit   '@types/react': [ '18.3.28' ],
+16 silly audit   '@types/react-dom': [ '18.3.7' ],
+16 silly audit   '@typescript-eslint/eslint-plugin': [ '8.56.1' ],
+16 silly audit   ignore: [ '7.0.5', '5.3.2' ],
+16 silly audit   '@typescript-eslint/parser': [ '8.56.1' ],
+16 silly audit   '@typescript-eslint/project-service': [ '8.56.1' ],
+16 silly audit   '@typescript-eslint/scope-manager': [ '8.56.1' ],
+16 silly audit   '@typescript-eslint/tsconfig-utils': [ '8.56.1' ],
+16 silly audit   '@typescript-eslint/type-utils': [ '8.56.1' ],
+16 silly audit   '@typescript-eslint/types': [ '8.56.1' ],
+16 silly audit   '@typescript-eslint/typescript-estree': [ '8.56.1' ],
+16 silly audit   'balanced-match': [ '4.0.4', '1.0.2' ],
+16 silly audit   'brace-expansion': [ '5.0.3', '1.1.12' ],
+16 silly audit   minimatch: [ '10.2.4', '3.1.5' ],
+16 silly audit   '@typescript-eslint/utils': [ '8.56.1' ],
+16 silly audit   '@typescript-eslint/visitor-keys': [ '8.56.1' ],
+16 silly audit   'eslint-visitor-keys': [ '5.0.1', '3.4.3' ],
+16 silly audit   '@ungap/structured-clone': [ '1.3.0' ],
+16 silly audit   '@unrs/resolver-binding-android-arm-eabi': [ '1.11.1' ],
+16 silly audit   '@unrs/resolver-binding-android-arm64': [ '1.11.1' ],
+16 silly audit   '@unrs/resolver-binding-darwin-arm64': [ '1.11.1' ],
+16 silly audit   '@unrs/resolver-binding-darwin-x64': [ '1.11.1' ],
+16 silly audit   '@unrs/resolver-binding-freebsd-x64': [ '1.11.1' ],
+16 silly audit   '@unrs/resolver-binding-linux-arm-gnueabihf': [ '1.11.1' ],
+16 silly audit   '@unrs/resolver-binding-linux-arm-musleabihf': [ '1.11.1' ],
+16 silly audit   '@unrs/resolver-binding-linux-arm64-gnu': [ '1.11.1' ],
+16 silly audit   '@unrs/resolver-binding-linux-arm64-musl': [ '1.11.1' ],
+16 silly audit   '@unrs/resolver-binding-linux-ppc64-gnu': [ '1.11.1' ],
+16 silly audit   '@unrs/resolver-binding-linux-riscv64-gnu': [ '1.11.1' ],
+16 silly audit   '@unrs/resolver-binding-linux-riscv64-musl': [ '1.11.1' ],
+16 silly audit   '@unrs/resolver-binding-linux-s390x-gnu': [ '1.11.1' ],
+16 silly audit   '@unrs/resolver-binding-linux-x64-gnu': [ '1.11.1' ],
+16 silly audit   '@unrs/resolver-binding-linux-x64-musl': [ '1.11.1' ],
+16 silly audit   '@unrs/resolver-binding-wasm32-wasi': [ '1.11.1' ],
+16 silly audit   '@unrs/resolver-binding-win32-arm64-msvc': [ '1.11.1' ],
+16 silly audit   '@unrs/resolver-binding-win32-ia32-msvc': [ '1.11.1' ],
+16 silly audit   '@unrs/resolver-binding-win32-x64-msvc': [ '1.11.1' ],
+16 silly audit   '@vercel/build-utils': [ '9.2.0' ],
+16 silly audit   '@vercel/error-utils': [ '2.0.3' ],
+16 silly audit   '@vercel/fun': [ '1.1.2' ],
+16 silly audit   debug: [ '4.3.4', '4.4.3', '3.2.7' ],
+16 silly audit   ms: [ '2.1.2', '2.1.1', '2.1.3' ],
+16 silly audit   semver: [ '7.5.4', '6.3.1', '7.7.4' ],
+16 silly audit   '@vercel/gatsby-plugin-vercel-analytics': [ '1.0.11' ],
+16 silly audit   '@vercel/gatsby-plugin-vercel-builder': [ '2.0.67' ],
+16 silly audit   esbuild: [ '0.14.47', '0.15.18', '0.27.3' ],
+16 silly audit   'esbuild-android-64': [ '0.14.47', '0.15.18' ],
+16 silly audit   'esbuild-android-arm64': [ '0.14.47', '0.15.18' ],
+16 silly audit   'esbuild-darwin-64': [ '0.14.47', '0.15.18' ],
+16 silly audit   'esbuild-darwin-arm64': [ '0.14.47', '0.15.18' ],
+16 silly audit   'esbuild-freebsd-64': [ '0.14.47', '0.15.18' ],
+16 silly audit   'esbuild-freebsd-arm64': [ '0.14.47', '0.15.18' ],
+16 silly audit   'esbuild-linux-32': [ '0.14.47', '0.15.18' ],
+16 silly audit   'esbuild-linux-64': [ '0.14.47', '0.15.18' ],
+16 silly audit   'esbuild-linux-arm': [ '0.14.47', '0.15.18' ],
+16 silly audit   'esbuild-linux-arm64': [ '0.14.47', '0.15.18' ],
+16 silly audit   'esbuild-linux-mips64le': [ '0.14.47', '0.15.18' ],
+16 silly audit   'esbuild-linux-ppc64le': [ '0.14.47', '0.15.18' ],
+16 silly audit   'esbuild-linux-riscv64': [ '0.14.47', '0.15.18' ],
+16 silly audit   'esbuild-linux-s390x': [ '0.14.47', '0.15.18' ],
+16 silly audit   'esbuild-netbsd-64': [ '0.14.47', '0.15.18' ],
+16 silly audit   'esbuild-openbsd-64': [ '0.14.47', '0.15.18' ],
+16 silly audit   'esbuild-sunos-64': [ '0.14.47', '0.15.18' ],
+16 silly audit   'esbuild-windows-32': [ '0.14.47', '0.15.18' ],
+16 silly audit   'esbuild-windows-64': [ '0.14.47', '0.15.18' ],
+16 silly audit   'esbuild-windows-arm64': [ '0.14.47', '0.15.18' ],
+16 silly audit   'fs-extra': [ '11.1.0', '8.1.0' ],
+16 silly audit   jsonfile: [ '6.2.0', '4.0.0' ],
+16 silly audit   universalify: [ '2.0.1', '0.1.2' ],
+16 silly audit   '@vercel/go': [ '3.2.1' ],
+16 silly audit   '@vercel/hydrogen': [ '1.1.0' ],
+16 silly audit   '@vercel/next': [ '4.5.0' ],
+16 silly audit   '@vercel/nft': [ '0.27.10' ],
+16 silly audit   'resolve-from': [ '5.0.0', '4.0.0' ],
+16 silly audit   '@vercel/node': [ '5.1.0' ],
+16 silly audit   'async-listen': [ '3.0.0', '1.2.0', '3.0.1' ],
+16 silly audit   'node-fetch': [ '2.6.9', '2.6.7' ],
+16 silly audit   'ts-node': [ '10.9.1' ],
+16 silly audit   typescript: [ '4.9.5', '5.9.3' ],
+16 silly audit   undici: [ '5.28.4', '5.29.0', '7.18.2' ],
+16 silly audit   '@vercel/python': [ '4.7.1' ],
+16 silly audit   '@vercel/redwood': [ '2.2.0' ],
+16 silly audit   '@vercel/remix-builder': [ '5.2.0' ],
+16 silly audit   '@vercel/routing-utils': [ '5.0.2' ],
+16 silly audit   'path-to-regexp': [ '6.1.0', '1.9.0', '6.2.1', '6.3.0' ],
+16 silly audit   '@vercel/ruby': [ '2.2.0' ],
+16 silly audit   '@vercel/static-build': [ '2.6.0' ],
+16 silly audit   '@vercel/static-config': [ '3.0.0' ],
+16 silly audit   ajv: [ '8.6.3', '6.14.0' ],
+16 silly audit   'json-schema-traverse': [ '1.0.0', '0.4.1' ],
+16 silly audit   abbrev: [ '3.0.1' ],
+16 silly audit   acorn: [ '8.16.0', '8.14.0' ],
+16 silly audit   'acorn-import-attributes': [ '1.9.5' ],
+16 silly audit   'acorn-jsx': [ '5.3.2' ],
+16 silly audit   'acorn-walk': [ '8.3.2' ],
+16 silly audit   'agent-base': [ '7.1.4' ],
+16 silly audit   'ansi-regex': [ '5.0.1' ],
+16 silly audit   'ansi-styles': [ '4.3.0' ],
+16 silly audit   'any-promise': [ '1.3.0' ],
+16 silly audit   anymatch: [ '3.1.3' ],
+16 silly audit   arg: [ '4.1.0' ],
+16 silly audit   argparse: [ '2.0.1' ],
+16 silly audit   'aria-query': [ '5.3.2' ],
+16 silly audit   'array-buffer-byte-length': [ '1.0.2' ],
+16 silly audit   'array-includes': [ '3.1.9' ],
+16 silly audit   'array.prototype.findlast': [ '1.2.5' ],
+16 silly audit   'array.prototype.findlastindex': [ '1.2.6' ],
+16 silly audit   'array.prototype.flat': [ '1.3.3' ],
+16 silly audit   'array.prototype.flatmap': [ '1.3.3' ],
+16 silly audit   'array.prototype.tosorted': [ '1.1.4' ],
+16 silly audit   'arraybuffer.prototype.slice': [ '1.0.4' ],
+16 silly audit   'as-table': [ '1.0.55' ],
+16 silly audit   'ast-types': [ '0.14.2' ],
+16 silly audit   'ast-types-flow': [ '0.0.8' ],
+16 silly audit   'async-function': [ '1.0.0' ],
+16 silly audit   'async-sema': [ '3.1.1' ],
+16 silly audit   'available-typed-arrays': [ '1.0.7' ],
+16 silly audit   'axe-core': [ '4.11.1' ],
+16 silly audit   'axobject-query': [ '4.1.0' ],
+16 silly audit   'binary-extensions': [ '2.3.0' ],
+16 silly audit   bindings: [ '1.5.0' ],
+16 silly audit   'blake3-wasm': [ '2.1.5' ],
+16 silly audit   braces: [ '3.0.3' ],
+16 silly audit   'buffer-crc32': [ '0.2.13' ],
+16 silly audit   bytes: [ '3.1.0' ],
+16 silly audit   'call-bind': [ '1.0.8' ],
+16 silly audit   'call-bind-apply-helpers': [ '1.0.2' ],
+16 silly audit   'call-bound': [ '1.0.4' ],
+16 silly audit   callsites: [ '3.1.0' ],
+16 silly audit   'caniuse-lite': [ '1.0.30001774' ],
+16 silly audit   chalk: [ '5.6.2', '4.1.2' ],
+16 silly audit   chokidar: [ '3.6.0', '4.0.0' ],
+16 silly audit   'cjs-module-lexer': [ '1.2.3' ],
+16 silly audit   'client-only': [ '0.0.1' ],
+16 silly audit   'code-block-writer': [ '10.1.1' ],
+16 silly audit   'color-convert': [ '2.0.1' ],
+16 silly audit   'color-name': [ '1.1.4' ],
+16 silly audit   commander: [ '11.1.0' ],
+16 silly audit   'concat-map': [ '0.0.1' ],
+16 silly audit   consola: [ '3.4.2' ],
+16 silly audit   'content-type': [ '1.0.4' ],
+16 silly audit   'convert-hrtime': [ '3.0.0' ],
+16 silly audit   cookie: [ '0.5.0', '1.1.1', '0.7.2' ],
+16 silly audit   'create-require': [ '1.1.1' ],
+16 silly audit   'cross-spawn': [ '7.0.6' ],
+16 silly audit   csstype: [ '3.2.3' ],
+16 silly audit   'damerau-levenshtein': [ '1.0.8' ],
+16 silly audit   'data-uri-to-buffer': [ '2.0.2' ],
+16 silly audit   'data-view-buffer': [ '1.0.2' ],
+16 silly audit   'data-view-byte-length': [ '1.0.2' ],
+16 silly audit   'data-view-byte-offset': [ '1.0.1' ],
+16 silly audit   'deep-is': [ '0.1.4' ],
+16 silly audit   'define-data-property': [ '1.1.4' ],
+16 silly audit   'define-properties': [ '1.2.1' ],
+16 silly audit   depd: [ '1.1.2' ],
+16 silly audit   'detect-libc': [ '2.1.2' ],
+16 silly audit   diff: [ '4.0.4' ],
+16 silly audit   doctrine: [ '3.0.0', '2.1.0' ],
+16 silly audit   'dunder-proto': [ '1.0.1' ],
+16 silly audit   'edge-runtime': [ '2.5.9' ],
+16 silly audit   picocolors: [ '1.0.0', '1.1.1' ],
+16 silly audit   'emoji-regex': [ '9.2.2' ],
+16 silly audit   'end-of-stream': [ '1.4.5', '1.1.0' ],
+16 silly audit   'error-stack-parser-es': [ '1.0.5' ],
+16 silly audit   'es-abstract': [ '1.24.1' ],
+16 silly audit   'es-define-property': [ '1.0.1' ],
+16 silly audit   'es-errors': [ '1.3.0' ],
+16 silly audit   'es-iterator-helpers': [ '1.2.2' ],
+16 silly audit   'es-module-lexer': [ '1.4.1' ],
+16 silly audit   'es-object-atoms': [ '1.1.1' ],
+16 silly audit   'es-set-tostringtag': [ '2.1.0' ],
+16 silly audit   'es-shim-unscopables': [ '1.1.0' ],
+16 silly audit   'es-to-primitive': [ '1.3.0' ],
+16 silly audit   'escape-string-regexp': [ '4.0.0' ],
+16 silly audit   eslint: [ '8.57.1' ],
+16 silly audit   'eslint-config-next': [ '15.5.2' ],
+16 silly audit   'eslint-import-resolver-node': [ '0.3.9' ],
+16 silly audit   'eslint-import-resolver-typescript': [ '3.10.1' ],
+16 silly audit   'eslint-module-utils': [ '2.12.1' ],
+16 silly audit   'eslint-plugin-import': [ '2.32.0' ],
+16 silly audit   'eslint-plugin-jsx-a11y': [ '6.10.2' ],
+16 silly audit   'eslint-plugin-react': [ '7.37.5' ],
+16 silly audit   'eslint-plugin-react-hooks': [ '5.2.0' ],
+16 silly audit   resolve: [ '2.0.0-next.6', '1.22.11' ],
+16 silly audit   'eslint-scope': [ '7.2.2' ],
+16 silly audit   'glob-parent': [ '6.0.2', '5.1.2' ],
+16 silly audit   espree: [ '9.6.1' ],
+16 silly audit   esquery: [ '1.7.0' ],
+16 silly audit   esrecurse: [ '4.3.0' ],
+16 silly audit   estraverse: [ '5.3.0' ],
+16 silly audit   'estree-walker': [ '2.0.2' ],
+16 silly audit   esutils: [ '2.0.3' ],
+16 silly audit   etag: [ '1.8.1' ],
+16 silly audit   'events-intercept': [ '2.0.0' ],
+16 silly audit   execa: [ '3.2.0' ],
+16 silly audit   'signal-exit': [ '3.0.7', '4.0.2' ],
+16 silly audit   'exit-hook': [ '2.2.1' ],
+16 silly audit   'fast-deep-equal': [ '3.1.3' ],
+16 silly audit   'fast-glob': [ '3.3.1' ],
+16 silly audit   'fast-json-stable-stringify': [ '2.1.0' ],
+16 silly audit   'fast-levenshtein': [ '2.0.6' ],
+16 silly audit   fastq: [ '1.20.1' ],
+16 silly audit   'fd-slicer': [ '1.1.0' ],
+16 silly audit   'file-entry-cache': [ '6.0.1' ],
+16 silly audit   'file-uri-to-path': [ '1.0.0' ],
+16 silly audit   'fill-range': [ '7.1.1' ],
+16 silly audit   'find-up': [ '5.0.0' ],
+16 silly audit   'flat-cache': [ '3.2.0' ],
+16 silly audit   flatted: [ '3.3.3' ],
+16 silly audit   'for-each': [ '0.3.5' ],
+16 silly audit   'fs-minipass': [ '1.2.7' ],
+16 silly audit   'fs.realpath': [ '1.0.0' ],
+16 silly audit   fsevents: [ '2.3.3' ],
+16 silly audit   'function-bind': [ '1.1.2' ],
+16 silly audit   'function.prototype.name': [ '1.1.8' ],
+16 silly audit   'functions-have-names': [ '1.2.3' ],
+16 silly audit   'generator-function': [ '2.0.1' ],
+16 silly audit   'generic-pool': [ '3.4.2' ],
+16 silly audit   'get-intrinsic': [ '1.3.0' ],
+16 silly audit   'get-proto': [ '1.0.1' ],
+16 silly audit   'get-source': [ '2.0.12' ],
+16 silly audit   'get-stream': [ '5.2.0' ],
+16 silly audit   'get-symbol-description': [ '1.1.0' ],
+16 silly audit   'get-tsconfig': [ '4.13.6' ],
+16 silly audit   glob: [ '7.2.3' ],
+16 silly audit   'glob-to-regexp': [ '0.4.1' ],
+16 silly audit   globals: [ '13.24.0' ],
+16 silly audit   globalthis: [ '1.0.4' ],
+16 silly audit   gopd: [ '1.2.0' ],
+16 silly audit   'graceful-fs': [ '4.2.11' ],
+16 silly audit   graphemer: [ '1.4.0' ],
+16 silly audit   'has-bigints': [ '1.1.0' ],
+16 silly audit   'has-flag': [ '4.0.0' ],
+16 silly audit   'has-property-descriptors': [ '1.0.2' ],
+16 silly audit   'has-proto': [ '1.2.0' ],
+16 silly audit   'has-symbols': [ '1.1.0' ],
+16 silly audit   'has-tostringtag': [ '1.0.2' ],
+16 silly audit   hasown: [ '2.0.2' ],
+16 silly audit   'http-errors': [ '1.4.0', '1.7.3' ],
+16 silly audit   inherits: [ '2.0.1', '2.0.4' ],
+16 silly audit   'https-proxy-agent': [ '7.0.6' ],
+16 silly audit   'human-signals': [ '1.1.1' ],
+16 silly audit   'iconv-lite': [ '0.4.24' ],
+16 silly audit   'import-fresh': [ '3.3.1' ],
+16 silly audit   imurmurhash: [ '0.1.4' ],
+16 silly audit   inflight: [ '1.0.6' ],
+16 silly audit   'internal-slot': [ '1.1.0' ],
+16 silly audit   'is-array-buffer': [ '3.0.5' ],
+16 silly audit   'is-async-function': [ '2.1.1' ],
+16 silly audit   'is-bigint': [ '1.1.0' ],
+16 silly audit   'is-binary-path': [ '2.1.0' ],
+16 silly audit   'is-boolean-object': [ '1.2.2' ],
+16 silly audit   'is-bun-module': [ '2.0.0' ],
+16 silly audit   'is-callable': [ '1.2.7' ],
+16 silly audit   'is-core-module': [ '2.16.1' ],
+16 silly audit   'is-data-view': [ '1.0.2' ],
+16 silly audit   'is-date-object': [ '1.1.0' ],
+16 silly audit   'is-extglob': [ '2.1.1' ],
+16 silly audit   'is-finalizationregistry': [ '1.1.1' ],
+16 silly audit   'is-generator-function': [ '1.1.2' ],
+16 silly audit   'is-glob': [ '4.0.3' ],
+16 silly audit   'is-map': [ '2.0.3' ],
+16 silly audit   'is-negative-zero': [ '2.0.3' ],
+16 silly audit   'is-number': [ '7.0.0' ],
+16 silly audit   'is-number-object': [ '1.1.1' ],
+16 silly audit   'is-path-inside': [ '3.0.3' ],
+16 silly audit   'is-regex': [ '1.2.1' ],
+16 silly audit   'is-set': [ '2.0.3' ],
+16 silly audit   'is-shared-array-buffer': [ '1.0.4' ],
+16 silly audit   'is-stream': [ '2.0.1' ],
+16 silly audit   'is-string': [ '1.1.1' ],
+16 silly audit   'is-symbol': [ '1.1.1' ],
+16 silly audit   'is-typed-array': [ '1.1.15' ],
+16 silly audit   'is-weakmap': [ '2.0.2' ],
+16 silly audit   'is-weakref': [ '1.1.1' ],
+16 silly audit   'is-weakset': [ '2.0.4' ],
+16 silly audit   isarray: [ '2.0.5', '0.0.1' ],
+16 silly audit   isexe: [ '2.0.0' ],
+16 silly audit   'iterator.prototype': [ '1.1.5' ],
+16 silly audit   'js-tokens': [ '4.0.0' ],
+16 silly audit   'js-yaml': [ '4.1.1' ],
+16 silly audit   'json-buffer': [ '3.0.1' ],
+16 silly audit   'json-schema-to-ts': [ '1.6.4' ],
+16 silly audit   'json-stable-stringify-without-jsonify': [ '1.0.1' ],
+16 silly audit   json5: [ '1.0.2' ],
+16 silly audit   'jsx-ast-utils': [ '3.3.5' ],
+16 silly audit   keyv: [ '4.5.4' ],
+16 silly audit   kleur: [ '4.1.5' ],
+16 silly audit   'language-subtag-registry': [ '0.3.23' ],
+16 silly audit   'language-tags': [ '1.0.9' ],
+16 silly audit   levn: [ '0.4.1' ],
+16 silly audit   'locate-path': [ '6.0.0' ],
+16 silly audit   'lodash.merge': [ '4.6.2' ],
+16 silly audit   'loose-envify': [ '1.4.0' ],
+16 silly audit   'lru-cache': [ '6.0.0' ],
+16 silly audit   'make-error': [ '1.3.6' ],
+16 silly audit   'math-intrinsics': [ '1.1.0' ],
+16 silly audit   'merge-stream': [ '2.0.0' ],
+16 silly audit   merge2: [ '1.4.1' ],
+16 silly audit   micro: [ '9.3.5-canary.3' ],
+16 silly audit   micromatch: [ '4.0.8' ],
+16 silly audit   'mimic-fn': [ '2.1.0' ],
+16 silly audit   miniflare: [ '3.20250718.3', '4.20260305.0' ],
+16 silly audit   minimist: [ '1.2.8' ],
+16 silly audit   mri: [ '1.2.0' ],
+16 silly audit   mustache: [ '4.2.0' ],
+16 silly audit   nanoid: [ '3.3.11' ],
+16 silly audit   'napi-postinstall': [ '0.3.4' ],
+16 silly audit   'natural-compare': [ '1.4.0' ],
+16 silly audit   next: [ '15.5.2' ],
+16 silly audit   'node-exports-info': [ '1.6.0' ],
+16 silly audit   'node-gyp-build': [ '4.8.4' ],
+16 silly audit   nopt: [ '8.1.0' ],
+16 silly audit   'normalize-path': [ '3.0.0' ],
+16 silly audit   'npm-run-path': [ '4.0.1' ],
+16 silly audit   'object-assign': [ '4.1.1' ],
+16 silly audit   'object-inspect': [ '1.13.4' ],
+16 silly audit   'object-keys': [ '1.1.1' ],
+16 silly audit   'object.assign': [ '4.1.7' ],
+16 silly audit   'object.entries': [ '1.1.9' ],
+16 silly audit   'object.fromentries': [ '2.0.8' ],
+16 silly audit   'object.groupby': [ '1.0.3' ],
+16 silly audit   'object.values': [ '1.2.1' ],
+16 silly audit   once: [ '1.4.0', '1.3.3' ],
+16 silly audit   onetime: [ '5.1.2' ],
+16 silly audit   optionator: [ '0.9.4' ],
+16 silly audit   'os-paths': [ '4.4.0' ],
+16 silly audit   'own-keys': [ '1.0.1' ],
+16 silly audit   'p-finally': [ '2.0.1' ],
+16 silly audit   'p-limit': [ '3.1.0' ],
+16 silly audit   'p-locate': [ '5.0.0' ],
+16 silly audit   'package-manager-manager': [ '0.2.0' ],
+16 silly audit   'parent-module': [ '1.0.1' ],
+16 silly audit   'parse-ms': [ '2.1.0' ],
+16 silly audit   'path-browserify': [ '1.0.1' ],
+16 silly audit   'path-exists': [ '4.0.0' ],
+16 silly audit   'path-is-absolute': [ '1.0.1' ],
+16 silly audit   'path-key': [ '3.1.1' ],
+16 silly audit   'path-match': [ '1.2.4' ],
+16 silly audit   'path-parse': [ '1.0.7' ],
+16 silly audit   pathe: [ '2.0.3' ],
+16 silly audit   'pcre-to-regexp': [ '1.1.0' ],
+16 silly audit   pend: [ '1.2.0' ],
+16 silly audit   'possible-typed-array-names': [ '1.1.0' ],
+16 silly audit   postcss: [ '8.4.31' ],
+16 silly audit   'prelude-ls': [ '1.2.1' ],
+16 silly audit   'pretty-ms': [ '7.0.1' ],
+16 silly audit   'printable-characters': [ '1.0.42' ],
+16 silly audit   promisepipe: [ '3.0.0' ],
+16 silly audit   'prop-types': [ '15.8.1' ],
+16 silly audit   pump: [ '3.0.3' ],
+16 silly audit   punycode: [ '2.3.1' ],
+16 silly audit   'queue-microtask': [ '1.2.3' ],
+16 silly audit   'raw-body': [ '2.4.1' ],
+16 silly audit   react: [ '18.2.0' ],
+16 silly audit   'react-dom': [ '18.2.0' ],
+16 silly audit   'react-is': [ '16.13.1' ],
+16 silly audit   readdirp: [ '3.6.0', '4.1.2' ],
+16 silly audit   'reflect.getprototypeof': [ '1.0.10' ],
+16 silly audit   'regexp.prototype.flags': [ '1.5.4' ],
+16 silly audit   reghex: [ '1.0.2' ],
+16 silly audit   'require-from-string': [ '2.0.2' ],
+16 silly audit   'resolve-pkg-maps': [ '1.0.0' ],
+16 silly audit   reusify: [ '1.1.0' ],
+16 silly audit   rimraf: [ '3.0.2' ],
+16 silly audit   'run-parallel': [ '1.2.0' ],
+16 silly audit   'safe-array-concat': [ '1.1.3' ],
+16 silly audit   'safe-buffer': [ '5.2.1' ],
+16 silly audit   'safe-push-apply': [ '1.0.0' ],
+16 silly audit   'safe-regex-test': [ '1.1.0' ],
+16 silly audit   'safer-buffer': [ '2.1.2' ],
+16 silly audit   scheduler: [ '0.23.2' ],
+16 silly audit   'set-function-length': [ '1.2.2' ],
+16 silly audit   'set-function-name': [ '2.0.2' ],
+16 silly audit   'set-proto': [ '1.0.0' ],
+16 silly audit   setprototypeof: [ '1.1.1' ],
+16 silly audit   sharp: [ '0.34.5' ],
+16 silly audit   'shebang-command': [ '2.0.0' ],
+16 silly audit   'shebang-regex': [ '3.0.0' ],
+16 silly audit   shellac: [ '0.8.0' ],
+16 silly audit   'side-channel': [ '1.1.0' ],
+16 silly audit   'side-channel-list': [ '1.0.0' ],
+16 silly audit   'side-channel-map': [ '1.0.1' ],
+16 silly audit   'side-channel-weakmap': [ '1.0.2' ],
+16 silly audit   'source-map': [ '0.6.1' ],
+16 silly audit   'source-map-js': [ '1.2.1' ],
+16 silly audit   'stable-hash': [ '0.0.5' ],
+16 silly audit   stacktracey: [ '2.1.8' ],
+16 silly audit   'stat-mode': [ '0.3.0' ],
+16 silly audit   statuses: [ '1.5.0' ],
+16 silly audit   'stop-iteration-iterator': [ '1.1.0' ],
+16 silly audit   stoppable: [ '1.1.0' ],
+16 silly audit   'stream-to-array': [ '2.3.0' ],
+16 silly audit   'stream-to-promise': [ '2.2.0' ],
+16 silly audit   'string.prototype.includes': [ '2.0.1' ],
+16 silly audit   'string.prototype.matchall': [ '4.0.12' ],
+16 silly audit   'string.prototype.repeat': [ '1.0.0' ],
+16 silly audit   'string.prototype.trim': [ '1.2.10' ],
+16 silly audit   'string.prototype.trimend': [ '1.0.9' ],
+16 silly audit   'string.prototype.trimstart': [ '1.0.8' ],
+16 silly audit   'strip-ansi': [ '6.0.1' ],
+16 silly audit   'strip-bom': [ '3.0.0' ],
+16 silly audit   'strip-final-newline': [ '2.0.0' ],
+16 silly audit   'strip-json-comments': [ '3.1.1' ],
+16 silly audit   'styled-jsx': [ '5.1.6' ],
+16 silly audit   'supports-preserve-symlinks-flag': [ '1.0.0' ],
+16 silly audit   'text-table': [ '0.2.0' ],
+16 silly audit   'time-span': [ '4.0.0' ],
+16 silly audit   tinyglobby: [ '0.2.15' ],
+16 silly audit   fdir: [ '6.5.0' ],
+16 silly audit   'to-regex-range': [ '5.0.1' ],
+16 silly audit   toidentifier: [ '1.0.0' ],
+16 silly audit   tr46: [ '0.0.3' ],
+16 silly audit   'tree-kill': [ '1.2.2' ],
+16 silly audit   'ts-api-utils': [ '2.4.0' ],
+16 silly audit   'ts-morph': [ '12.0.0' ],
+16 silly audit   'ts-toolbelt': [ '6.15.5' ],
+16 silly audit   'tsconfig-paths': [ '3.15.0' ],
+16 silly audit   tslib: [ '2.8.1' ],
+16 silly audit   'type-check': [ '0.4.0' ],
+16 silly audit   'type-fest': [ '0.20.2' ],
+16 silly audit   'typed-array-buffer': [ '1.0.3' ],
+16 silly audit   'typed-array-byte-length': [ '1.0.3' ],
+16 silly audit   'typed-array-byte-offset': [ '1.0.4' ],
+16 silly audit   'typed-array-length': [ '1.0.7' ],
+16 silly audit   'uid-promise': [ '1.0.0' ],
+16 silly audit   'unbox-primitive': [ '1.1.0' ],
+16 silly audit   'undici-types': [ '6.21.0' ],
+16 silly audit   unenv: [ '2.0.0-rc.24' ],
+16 silly audit   unpipe: [ '1.0.0' ],
+16 silly audit   'unrs-resolver': [ '1.11.1' ],
+16 silly audit   'uri-js': [ '4.4.1' ],
+16 silly audit   uuid: [ '3.3.2' ],
+16 silly audit   'v8-compile-cache-lib': [ '3.0.1' ],
+16 silly audit   vercel: [ '40.1.0' ],
+16 silly audit   'web-vitals': [ '0.2.4' ],
+16 silly audit   'webidl-conversions': [ '3.0.1' ],
+16 silly audit   'whatwg-url': [ '5.0.0' ],
+16 silly audit   which: [ '2.0.2' ],
+16 silly audit   'which-boxed-primitive': [ '1.1.1' ],
+16 silly audit   'which-builtin-type': [ '1.2.1' ],
+16 silly audit   'which-collection': [ '1.0.2' ],
+16 silly audit   'which-typed-array': [ '1.1.20' ],
+16 silly audit   'word-wrap': [ '1.2.5' ],
+16 silly audit   workerd: [ '1.20250718.0', '1.20260305.0' ],
+16 silly audit   wrangler: [ '4.69.0' ],
+16 silly audit   '@cloudflare/unenv-preset': [ '2.14.0' ],
+16 silly audit   youch: [ '4.1.0-beta.10', '3.3.4' ],
+16 silly audit   wrappy: [ '1.0.2' ],
+16 silly audit   ws: [ '8.18.0' ],
+16 silly audit   'xdg-app-paths': [ '5.1.0' ],
+16 silly audit   'xdg-portable': [ '7.3.0' ],
+16 silly audit   yauzl: [ '2.10.0' ],
+16 silly audit   'yauzl-clone': [ '1.0.4' ],
+16 silly audit   'yauzl-promise': [ '2.1.3' ],
+16 silly audit   yn: [ '3.1.1' ],
+16 silly audit   'yocto-queue': [ '0.1.0' ],
+16 silly audit   'youch-core': [ '0.3.3' ],
+16 silly audit   zod: [ '3.22.3' ]
+16 silly audit }
+17 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/esbuild-windows-arm64
+18 silly reify mark deleted [
+18 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/esbuild-windows-arm64'
+18 silly reify ]
+19 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/esbuild-windows-64
+20 silly reify mark deleted [
+20 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/esbuild-windows-64'
+20 silly reify ]
+21 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/esbuild-windows-32
+22 silly reify mark deleted [
+22 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/esbuild-windows-32'
+22 silly reify ]
+23 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/esbuild-sunos-64
+24 silly reify mark deleted [
+24 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/esbuild-sunos-64'
+24 silly reify ]
+25 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/esbuild-openbsd-64
+26 silly reify mark deleted [
+26 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/esbuild-openbsd-64'
+26 silly reify ]
+27 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/esbuild-netbsd-64
+28 silly reify mark deleted [
+28 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/esbuild-netbsd-64'
+28 silly reify ]
+29 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/esbuild-linux-s390x
+30 silly reify mark deleted [
+30 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/esbuild-linux-s390x'
+30 silly reify ]
+31 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/esbuild-linux-riscv64
+32 silly reify mark deleted [
+32 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/esbuild-linux-riscv64'
+32 silly reify ]
+33 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/esbuild-linux-ppc64le
+34 silly reify mark deleted [
+34 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/esbuild-linux-ppc64le'
+34 silly reify ]
+35 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/esbuild-linux-mips64le
+36 silly reify mark deleted [
+36 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/esbuild-linux-mips64le'
+36 silly reify ]
+37 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/esbuild-linux-arm64
+38 silly reify mark deleted [
+38 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/esbuild-linux-arm64'
+38 silly reify ]
+39 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/esbuild-linux-arm
+40 silly reify mark deleted [
+40 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/esbuild-linux-arm'
+40 silly reify ]
+41 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/esbuild-linux-64
+42 silly reify mark deleted [
+42 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/esbuild-linux-64'
+42 silly reify ]
+43 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/esbuild-linux-32
+44 silly reify mark deleted [
+44 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/esbuild-linux-32'
+44 silly reify ]
+45 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/esbuild-freebsd-arm64
+46 silly reify mark deleted [
+46 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/esbuild-freebsd-arm64'
+46 silly reify ]
+47 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/esbuild-freebsd-64
+48 silly reify mark deleted [
+48 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/esbuild-freebsd-64'
+48 silly reify ]
+49 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/esbuild-darwin-64
+50 silly reify mark deleted [
+50 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/esbuild-darwin-64'
+50 silly reify ]
+51 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/esbuild-android-arm64
+52 silly reify mark deleted [
+52 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/esbuild-android-arm64'
+52 silly reify ]
+53 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/esbuild-android-64
+54 silly reify mark deleted [
+54 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/esbuild-android-64'
+54 silly reify ]
+55 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/@unrs/resolver-binding-win32-x64-msvc
+56 silly reify mark deleted [
+56 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/@unrs/resolver-binding-win32-x64-msvc'
+56 silly reify ]
+57 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/@unrs/resolver-binding-win32-ia32-msvc
+58 silly reify mark deleted [
+58 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/@unrs/resolver-binding-win32-ia32-msvc'
+58 silly reify ]
+59 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/@unrs/resolver-binding-win32-arm64-msvc
+60 silly reify mark deleted [
+60 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/@unrs/resolver-binding-win32-arm64-msvc'
+60 silly reify ]
+61 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/@unrs/resolver-binding-wasm32-wasi
+62 silly reify mark deleted [
+62 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/@unrs/resolver-binding-wasm32-wasi'
+62 silly reify ]
+63 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/@napi-rs/wasm-runtime
+64 silly reify mark deleted [
+64 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/@napi-rs/wasm-runtime'
+64 silly reify ]
+65 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/@emnapi/core
+66 silly reify mark deleted [
+66 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/@emnapi/core'
+66 silly reify ]
+67 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/@tybys/wasm-util
+68 silly reify mark deleted [
+68 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/@tybys/wasm-util'
+68 silly reify ]
+69 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/@emnapi/wasi-threads
+70 silly reify mark deleted [
+70 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/@emnapi/wasi-threads'
+70 silly reify ]
+71 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/@unrs/resolver-binding-linux-x64-musl
+72 silly reify mark deleted [
+72 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/@unrs/resolver-binding-linux-x64-musl'
+72 silly reify ]
+73 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/@unrs/resolver-binding-linux-x64-gnu
+74 silly reify mark deleted [
+74 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/@unrs/resolver-binding-linux-x64-gnu'
+74 silly reify ]
+75 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/@unrs/resolver-binding-linux-s390x-gnu
+76 silly reify mark deleted [
+76 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/@unrs/resolver-binding-linux-s390x-gnu'
+76 silly reify ]
+77 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/@unrs/resolver-binding-linux-riscv64-musl
+78 silly reify mark deleted [
+78 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/@unrs/resolver-binding-linux-riscv64-musl'
+78 silly reify ]
+79 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/@unrs/resolver-binding-linux-riscv64-gnu
+80 silly reify mark deleted [
+80 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/@unrs/resolver-binding-linux-riscv64-gnu'
+80 silly reify ]
+81 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/@unrs/resolver-binding-linux-ppc64-gnu
+82 silly reify mark deleted [
+82 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/@unrs/resolver-binding-linux-ppc64-gnu'
+82 silly reify ]
+83 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/@unrs/resolver-binding-linux-arm64-musl
+84 silly reify mark deleted [
+84 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/@unrs/resolver-binding-linux-arm64-musl'
+84 silly reify ]
+85 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/@unrs/resolver-binding-linux-arm64-gnu
+86 silly reify mark deleted [
+86 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/@unrs/resolver-binding-linux-arm64-gnu'
+86 silly reify ]
+87 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/@unrs/resolver-binding-linux-arm-musleabihf
+88 silly reify mark deleted [
+88 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/@unrs/resolver-binding-linux-arm-musleabihf'
+88 silly reify ]
+89 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/@unrs/resolver-binding-linux-arm-gnueabihf
+90 silly reify mark deleted [
+90 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/@unrs/resolver-binding-linux-arm-gnueabihf'
+90 silly reify ]
+91 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/@unrs/resolver-binding-freebsd-x64
+92 silly reify mark deleted [
+92 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/@unrs/resolver-binding-freebsd-x64'
+92 silly reify ]
+93 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/@unrs/resolver-binding-darwin-x64
+94 silly reify mark deleted [
+94 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/@unrs/resolver-binding-darwin-x64'
+94 silly reify ]
+95 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/@unrs/resolver-binding-android-arm64
+96 silly reify mark deleted [
+96 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/@unrs/resolver-binding-android-arm64'
+96 silly reify ]
+97 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/@unrs/resolver-binding-android-arm-eabi
+98 silly reify mark deleted [
+98 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/@unrs/resolver-binding-android-arm-eabi'
+98 silly reify ]
+99 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/@next/swc-win32-x64-msvc
+100 silly reify mark deleted [
+100 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/@next/swc-win32-x64-msvc'
+100 silly reify ]
+101 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/@next/swc-win32-arm64-msvc
+102 silly reify mark deleted [
+102 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/@next/swc-win32-arm64-msvc'
+102 silly reify ]
+103 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/@next/swc-linux-x64-musl
+104 silly reify mark deleted [
+104 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/@next/swc-linux-x64-musl'
+104 silly reify ]
+105 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/@next/swc-linux-x64-gnu
+106 silly reify mark deleted [
+106 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/@next/swc-linux-x64-gnu'
+106 silly reify ]
+107 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/@next/swc-linux-arm64-musl
+108 silly reify mark deleted [
+108 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/@next/swc-linux-arm64-musl'
+108 silly reify ]
+109 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/@next/swc-linux-arm64-gnu
+110 silly reify mark deleted [
+110 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/@next/swc-linux-arm64-gnu'
+110 silly reify ]
+111 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/@next/swc-darwin-x64
+112 silly reify mark deleted [
+112 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/@next/swc-darwin-x64'
+112 silly reify ]
+113 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/@img/sharp-win32-x64
+114 silly reify mark deleted [
+114 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/@img/sharp-win32-x64'
+114 silly reify ]
+115 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/@img/sharp-win32-ia32
+116 silly reify mark deleted [
+116 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/@img/sharp-win32-ia32'
+116 silly reify ]
+117 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/@img/sharp-win32-arm64
+118 silly reify mark deleted [
+118 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/@img/sharp-win32-arm64'
+118 silly reify ]
+119 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/@img/sharp-wasm32
+120 silly reify mark deleted [
+120 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/@img/sharp-wasm32'
+120 silly reify ]
+121 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/@img/sharp-linuxmusl-x64
+122 silly reify mark deleted [
+122 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/@img/sharp-linuxmusl-x64'
+122 silly reify ]
+123 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/@img/sharp-linuxmusl-arm64
+124 silly reify mark deleted [
+124 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/@img/sharp-linuxmusl-arm64'
+124 silly reify ]
+125 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/@img/sharp-linux-x64
+126 silly reify mark deleted [
+126 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/@img/sharp-linux-x64'
+126 silly reify ]
+127 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/@img/sharp-linux-s390x
+128 silly reify mark deleted [
+128 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/@img/sharp-linux-s390x'
+128 silly reify ]
+129 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/@img/sharp-linux-riscv64
+130 silly reify mark deleted [
+130 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/@img/sharp-linux-riscv64'
+130 silly reify ]
+131 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/@img/sharp-linux-ppc64
+132 silly reify mark deleted [
+132 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/@img/sharp-linux-ppc64'
+132 silly reify ]
+133 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/@img/sharp-linux-arm64
+134 silly reify mark deleted [
+134 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/@img/sharp-linux-arm64'
+134 silly reify ]
+135 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/@img/sharp-linux-arm
+136 silly reify mark deleted [
+136 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/@img/sharp-linux-arm'
+136 silly reify ]
+137 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/@img/sharp-libvips-linuxmusl-x64
+138 silly reify mark deleted [
+138 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/@img/sharp-libvips-linuxmusl-x64'
+138 silly reify ]
+139 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/@img/sharp-libvips-linuxmusl-arm64
+140 silly reify mark deleted [
+140 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/@img/sharp-libvips-linuxmusl-arm64'
+140 silly reify ]
+141 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/@img/sharp-libvips-linux-x64
+142 silly reify mark deleted [
+142 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/@img/sharp-libvips-linux-x64'
+142 silly reify ]
+143 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/@img/sharp-libvips-linux-s390x
+144 silly reify mark deleted [
+144 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/@img/sharp-libvips-linux-s390x'
+144 silly reify ]
+145 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/@img/sharp-libvips-linux-riscv64
+146 silly reify mark deleted [
+146 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/@img/sharp-libvips-linux-riscv64'
+146 silly reify ]
+147 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/@img/sharp-libvips-linux-ppc64
+148 silly reify mark deleted [
+148 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/@img/sharp-libvips-linux-ppc64'
+148 silly reify ]
+149 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/@img/sharp-libvips-linux-arm64
+150 silly reify mark deleted [
+150 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/@img/sharp-libvips-linux-arm64'
+150 silly reify ]
+151 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/@img/sharp-libvips-linux-arm
+152 silly reify mark deleted [
+152 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/@img/sharp-libvips-linux-arm'
+152 silly reify ]
+153 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/@img/sharp-libvips-darwin-x64
+154 silly reify mark deleted [
+154 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/@img/sharp-libvips-darwin-x64'
+154 silly reify ]
+155 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/@img/sharp-darwin-x64
+156 silly reify mark deleted [
+156 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/@img/sharp-darwin-x64'
+156 silly reify ]
+157 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/@esbuild/win32-x64
+158 silly reify mark deleted [
+158 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/@esbuild/win32-x64'
+158 silly reify ]
+159 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/@esbuild/win32-ia32
+160 silly reify mark deleted [
+160 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/@esbuild/win32-ia32'
+160 silly reify ]
+161 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/@esbuild/win32-arm64
+162 silly reify mark deleted [
+162 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/@esbuild/win32-arm64'
+162 silly reify ]
+163 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/@esbuild/sunos-x64
+164 silly reify mark deleted [
+164 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/@esbuild/sunos-x64'
+164 silly reify ]
+165 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/@esbuild/openharmony-arm64
+166 silly reify mark deleted [
+166 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/@esbuild/openharmony-arm64'
+166 silly reify ]
+167 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/@esbuild/openbsd-x64
+168 silly reify mark deleted [
+168 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/@esbuild/openbsd-x64'
+168 silly reify ]
+169 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/@esbuild/openbsd-arm64
+170 silly reify mark deleted [
+170 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/@esbuild/openbsd-arm64'
+170 silly reify ]
+171 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/@esbuild/netbsd-x64
+172 silly reify mark deleted [
+172 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/@esbuild/netbsd-x64'
+172 silly reify ]
+173 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/@esbuild/netbsd-arm64
+174 silly reify mark deleted [
+174 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/@esbuild/netbsd-arm64'
+174 silly reify ]
+175 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/@esbuild/linux-x64
+176 silly reify mark deleted [
+176 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/@esbuild/linux-x64'
+176 silly reify ]
+177 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/@esbuild/linux-s390x
+178 silly reify mark deleted [
+178 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/@esbuild/linux-s390x'
+178 silly reify ]
+179 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/@esbuild/linux-riscv64
+180 silly reify mark deleted [
+180 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/@esbuild/linux-riscv64'
+180 silly reify ]
+181 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/@esbuild/linux-ppc64
+182 silly reify mark deleted [
+182 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/@esbuild/linux-ppc64'
+182 silly reify ]
+183 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/@esbuild/linux-mips64el
+184 silly reify mark deleted [
+184 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/@esbuild/linux-mips64el'
+184 silly reify ]
+185 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/@esbuild/linux-loong64
+186 silly reify mark deleted [
+186 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/@esbuild/linux-loong64'
+186 silly reify ]
+187 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/@esbuild/linux-ia32
+188 silly reify mark deleted [
+188 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/@esbuild/linux-ia32'
+188 silly reify ]
+189 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/@esbuild/linux-arm64
+190 silly reify mark deleted [
+190 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/@esbuild/linux-arm64'
+190 silly reify ]
+191 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/@esbuild/linux-arm
+192 silly reify mark deleted [
+192 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/@esbuild/linux-arm'
+192 silly reify ]
+193 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/@esbuild/freebsd-x64
+194 silly reify mark deleted [
+194 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/@esbuild/freebsd-x64'
+194 silly reify ]
+195 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/@esbuild/freebsd-arm64
+196 silly reify mark deleted [
+196 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/@esbuild/freebsd-arm64'
+196 silly reify ]
+197 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/@esbuild/darwin-x64
+198 silly reify mark deleted [
+198 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/@esbuild/darwin-x64'
+198 silly reify ]
+199 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/@esbuild/android-x64
+200 silly reify mark deleted [
+200 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/@esbuild/android-x64'
+200 silly reify ]
+201 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/@esbuild/android-arm64
+202 silly reify mark deleted [
+202 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/@esbuild/android-arm64'
+202 silly reify ]
+203 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/@esbuild/android-arm
+204 silly reify mark deleted [
+204 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/@esbuild/android-arm'
+204 silly reify ]
+205 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/@esbuild/aix-ppc64
+206 silly reify mark deleted [
+206 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/@esbuild/aix-ppc64'
+206 silly reify ]
+207 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/@cloudflare/workerd-windows-64
+208 silly reify mark deleted [
+208 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/@cloudflare/workerd-windows-64'
+208 silly reify ]
+209 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/@cloudflare/workerd-linux-arm64
+210 silly reify mark deleted [
+210 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/@cloudflare/workerd-linux-arm64'
+210 silly reify ]
+211 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/@cloudflare/workerd-linux-64
+212 silly reify mark deleted [
+212 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/@cloudflare/workerd-linux-64'
+212 silly reify ]
+213 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/@cloudflare/workerd-darwin-64
+214 silly reify mark deleted [
+214 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/@cloudflare/workerd-darwin-64'
+214 silly reify ]
+215 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/wrangler/node_modules/@esbuild/linux-loong64
+216 silly reify mark deleted [
+216 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/wrangler/node_modules/@esbuild/linux-loong64'
+216 silly reify ]
+217 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/wrangler/node_modules/@esbuild/android-arm
+218 silly reify mark deleted [
+218 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/wrangler/node_modules/@esbuild/android-arm'
+218 silly reify ]
+219 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/wrangler/node_modules/@cloudflare/workerd-windows-64
+220 silly reify mark deleted [
+220 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/wrangler/node_modules/@cloudflare/workerd-windows-64'
+220 silly reify ]
+221 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/wrangler/node_modules/@cloudflare/workerd-linux-arm64
+222 silly reify mark deleted [
+222 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/wrangler/node_modules/@cloudflare/workerd-linux-arm64'
+222 silly reify ]
+223 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/wrangler/node_modules/@cloudflare/workerd-linux-64
+224 silly reify mark deleted [
+224 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/wrangler/node_modules/@cloudflare/workerd-linux-64'
+224 silly reify ]
+225 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/wrangler/node_modules/@cloudflare/workerd-darwin-64
+226 silly reify mark deleted [
+226 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/wrangler/node_modules/@cloudflare/workerd-darwin-64'
+226 silly reify ]
+227 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/@vercel/node/node_modules/esbuild-windows-arm64
+228 silly reify mark deleted [
+228 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/@vercel/node/node_modules/esbuild-windows-arm64'
+228 silly reify ]
+229 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/@vercel/node/node_modules/esbuild-windows-64
+230 silly reify mark deleted [
+230 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/@vercel/node/node_modules/esbuild-windows-64'
+230 silly reify ]
+231 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/@vercel/node/node_modules/esbuild-windows-32
+232 silly reify mark deleted [
+232 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/@vercel/node/node_modules/esbuild-windows-32'
+232 silly reify ]
+233 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/@vercel/node/node_modules/esbuild-sunos-64
+234 silly reify mark deleted [
+234 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/@vercel/node/node_modules/esbuild-sunos-64'
+234 silly reify ]
+235 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/@vercel/node/node_modules/esbuild-openbsd-64
+236 silly reify mark deleted [
+236 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/@vercel/node/node_modules/esbuild-openbsd-64'
+236 silly reify ]
+237 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/@vercel/node/node_modules/esbuild-netbsd-64
+238 silly reify mark deleted [
+238 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/@vercel/node/node_modules/esbuild-netbsd-64'
+238 silly reify ]
+239 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/@vercel/node/node_modules/esbuild-linux-s390x
+240 silly reify mark deleted [
+240 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/@vercel/node/node_modules/esbuild-linux-s390x'
+240 silly reify ]
+241 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/@vercel/node/node_modules/esbuild-linux-riscv64
+242 silly reify mark deleted [
+242 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/@vercel/node/node_modules/esbuild-linux-riscv64'
+242 silly reify ]
+243 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/@vercel/node/node_modules/esbuild-linux-ppc64le
+244 silly reify mark deleted [
+244 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/@vercel/node/node_modules/esbuild-linux-ppc64le'
+244 silly reify ]
+245 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/@vercel/node/node_modules/esbuild-linux-mips64le
+246 silly reify mark deleted [
+246 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/@vercel/node/node_modules/esbuild-linux-mips64le'
+246 silly reify ]
+247 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/@vercel/node/node_modules/esbuild-linux-arm64
+248 silly reify mark deleted [
+248 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/@vercel/node/node_modules/esbuild-linux-arm64'
+248 silly reify ]
+249 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/@vercel/node/node_modules/esbuild-linux-arm
+250 silly reify mark deleted [
+250 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/@vercel/node/node_modules/esbuild-linux-arm'
+250 silly reify ]
+251 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/@vercel/node/node_modules/esbuild-linux-64
+252 silly reify mark deleted [
+252 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/@vercel/node/node_modules/esbuild-linux-64'
+252 silly reify ]
+253 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/@vercel/node/node_modules/esbuild-linux-32
+254 silly reify mark deleted [
+254 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/@vercel/node/node_modules/esbuild-linux-32'
+254 silly reify ]
+255 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/@vercel/node/node_modules/esbuild-freebsd-arm64
+256 silly reify mark deleted [
+256 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/@vercel/node/node_modules/esbuild-freebsd-arm64'
+256 silly reify ]
+257 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/@vercel/node/node_modules/esbuild-freebsd-64
+258 silly reify mark deleted [
+258 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/@vercel/node/node_modules/esbuild-freebsd-64'
+258 silly reify ]
+259 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/@vercel/node/node_modules/esbuild-darwin-64
+260 silly reify mark deleted [
+260 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/@vercel/node/node_modules/esbuild-darwin-64'
+260 silly reify ]
+261 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/@vercel/node/node_modules/esbuild-android-arm64
+262 silly reify mark deleted [
+262 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/@vercel/node/node_modules/esbuild-android-arm64'
+262 silly reify ]
+263 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/@vercel/node/node_modules/esbuild-android-64
+264 silly reify mark deleted [
+264 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/@vercel/node/node_modules/esbuild-android-64'
+264 silly reify ]
+265 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/@vercel/gatsby-plugin-vercel-builder/node_modules/esbuild-windows-arm64
+266 silly reify mark deleted [
+266 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/@vercel/gatsby-plugin-vercel-builder/node_modules/esbuild-windows-arm64'
+266 silly reify ]
+267 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/@vercel/gatsby-plugin-vercel-builder/node_modules/esbuild-windows-64
+268 silly reify mark deleted [
+268 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/@vercel/gatsby-plugin-vercel-builder/node_modules/esbuild-windows-64'
+268 silly reify ]
+269 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/@vercel/gatsby-plugin-vercel-builder/node_modules/esbuild-windows-32
+270 silly reify mark deleted [
+270 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/@vercel/gatsby-plugin-vercel-builder/node_modules/esbuild-windows-32'
+270 silly reify ]
+271 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/@vercel/gatsby-plugin-vercel-builder/node_modules/esbuild-sunos-64
+272 silly reify mark deleted [
+272 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/@vercel/gatsby-plugin-vercel-builder/node_modules/esbuild-sunos-64'
+272 silly reify ]
+273 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/@vercel/gatsby-plugin-vercel-builder/node_modules/esbuild-openbsd-64
+274 silly reify mark deleted [
+274 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/@vercel/gatsby-plugin-vercel-builder/node_modules/esbuild-openbsd-64'
+274 silly reify ]
+275 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/@vercel/gatsby-plugin-vercel-builder/node_modules/esbuild-netbsd-64
+276 silly reify mark deleted [
+276 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/@vercel/gatsby-plugin-vercel-builder/node_modules/esbuild-netbsd-64'
+276 silly reify ]
+277 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/@vercel/gatsby-plugin-vercel-builder/node_modules/esbuild-linux-s390x
+278 silly reify mark deleted [
+278 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/@vercel/gatsby-plugin-vercel-builder/node_modules/esbuild-linux-s390x'
+278 silly reify ]
+279 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/@vercel/gatsby-plugin-vercel-builder/node_modules/esbuild-linux-riscv64
+280 silly reify mark deleted [
+280 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/@vercel/gatsby-plugin-vercel-builder/node_modules/esbuild-linux-riscv64'
+280 silly reify ]
+281 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/@vercel/gatsby-plugin-vercel-builder/node_modules/esbuild-linux-ppc64le
+282 silly reify mark deleted [
+282 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/@vercel/gatsby-plugin-vercel-builder/node_modules/esbuild-linux-ppc64le'
+282 silly reify ]
+283 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/@vercel/gatsby-plugin-vercel-builder/node_modules/esbuild-linux-mips64le
+284 silly reify mark deleted [
+284 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/@vercel/gatsby-plugin-vercel-builder/node_modules/esbuild-linux-mips64le'
+284 silly reify ]
+285 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/@vercel/gatsby-plugin-vercel-builder/node_modules/esbuild-linux-arm64
+286 silly reify mark deleted [
+286 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/@vercel/gatsby-plugin-vercel-builder/node_modules/esbuild-linux-arm64'
+286 silly reify ]
+287 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/@vercel/gatsby-plugin-vercel-builder/node_modules/esbuild-linux-arm
+288 silly reify mark deleted [
+288 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/@vercel/gatsby-plugin-vercel-builder/node_modules/esbuild-linux-arm'
+288 silly reify ]
+289 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/@vercel/gatsby-plugin-vercel-builder/node_modules/esbuild-linux-64
+290 silly reify mark deleted [
+290 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/@vercel/gatsby-plugin-vercel-builder/node_modules/esbuild-linux-64'
+290 silly reify ]
+291 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/@vercel/gatsby-plugin-vercel-builder/node_modules/esbuild-linux-32
+292 silly reify mark deleted [
+292 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/@vercel/gatsby-plugin-vercel-builder/node_modules/esbuild-linux-32'
+292 silly reify ]
+293 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/@vercel/gatsby-plugin-vercel-builder/node_modules/esbuild-freebsd-arm64
+294 silly reify mark deleted [
+294 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/@vercel/gatsby-plugin-vercel-builder/node_modules/esbuild-freebsd-arm64'
+294 silly reify ]
+295 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/@vercel/gatsby-plugin-vercel-builder/node_modules/esbuild-freebsd-64
+296 silly reify mark deleted [
+296 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/@vercel/gatsby-plugin-vercel-builder/node_modules/esbuild-freebsd-64'
+296 silly reify ]
+297 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/@vercel/gatsby-plugin-vercel-builder/node_modules/esbuild-darwin-64
+298 silly reify mark deleted [
+298 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/@vercel/gatsby-plugin-vercel-builder/node_modules/esbuild-darwin-64'
+298 silly reify ]
+299 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/@vercel/gatsby-plugin-vercel-builder/node_modules/esbuild-android-arm64
+300 silly reify mark deleted [
+300 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/@vercel/gatsby-plugin-vercel-builder/node_modules/esbuild-android-arm64'
+300 silly reify ]
+301 verbose reify failed optional dependency /Users/mariia/code/my_progect/cake_orders/node_modules/@vercel/gatsby-plugin-vercel-builder/node_modules/esbuild-android-64
+302 silly reify mark deleted [
+302 silly reify   '/Users/mariia/code/my_progect/cake_orders/node_modules/@vercel/gatsby-plugin-vercel-builder/node_modules/esbuild-android-64'
+302 silly reify ]
+303 http fetch GET 200 https://registry.npmjs.org/npm 381ms
+304 http fetch POST 200 https://registry.npmjs.org/-/npm/v1/security/advisories/bulk 440ms
+305 silly audit report {
+305 silly audit report   tar: [
+305 silly audit report     {
+305 silly audit report       id: 1112659,
+305 silly audit report       url: 'https://github.com/advisories/GHSA-34x7-hfp2-rc4v',
+305 silly audit report       title: 'node-tar Vulnerable to Arbitrary File Creation/Overwrite via Hardlink Path Traversal',
+305 silly audit report       severity: 'high',
+305 silly audit report       vulnerable_versions: '<7.5.7',
+305 silly audit report       cwe: [Array],
+305 silly audit report       cvss: [Object]
+305 silly audit report     },
+305 silly audit report     {
+305 silly audit report       id: 1113300,
+305 silly audit report       url: 'https://github.com/advisories/GHSA-8qq5-rm4j-mr97',
+305 silly audit report       title: 'node-tar is Vulnerable to Arbitrary File Overwrite and Symlink Poisoning via Insufficient Path Sanitization',
+305 silly audit report       severity: 'high',
+305 silly audit report       vulnerable_versions: '<=7.5.2',
+305 silly audit report       cwe: [Array],
+305 silly audit report       cvss: [Object]
+305 silly audit report     },
+305 silly audit report     {
+305 silly audit report       id: 1113375,
+305 silly audit report       url: 'https://github.com/advisories/GHSA-83g3-92jg-28cx',
+305 silly audit report       title: 'Arbitrary File Read/Write via Hardlink Target Escape Through Symlink Chain in node-tar Extraction',
+305 silly audit report       severity: 'high',
+305 silly audit report       vulnerable_versions: '<7.5.8',
+305 silly audit report       cwe: [Array],
+305 silly audit report       cvss: [Object]
+305 silly audit report     },
+305 silly audit report     {
+305 silly audit report       id: 1114200,
+305 silly audit report       url: 'https://github.com/advisories/GHSA-qffp-2rhf-9h96',
+305 silly audit report       title: 'tar has Hardlink Path Traversal via Drive-Relative Linkpath',
+305 silly audit report       severity: 'high',
+305 silly audit report       vulnerable_versions: '<=7.5.9',
+305 silly audit report       cwe: [Array],
+305 silly audit report       cvss: [Object]
+305 silly audit report     },
+305 silly audit report     {
+305 silly audit report       id: 1114302,
+305 silly audit report       url: 'https://github.com/advisories/GHSA-9ppj-qmqm-q256',
+305 silly audit report       title: 'node-tar Symlink Path Traversal via Drive-Relative Linkpath',
+305 silly audit report       severity: 'high',
+305 silly audit report       vulnerable_versions: '<=7.5.10',
+305 silly audit report       cwe: [Array],
+305 silly audit report       cvss: [Object]
+305 silly audit report     },
+305 silly audit report     {
+305 silly audit report       id: 1120782,
+305 silly audit report       url: 'https://github.com/advisories/GHSA-vmf3-w455-68vh',
+305 silly audit report       title: 'node-tar applies PAX size override to intermediary GNU long-name/long-link headers, causing tar parser interpretation differential (file smuggling)',
+305 silly audit report       severity: 'moderate',
+305 silly audit report       vulnerable_versions: '<=7.5.15',
+305 silly audit report       cwe: [Array],
+305 silly audit report       cvss: [Object]
+305 silly audit report     },
+305 silly audit report     {
+305 silly audit report       id: 1114680,
+305 silly audit report       url: 'https://github.com/advisories/GHSA-r6q2-hw4h-h46w',
+305 silly audit report       title: 'Race Condition in node-tar Path Reservations via Unicode Ligature Collisions on macOS APFS',
+305 silly audit report       severity: 'high',
+305 silly audit report       vulnerable_versions: '<=7.5.3',
+305 silly audit report       cwe: [Array],
+305 silly audit report       cvss: [Object]
+305 silly audit report     },
+305 silly audit report     {
+305 silly audit report       id: 1123939,
+305 silly audit report       url: 'https://github.com/advisories/GHSA-w8wr-v893-vjvp',
+305 silly audit report       title: 'node-tar: Process crash via PAX numeric path type confusion',
+305 silly audit report       severity: 'moderate',
+305 silly audit report       vulnerable_versions: '<=7.5.17',
+305 silly audit report       cwe: [Array],
+305 silly audit report       cvss: [Object]
+305 silly audit report     },
+305 silly audit report     {
+305 silly audit report       id: 1123940,
+305 silly audit report       url: 'https://github.com/advisories/GHSA-23hp-3jrh-7fpw',
+305 silly audit report       title: 'node-tar: Decompression/parse DoS via unlimited input',
+305 silly audit report       severity: 'critical',
+305 silly audit report       vulnerable_versions: '<=7.5.18',
+305 silly audit report       cwe: [Array],
+305 silly audit report       cvss: [Object]
+305 silly audit report     },
+305 silly audit report     {
+305 silly audit report       id: 1123941,
+305 silly audit report       url: 'https://github.com/advisories/GHSA-8x88-c5mf-7j5w',
+305 silly audit report       title: 'node-tar: Negative tar entry size causes infinite loop in archive replace',
+305 silly audit report       severity: 'high',
+305 silly audit report       vulnerable_versions: '<=7.5.17',
+305 silly audit report       cwe: [Array],
+305 silly audit report       cvss: [Object]
+305 silly audit report     },
+305 silly audit report     {
+305 silly audit report       id: 1123942,
+305 silly audit report       url: 'https://github.com/advisories/GHSA-gvwx-54wh-qm9j',
+305 silly audit report       title: 'node-tar: Uncaught Exception DoS via NUL byte in PAX path/linkpath records',
+305 silly audit report       severity: 'moderate',
+305 silly audit report       vulnerable_versions: '<=7.5.16',
+305 silly audit report       cwe: [Array],
+305 silly audit report       cvss: [Object]
+305 silly audit report     },
+305 silly audit report     {
+305 silly audit report       id: 1124287,
+305 silly audit report       url: 'https://github.com/advisories/GHSA-r292-9mhp-454m',
+305 silly audit report       title: 'node-tar: Uncontrolled recursion in mapHas/filesFilter allows uncatchable stack-overflow DoS via crafted long-path tar with member selection',
+305 silly audit report       severity: 'moderate',
+305 silly audit report       vulnerable_versions: '<=7.5.20',
+305 silly audit report       cwe: [Array],
+305 silly audit report       cvss: [Object]
+305 silly audit report     },
+305 silly audit report     {
+305 silly audit report       id: 1097493,
+305 silly audit report       url: 'https://github.com/advisories/GHSA-f5x3-32g6-xq36',
+305 silly audit report       title: 'Denial of service while parsing a tar file due to lack of folders count validation',
+305 silly audit report       severity: 'moderate',
+305 silly audit report       vulnerable_versions: '<6.2.1',
+305 silly audit report       cwe: [Array],
+305 silly audit report       cvss: [Object]
+305 silly audit report     }
+305 silly audit report   ],
+305 silly audit report   picomatch: [
+305 silly audit report     {
+305 silly audit report       id: 1115549,
+305 silly audit report       url: 'https://github.com/advisories/GHSA-3v7f-55p6-f55p',
+305 silly audit report       title: 'Picomatch: Method Injection in POSIX Character Classes causes incorrect Glob Matching',
+305 silly audit report       severity: 'moderate',
+305 silly audit report       vulnerable_versions: '<2.3.2',
+305 silly audit report       cwe: [Array],
+305 silly audit report       cvss: [Object]
+305 silly audit report     },
+305 silly audit report     {
+305 silly audit report       id: 1115551,
+305 silly audit report       url: 'https://github.com/advisories/GHSA-3v7f-55p6-f55p',
+305 silly audit report       title: 'Picomatch: Method Injection in POSIX Character Classes causes incorrect Glob Matching',
+305 silly audit report       severity: 'moderate',
+305 silly audit report       vulnerable_versions: '>=4.0.0 <4.0.4',
+305 silly audit report       cwe: [Array],
+305 silly audit report       cvss: [Object]
+305 silly audit report     },
+305 silly audit report     {
+305 silly audit report       id: 1115552,
+305 silly audit report       url: 'https://github.com/advisories/GHSA-c2c7-rcm5-vvqj',
+305 silly audit report       title: 'Picomatch has a ReDoS vulnerability via extglob quantifiers',
+305 silly audit report       severity: 'high',
+305 silly audit report       vulnerable_versions: '<2.3.2',
+305 silly audit report       cwe: [Array],
+305 silly audit report       cvss: [Object]
+305 silly audit report     },
+305 silly audit report     {
+305 silly audit report       id: 1115554,
+305 silly audit report       url: 'https://github.com/advisories/GHSA-c2c7-rcm5-vvqj',
+305 silly audit report       title: 'Picomatch has a ReDoS vulnerability via extglob quantifiers',
+305 silly audit report       severity: 'high',
+305 silly audit report       vulnerable_versions: '>=4.0.0 <4.0.4',
+305 silly audit report       cwe: [Array],
+305 silly audit report       cvss: [Object]
+305 silly audit report     }
+305 silly audit report   ],
+305 silly audit report   '@tootallnate/once': [
+305 silly audit report     {
+305 silly audit report       id: 1119438,
+305 silly audit report       url: 'https://github.com/advisories/GHSA-vpq2-c234-7xj6',
+305 silly audit report       title: '@tootallnate/once vulnerable to Incorrect Control Flow Scoping',
+305 silly audit report       severity: 'low',
+305 silly audit report       vulnerable_versions: '<2.0.1',
+305 silly audit report       cwe: [Array],
+305 silly audit report       cvss: [Object]
+305 silly audit report     }
+305 silly audit report   ],
+305 silly audit report   'brace-expansion': [
+305 silly audit report     {
+305 silly audit report       id: 1120311,
+305 silly audit report       url: 'https://github.com/advisories/GHSA-jxxr-4gwj-5jf2',
+305 silly audit report       title: 'brace-expansion: Large numeric range defeats documented `max` DoS protection',
+305 silly audit report       severity: 'moderate',
+305 silly audit report       vulnerable_versions: '>=5.0.0 <5.0.6',
+305 silly audit report       cwe: [Array],
+305 silly audit report       cvss: [Object]
+305 silly audit report     },
+305 silly audit report     {
+305 silly audit report       id: 1130588,
+305 silly audit report       url: 'https://github.com/advisories/GHSA-mh99-v99m-4gvg',
+305 silly audit report       title: 'brace-expansion: DoS via unbounded expansion length causing an out-of-memory process crash',
+305 silly audit report       severity: 'high',
+305 silly audit report       vulnerable_versions: '<1.1.17',
+305 silly audit report       cwe: [Array],
+305 silly audit report       cvss: [Object]
+305 silly audit report     },
+305 silly audit report     {
+305 silly audit report       id: 1130591,
+305 silly audit report       url: 'https://github.com/advisories/GHSA-mh99-v99m-4gvg',
+305 silly audit report       title: 'brace-expansion: DoS via unbounded expansion length causing an out-of-memory process crash',
+305 silly audit report       severity: 'high',
+305 silly audit report       vulnerable_versions: '>=4.0.0 <5.0.8',
+305 silly audit report       cwe: [Array],
+305 silly audit report       cvss: [Object]
+305 silly audit report     },
+305 silly audit report     {
+305 silly audit report       id: 1130734,
+305 silly audit report       url: 'https://github.com/advisories/GHSA-rgw5-rvv9-x895',
+305 silly audit report       title: 'brace-expansion: DoS via unbounded intermediate arrays, bypassing the CVE-2026-14257 mitigation',
+305 silly audit report       severity: 'high',
+305 silly audit report       vulnerable_versions: '>=4.0.0 <5.0.9',
+305 silly audit report       cwe: [Array],
+305 silly audit report       cvss: [Object]
+305 silly audit report     },
+305 silly audit report     {
+305 silly audit report       id: 1130737,
+305 silly audit report       url: 'https://github.com/advisories/GHSA-rgw5-rvv9-x895',
+305 silly audit report       title: 'brace-expansion: DoS via unbounded intermediate arrays, bypassing the CVE-2026-14257 mitigation',
+305 silly audit report       severity: 'high',
+305 silly audit report       vulnerable_versions: '<1.1.18',
+305 silly audit report       cwe: [Array],
+305 silly audit report       cvss: [Object]
+305 silly audit report     },
+305 silly audit report     {
+305 silly audit report       id: 1115540,
+305 silly audit report       url: 'https://github.com/advisories/GHSA-f886-m6hf-6m8v',
+305 silly audit report       title: 'brace-expansion: Zero-step sequence causes process hang and memory exhaustion',
+305 silly audit report       severity: 'moderate',
+305 silly audit report       vulnerable_versions: '<1.1.13',
+305 silly audit report       cwe: [Array],
+305 silly audit report       cvss: [Object]
+305 silly audit report     },
+305 silly audit report     {
+305 silly audit report       id: 1115543,
+305 silly audit report       url: 'https://github.com/advisories/GHSA-f886-m6hf-6m8v',
+305 silly audit report       title: 'brace-expansion: Zero-step sequence causes process hang and memory exhaustion',
+305 silly audit report       severity: 'moderate',
+305 silly audit report       vulnerable_versions: '>=4.0.0 <5.0.5',
+305 silly audit report       cwe: [Array],
+305 silly audit report       cvss: [Object]
+305 silly audit report     },
+305 silly audit report     {
+305 silly audit report       id: 1123897,
+305 silly audit report       url: 'https://github.com/advisories/GHSA-3jxr-9vmj-r5cp',
+305 silly audit report       title: 'brace-expansion: DoS via exponential-time expansion of consecutive non-expanding {} groups',
+305 silly audit report       severity: 'high',
+305 silly audit report       vulnerable_versions: '<1.1.16',
+305 silly audit report       cwe: [Array],
+305 silly audit report       cvss: [Object]
+305 silly audit report     },
+305 silly audit report     {
+305 silly audit report       id: 1123898,
+305 silly audit report       url: 'https://github.com/advisories/GHSA-3jxr-9vmj-r5cp',
+305 silly audit report       title: 'brace-expansion: DoS via exponential-time expansion of consecutive non-expanding {} groups',
+305 silly audit report       severity: 'high',
+305 silly audit report       vulnerable_versions: '>=3.0.0 <5.0.7',
+305 silly audit report       cwe: [Array],
+305 silly audit report       cvss: [Object]
+305 silly audit report     }
+305 silly audit report   ],
+305 silly audit report   esbuild: [
+305 silly audit report     {
+305 silly audit report       id: 1102341,
+305 silly audit report       url: 'https://github.com/advisories/GHSA-67mh-4wv8-2f99',
+305 silly audit report       title: 'esbuild enables any website to send any requests to the development server and read the response',
+305 silly audit report       severity: 'moderate',
+305 silly audit report       vulnerable_versions: '<=0.24.2',
+305 silly audit report       cwe: [Array],
+305 silly audit report       cvss: [Object]
+305 silly audit report     },
+305 silly audit report     {
+305 silly audit report       id: 1120680,
+305 silly audit report       url: 'https://github.com/advisories/GHSA-g7r4-m6w7-qqqr',
+305 silly audit report       title: 'esbuild allows arbitrary file read when running the development server on Windows',
+305 silly audit report       severity: 'low',
+305 silly audit report       vulnerable_versions: '>=0.27.3 <0.28.1',
+305 silly audit report       cwe: [Array],
+305 silly audit report       cvss: [Object]
+305 silly audit report     }
+305 silly audit report   ],
+305 silly audit report   undici: [
+305 silly audit report     {
+305 silly audit report       id: 1101610,
+305 silly audit report       url: 'https://github.com/advisories/GHSA-c76h-2ccp-4975',
+305 silly audit report       title: 'Use of Insufficiently Random Values in undici',
+305 silly audit report       severity: 'moderate',
+305 silly audit report       vulnerable_versions: '>=4.5.0 <5.28.5',
+305 silly audit report       cwe: [Array],
+305 silly audit report       cvss: [Object]
+305 silly audit report     },
+305 silly audit report     {
+305 silly audit report       id: 1112496,
+305 silly audit report       url: 'https://github.com/advisories/GHSA-g9mf-h72j-4rw9',
+305 silly audit report       title: 'Undici has an unbounded decompression chain in HTTP responses on Node.js Fetch API via Content-Encoding leads to resource exhaustion',
+305 silly audit report       severity: 'moderate',
+305 silly audit report       vulnerable_versions: '<6.23.0',
+305 silly audit report       cwe: [Array],
+305 silly audit report       cvss: [Object]
+305 silly audit report     },
+305 silly audit report     {
+305 silly audit report       id: 1113069,
+305 silly audit report       url: 'https://github.com/advisories/GHSA-cxrh-j4jr-qwg3',
+305 silly audit report       title: 'undici Denial of Service attack via bad certificate data',
+305 silly audit report       severity: 'low',
+305 silly audit report       vulnerable_versions: '<5.29.0',
+305 silly audit report       cwe: [Array],
+305 silly audit report       cvss: [Object]
+305 silly audit report     },
+305 silly audit report     {
+305 silly audit report       id: 1114591,
+305 silly audit report       url: 'https://github.com/advisories/GHSA-f269-vfmq-vjvj',
+305 silly audit report       title: 'Undici: Malicious WebSocket 64-bit length overflows parser and crashes the client',
+305 silly audit report       severity: 'high',
+305 silly audit report       vulnerable_versions: '>=7.0.0 <7.24.0',
+305 silly audit report       cwe: [Array],
+305 silly audit report       cvss: [Object]
+305 silly audit report     },
+305 silly audit report     {
+305 silly audit report       id: 1114593,
+305 silly audit report       url: 'https://github.com/advisories/GHSA-2mjp-6q6p-2qxm',
+305 silly audit report       title: 'Undici has an HTTP Request/Response Smuggling issue',
+305 silly audit report       severity: 'moderate',
+305 silly audit report       vulnerable_versions: '>=7.0.0 <7.24.0',
+305 silly audit report       cwe: [Array],
+305 silly audit report       cvss: [Object]
+305 silly audit report     },
+305 silly audit report     {
+305 silly audit report       id: 1114594,
+305 silly audit report       url: 'https://github.com/advisories/GHSA-2mjp-6q6p-2qxm',
+305 silly audit report       title: 'Undici has an HTTP Request/Response Smuggling issue',
+305 silly audit report       severity: 'moderate',
+305 silly audit report       vulnerable_versions: '<6.24.0',
+305 silly audit report       cwe: [Array],
+305 silly audit report       cvss: [Object]
+305 silly audit report     },
+305 silly audit report     {
+305 silly audit report       id: 1114637,
+305 silly audit report       url: 'https://github.com/advisories/GHSA-vrm6-8vpv-qv8q',
+305 silly audit report       title: 'Undici has Unbounded Memory Consumption in WebSocket permessage-deflate Decompression',
+305 silly audit report       severity: 'high',
+305 silly audit report       vulnerable_versions: '>=7.0.0 <7.24.0',
+305 silly audit report       cwe: [Array],
+305 silly audit report       cvss: [Object]
+305 silly audit report     },
+305 silly audit report     {
+305 silly audit report       id: 1114638,
+305 silly audit report       url: 'https://github.com/advisories/GHSA-vrm6-8vpv-qv8q',
+305 silly audit report       title: 'Undici has Unbounded Memory Consumption in WebSocket permessage-deflate Decompression',
+305 silly audit report       severity: 'high',
+305 silly audit report       vulnerable_versions: '<6.24.0',
+305 silly audit report       cwe: [Array],
+305 silly audit report       cvss: [Object]
+305 silly audit report     },
+305 silly audit report     {
+305 silly audit report       id: 1114639,
+305 silly audit report       url: 'https://github.com/advisories/GHSA-v9p9-hfj2-hcw8',
+305 silly audit report       title: 'Undici has Unhandled Exception in WebSocket Client Due to Invalid server_max_window_bits Validation',
+305 silly audit report       severity: 'high',
+305 silly audit report       vulnerable_versions: '>=7.0.0 <7.24.0',
+305 silly audit report       cwe: [Array],
+305 silly audit report       cvss: [Object]
+305 silly audit report     },
+305 silly audit report     {
+305 silly audit report       id: 1114640,
+305 silly audit report       url: 'https://github.com/advisories/GHSA-v9p9-hfj2-hcw8',
+305 silly audit report       title: 'Undici has Unhandled Exception in WebSocket Client Due to Invalid server_max_window_bits Validation',
+305 silly audit report       severity: 'high',
+305 silly audit report       vulnerable_versions: '<6.24.0',
+305 silly audit report       cwe: [Array],
+305 silly audit report       cvss: [Object]
+305 silly audit report     },
+305 silly audit report     {
+305 silly audit report       id: 1114641,
+305 silly audit report       url: 'https://github.com/advisories/GHSA-4992-7rv2-5pvq',
+305 silly audit report       title: 'Undici has CRLF Injection in undici via `upgrade` option',
+305 silly audit report       severity: 'moderate',
+305 silly audit report       vulnerable_versions: '>=7.0.0 <7.24.0',
+305 silly audit report       cwe: [Array],
+305 silly audit report       cvss: [Object]
+305 silly audit report     },
+305 silly audit report     {
+305 silly audit report       id: 1114642,
+305 silly audit report       url: 'https://github.com/advisories/GHSA-4992-7rv2-5pvq',
+305 silly audit report       title: 'Undici has CRLF Injection in undici via `upgrade` option',
+305 silly audit report       severity: 'moderate',
+305 silly audit report       vulnerable_versions: '<6.24.0',
+305 silly audit report       cwe: [Array],
+305 silly audit report       cvss: [Object]
+305 silly audit report     },
+305 silly audit report     {
+305 silly audit report       id: 1114643,
+305 silly audit report       url: 'https://github.com/advisories/GHSA-phc3-fgpg-7m6h',
+305 silly audit report       title: 'Undici has Unbounded Memory Consumption in its DeduplicationHandler via Response Buffering that leads to DoS',
+305 silly audit report       severity: 'moderate',
+305 silly audit report       vulnerable_versions: '>=7.17.0 <7.24.0',
+305 silly audit report       cwe: [Array],
+305 silly audit report       cvss: [Object]
+305 silly audit report     },
+305 silly audit report     {
+305 silly audit report       id: 1130715,
+305 silly audit report       url: 'https://github.com/advisories/GHSA-8xcm-r25x-g524',
+305 silly audit report       title: 'undici vulnerable to downstream response desynchronization via retry interceptor',
+305 silly audit report       severity: 'moderate',
+305 silly audit report       vulnerable_versions: '>=7.0.0 <7.29.0',
+305 silly audit report       cwe: [Array],
+305 silly audit report       cvss: [Object]
+305 silly audit report     },
+305 silly audit report     {
+305 silly audit report       id: 1130716,
+305 silly audit report       url: 'https://github.com/advisories/GHSA-8xcm-r25x-g524',
+305 silly audit report       title: 'undici vulnerable to downstream response desynchronization via retry interceptor',
+305 silly audit report       severity: 'moderate',
+305 silly audit report       vulnerable_versions: '<6.28.0',
+305 silly audit report       cwe: [Array],
+305 silly audit report       cvss: [Object]
+305 silly audit report     },
+305 silly audit report     {
+305 silly audit report       id: 1130718,
+305 silly audit report       url: 'https://github.com/advisories/GHSA-4cwx-7wf7-3272',
+305 silly audit report       title: 'undici vulnerable to cross-user information disclosure and parse-time crash via degenerate private cache directives',
+305 silly audit report       severity: 'high',
+305 silly audit report       vulnerable_versions: '>=7.0.0 <7.29.0',
+305 silly audit report       cwe: [Array],
+305 silly audit report       cvss: [Object]
+305 silly audit report     },
+305 silly audit report     {
+305 silly audit report       id: 1130726,
+305 silly audit report       url: 'https://github.com/advisories/GHSA-m8rv-5g2x-5cg5',
+305 silly audit report       title: "undici vulnerable to CRLF Injection via blob-like body 'type' property",
+305 silly audit report       severity: 'moderate',
+305 silly audit report       vulnerable_versions: '>=7.0.0 <7.29.0',
+305 silly audit report       cwe: [Array],
+305 silly audit report       cvss: [Object]
+305 silly audit report     },
+305 silly audit report     {
+305 silly audit report       id: 1130727,
+305 silly audit report       url: 'https://github.com/advisories/GHSA-m8rv-5g2x-5cg5',
+305 silly audit report       title: "undici vulnerable to CRLF Injection via blob-like body 'type' property",
+305 silly audit report       severity: 'moderate',
+305 silly audit report       vulnerable_versions: '<6.28.0',
+305 silly audit report       cwe: [Array],
+305 silly audit report       cvss: [Object]
+305 silly audit report     },
+305 silly audit report     {
+305 silly audit report       id: 1130729,
+305 silly audit report       url: 'https://github.com/advisories/GHSA-jr45-8vmc-qm54',
+305 silly audit report       title: 'undici vulnerable to cross-user information disclosure via whitespace around equals in Cache-Control directives',
+305 silly audit report       severity: 'moderate',
+305 silly audit report       vulnerable_versions: '>=7.0.0 <7.29.0',
+305 silly audit report       cwe: [Array],
+305 silly audit report       cvss: [Object]
+305 silly audit report     },
+305 silly audit report     {
+305 silly audit report       id: 1130731,
+305 silly audit report       url: 'https://github.com/advisories/GHSA-v3r7-h72x-cjcm',
+305 silly audit report       title: 'undici vulnerable to cookie attribute injection via unsanitized domain and unparsed setCookie fields',
+305 silly audit report       severity: 'moderate',
+305 silly audit report       vulnerable_versions: '>=7.0.0 <7.29.0',
+305 silly audit report       cwe: [Array],
+305 silly audit report       cvss: [Object]
+305 silly audit report     },
+305 silly audit report     {
+305 silly audit report       id: 1130732,
+305 silly audit report       url: 'https://github.com/advisories/GHSA-v3r7-h72x-cjcm',
+305 silly audit report       title: 'undici vulnerable to cookie attribute injection via unsanitized domain and unparsed setCookie fields',
+305 silly audit report       severity: 'moderate',
+305 silly audit report       vulnerable_versions: '<6.28.0',
+305 silly audit report       cwe: [Array],
+305 silly audit report       cvss: [Object]
+305 silly audit report     },
+305 silly audit report     {
+305 silly audit report       id: 1121241,
+305 silly audit report       url: 'https://github.com/advisories/GHSA-p88m-4jfj-68fv',
+305 silly audit report       title: 'undici vulnerable to HTTP header injection via Set-Cookie percent-decoding',
+305 silly audit report       severity: 'moderate',
+305 silly audit report       vulnerable_versions: '>=7.0.0 <7.28.0',
+305 silly audit report       cwe: [Array],
+305 silly audit report       cvss: [Object]
+305 silly audit report     },
+305 silly audit report     {
+305 silly audit report       id: 1121242,
+305 silly audit report       url: 'https://github.com/advisories/GHSA-p88m-4jfj-68fv',
+305 silly audit report       title: 'undici vulnerable to HTTP header injection via Set-Cookie percent-decoding',
+305 silly audit report       severity: 'moderate',
+305 silly audit report       vulnerable_versions: '<6.27.0',
+305 silly audit report       cwe: [Array],
+305 silly audit report       cvss: [Object]
+305 silly audit report     },
+305 silly audit report     {
+305 silly audit report       id: 1121244,
+305 silly audit report       url: 'https://github.com/advisories/GHSA-vxpw-j846-p89q',
+305 silly audit report       title: 'undici WebSocket client vulnerable to denial of service via fragment count bypass',
+305 silly audit report       severity: 'high',
+305 silly audit report       vulnerable_versions: '>=7.0.0 <7.28.0',
+305 silly audit report       cwe: [Array],
+305 silly audit report       cvss: [Object]
+305 silly audit report     },
+305 silly audit report     {
+305 silly audit report       id: 1121245,
+305 silly audit report       url: 'https://github.com/advisories/GHSA-vxpw-j846-p89q',
+305 silly audit report       title: 'undici WebSocket client vulnerable to denial of service via fragment count bypass',
+305 silly audit report       severity: 'high',
+305 silly audit report       vulnerable_versions: '<6.27.0',
+305 silly audit report       cwe: [Array],
+305 silly audit report       cvss: [Object]
+305 silly audit report     },
+305 silly audit report     {
+305 silly audit report       id: 1121254,
+305 silly audit report       url: 'https://github.com/advisories/GHSA-g8m3-5g58-fq7m',
+305 silly audit report       title: 'undici vulnerable to Set-Cookie SameSite attribute downgrade via permissive substring matching',
+305 silly audit report       severity: 'low',
+305 silly audit report       vulnerable_versions: '>=7.0.0 <7.28.0',
+305 silly audit report       cwe: [Array],
+305 silly audit report       cvss: [Object]
+305 silly audit report     },
+305 silly audit report     {
+305 silly audit report       id: 1121255,
+305 silly audit report       url: 'https://github.com/advisories/GHSA-g8m3-5g58-fq7m',
+305 silly audit report       title: 'undici vulnerable to Set-Cookie SameSite attribute downgrade via permissive substring matching',
+305 silly audit report       severity: 'low',
+305 silly audit report       vulnerable_versions: '<6.27.0',
+305 silly audit report       cwe: [Array],
+305 silly audit report       cvss: [Object]
+305 silly audit report     },
+305 silly audit report     {
+305 silly audit report       id: 1121428,
+305 silly audit report       url: 'https://github.com/advisories/GHSA-pr7r-676h-xcf6',
+305 silly audit report       title: 'undici vulnerable to cross-user information disclosure via shared cache whitespace bypass',
+305 silly audit report       severity: 'moderate',
+305 silly audit report       vulnerable_versions: '>=7.0.0 <7.28.0',
+305 silly audit report       cwe: [Array],
+305 silly audit report       cvss: [Object]
+305 silly audit report     },
+305 silly audit report     {
+305 silly audit report       id: 1137242,
+305 silly audit report       url: 'https://github.com/advisories/GHSA-35p6-xmwp-9g52',
+305 silly audit report       title: 'undici vulnerable to HTTP response queue poisoning via keep-alive socket reuse',
+305 silly audit report       severity: 'low',
+305 silly audit report       vulnerable_versions: '>=7.0.0 <7.28.0',
+305 silly audit report       cwe: [Array],
+305 silly audit report       cvss: [Object]
+305 silly audit report     },
+305 silly audit report     {
+305 silly audit report       id: 1137243,
+305 silly audit report       url: 'https://github.com/advisories/GHSA-35p6-xmwp-9g52',
+305 silly audit report       title: 'undici vulnerable to HTTP response queue poisoning via keep-alive socket reuse',
+305 silly audit report       severity: 'low',
+305 silly audit report       vulnerable_versions: '<6.27.0',
+305 silly audit report       cwe: [Array],
+305 silly audit report       cvss: [Object]
+305 silly audit report     }
+305 silly audit report   ],
+305 silly audit report   'path-to-regexp': [
+305 silly audit report     {
+305 silly audit report       id: 1101846,
+305 silly audit report       url: 'https://github.com/advisories/GHSA-9wv6-86v2-598j',
+305 silly audit report       title: 'path-to-regexp outputs backtracking regular expressions',
+305 silly audit report       severity: 'high',
+305 silly audit report       vulnerable_versions: '>=4.0.0 <6.3.0',
+305 silly audit report       cwe: [Array],
+305 silly audit report       cvss: [Object]
+305 silly audit report     }
+305 silly audit report   ],
+305 silly audit report   ajv: [
+305 silly audit report     {
+305 silly audit report       id: 1113715,
+305 silly audit report       url: 'https://github.com/advisories/GHSA-2g4f-4pwh-qvx6',
+305 silly audit report       title: 'ajv has ReDoS when using `$data` option',
+305 silly audit report       severity: 'moderate',
+305 silly audit report       vulnerable_versions: '>=7.0.0-alpha.0 <8.18.0',
+305 silly audit report       cwe: [Array],
+305 silly audit report       cvss: [Object]
+305 silly audit report     }
+305 silly audit report   ],
+305 silly audit report   cookie: [
+305 silly audit report     {
+305 silly audit report       id: 1103907,
+305 silly audit report       url: 'https://github.com/advisories/GHSA-pxg6-pf52-xh8x',
+305 silly audit report       title: 'cookie accepts cookie name, path, and domain with out of bounds characters',
+305 silly audit report       severity: 'low',
+305 silly audit report       vulnerable_versions: '<0.7.0',
+305 silly audit report       cwe: [Array],
+305 silly audit report       cvss: [Object]
+305 silly audit report     }
+305 silly audit report   ],
+305 silly audit report   flatted: [
+305 silly audit report     {
+305 silly audit report       id: 1114526,
+305 silly audit report       url: 'https://github.com/advisories/GHSA-25h7-pfq9-p65f',
+305 silly audit report       title: 'flatted vulnerable to unbounded recursion DoS in parse() revive phase',
+305 silly audit report       severity: 'high',
+305 silly audit report       vulnerable_versions: '<3.4.0',
+305 silly audit report       cwe: [Array],
+305 silly audit report       cvss: [Object]
+305 silly audit report     },
+305 silly audit report     {
+305 silly audit report       id: 1115357,
+305 silly audit report       url: 'https://github.com/advisories/GHSA-rf6f-7fwh-wjgh',
+305 silly audit report       title: 'Prototype Pollution via parse() in NodeJS flatted',
+305 silly audit report       severity: 'high',
+305 silly audit report       vulnerable_versions: '<=3.4.1',
+305 silly audit report       cwe: [Array],
+305 silly audit report       cvss: [Object]
+305 silly audit report     }
+305 silly audit report   ],
+305 silly audit report   'js-yaml': [
+305 silly audit report     {
+305 silly audit report       id: 1121860,
+305 silly audit report       url: 'https://github.com/advisories/GHSA-h67p-54hq-rp68',
+305 silly audit report       title: 'JS-YAML: Quadratic-complexity DoS in merge key handling via repeated aliases',
+305 silly audit report       severity: 'moderate',
+305 silly audit report       vulnerable_versions: '>=4.0.0 <=4.1.1',
+305 silly audit report       cwe: [Array],
+305 silly audit report       cvss: [Object]
+305 silly audit report     },
+305 silly audit report     {
+305 silly audit report       id: 1123911,
+305 silly audit report       url: 'https://github.com/advisories/GHSA-52cp-r559-cp3m',
+305 silly audit report       title: 'js-yaml: YAML merge-key chains can force quadratic CPU consumption',
+305 silly audit report       severity: 'high',
+305 silly audit report       vulnerable_versions: '>=4.0.0 <4.3.0',
+305 silly audit report       cwe: [Array],
+305 silly audit report       cvss: [Object]
+305 silly audit report     },
+305 silly audit report     {
+305 silly audit report       id: 1138115,
+305 silly audit report       url: 'https://github.com/advisories/GHSA-5p4m-2wfm-xmqj',
+305 silly audit report       title: 'JS-YAML: Quadratic CPU consumption in !!omap resolution (3.x and 4.x) — CVE-2026-59870 fix not backported',
+305 silly audit report       severity: 'high',
+305 silly audit report       vulnerable_versions: '>=4.0.0 <4.3.1',
+305 silly audit report       cwe: [Array],
+305 silly audit report       cvss: [Object]
+305 silly audit report     }
+305 silly audit report   ],
+305 silly audit report   nanoid: [
+305 silly audit report     {
+305 silly audit report       id: 1138811,
+305 silly audit report       url: 'https://github.com/advisories/GHSA-28wg-ghj8-5hjv',
+305 silly audit report       title: 'nanoid: non-secure generators can loop indefinitely with negative size',
+305 silly audit report       severity: 'high',
+305 silly audit report       vulnerable_versions: '<3.3.16',
+305 silly audit report       cwe: [Array],
+305 silly audit report       cvss: [Object]
+305 silly audit report     },
+305 silly audit report     {
+305 silly audit report       id: 1139427,
+305 silly audit report       url: 'https://github.com/advisories/GHSA-2v37-7h3g-55p8',
+305 silly audit report       title: 'nanoid: custom generators can loop indefinitely when size is zero',
+305 silly audit report       severity: 'high',
+305 silly audit report       vulnerable_versions: '<3.3.18',
+305 silly audit report       cwe: [Array],
+305 silly audit report       cvss: [Object]
+305 silly audit report     }
+305 silly audit report   ],
+305 silly audit report   next: [
+305 silly audit report     {
+305 silly audit report       id: 1117931,
+305 silly audit report       url: 'https://github.com/advisories/GHSA-8h8q-6873-q5fj',
+305 silly audit report       title: 'Next.js Vulnerable to Denial of Service with Server Components',
+305 silly audit report       severity: 'high',
+305 silly audit report       vulnerable_versions: '>=13.0.0 <15.5.16',
+305 silly audit report       cwe: [Array],
+305 silly audit report       cvss: [Object]
+305 silly audit report     },
+305 silly audit report     {
+305 silly audit report       id: 1111366,
+305 silly audit report       url: 'https://github.com/advisories/GHSA-9qr9-h5gf-34mp',
+305 silly audit report       title: 'Next.js is vulnerable to RCE in React flight protocol',
+305 silly audit report       severity: 'critical',
+305 silly audit report       vulnerable_versions: '>=15.5.0-canary.0 <15.5.7',
+305 silly audit report       cwe: [Array],
+305 silly audit report       cvss: [Object]
+305 silly audit report     },
+305 silly audit report     {
+305 silly audit report       id: 1111376,
+305 silly audit report       url: 'https://github.com/advisories/GHSA-w37m-7fhw-fmv9',
+305 silly audit report       title: 'Next Server Actions Source Code Exposure ',
+305 silly audit report       severity: 'moderate',
+305 silly audit report       vulnerable_versions: '>=15.5.1-canary.0 <15.5.8',
+305 silly audit report       cwe: [Array],
+305 silly audit report       cvss: [Object]
+305 silly audit report     },
+305 silly audit report     {
+305 silly audit report       id: 1111385,
+305 silly audit report       url: 'https://github.com/advisories/GHSA-mwv6-3258-q52c',
+305 silly audit report       title: 'Next Vulnerable to Denial of Service with Server Components',
+305 silly audit report       severity: 'high',
+305 silly audit report       vulnerable_versions: '>=15.5.1-canary.0 <15.5.8',
+305 silly audit report       cwe: [Array],
+305 silly audit report       cvss: [Object]
+305 silly audit report     },
+305 silly audit report     {
+305 silly audit report       id: 1118939,
+305 silly audit report       url: 'https://github.com/advisories/GHSA-26hh-7cqf-hhc6',
+305 silly audit report       title: 'Next.js has a Middleware / Proxy bypass in App Router applications via segment-prefetch routes - Incomplete Fix Follow-Up',
+305 silly audit report       severity: 'high',
+305 silly audit report       vulnerable_versions: '>=15.2.0 <15.5.18',
+305 silly audit report       cwe: [Array],
+305 silly audit report       cvss: [Object]
+305 silly audit report     },
+305 silly audit report     {
+305 silly audit report       id: 1118942,
+305 silly audit report       url: 'https://github.com/advisories/GHSA-3g8h-86w9-wvmq',
+305 silly audit report       title: "Next.js's Middleware / Proxy redirects can be cache-poisoned",
+305 silly audit report       severity: 'low',
+305 silly audit report       vulnerable_versions: '>=12.2.0 <15.5.16',
+305 silly audit report       cwe: [Array],
+305 silly audit report       cvss: [Object]
+305 silly audit report     },
+305 silly audit report     {
+305 silly audit report       id: 1118944,
+305 silly audit report       url: 'https://github.com/advisories/GHSA-ffhc-5mcf-pf4q',
+305 silly audit report       title: 'Next.js vulnerable to cross-site scripting in App Router applications using CSP nonces',
+305 silly audit report       severity: 'moderate',
+305 silly audit report       vulnerable_versions: '>=13.4.0 <15.5.16',
+305 silly audit report       cwe: [Array],
+305 silly audit report       cvss: [Object]
+305 silly audit report     },
+305 silly audit report     {
+305 silly audit report       id: 1118946,
+305 silly audit report       url: 'https://github.com/advisories/GHSA-vfv6-92ff-j949',
+305 silly audit report       title: 'Next.js vulnerable to cache poisoning via collisions in React Server Component cache-busting',
+305 silly audit report       severity: 'low',
+305 silly audit report       vulnerable_versions: '>=13.4.6 <15.5.16',
+305 silly audit report       cwe: [Array],
+305 silly audit report       cvss: [Object]
+305 silly audit report     },
+305 silly audit report     {
+305 silly audit report       id: 1118948,
+305 silly audit report       url: 'https://github.com/advisories/GHSA-gx5p-jg67-6x7h',
+305 silly audit report       title: 'Next.js has cross-site scripting in beforeInteractive scripts with untrusted input',
+305 silly audit report       severity: 'moderate',
+305 silly audit report       vulnerable_versions: '>=13.0.0 <15.5.16',
+305 silly audit report       cwe: [Array],
+305 silly audit report       cvss: [Object]
+305 silly audit report     },
+305 silly audit report     {
+305 silly audit report       id: 1118950,
+305 silly audit report       url: 'https://github.com/advisories/GHSA-mg66-mrh9-m8jx',
+305 silly audit report       title: 'Next.js vulnerable to Denial of Service via connection exhaustion in applications using Cache Components',
+305 silly audit report       severity: 'high',
+305 silly audit report       vulnerable_versions: '>=15.0.0 <15.5.16',
+305 silly audit report       cwe: [Array],
+305 silly audit report       cvss: [Object]
+305 silly audit report     },
+305 silly audit report     {
+305 silly audit report       id: 1118952,
+305 silly audit report       url: 'https://github.com/advisories/GHSA-h64f-5h5j-jqjh',
+305 silly audit report       title: 'Next.js has a Denial of Service in the Image Optimization API',
+305 silly audit report       severity: 'moderate',
+305 silly audit report       vulnerable_versions: '>=10.0.0 <15.5.16',
+305 silly audit report       cwe: [Array],
+305 silly audit report       cvss: [Object]
+305 silly audit report     },
+305 silly audit report     {
+305 silly audit report       id: 1118954,
+305 silly audit report       url: 'https://github.com/advisories/GHSA-c4j6-fc7j-m34r',
+305 silly audit report       title: 'Next.js vulnerable to server-side request forgery in applications using WebSocket upgrades',
+305 silly audit report       severity: 'high',
+305 silly audit report       vulnerable_versions: '>=13.4.13 <15.5.16',
+305 silly audit report       cwe: [Array],
+305 silly audit report       cvss: [Object]
+305 silly audit report     },
+305 silly audit report     {
+305 silly audit report       id: 1118956,
+305 silly audit report       url: 'https://github.com/advisories/GHSA-492v-c6pp-mqqv',
+305 silly audit report       title: 'Next.js has a Middleware / Proxy bypass through dynamic route parameter injection',
+305 silly audit report       severity: 'high',
+305 silly audit report       vulnerable_versions: '>=15.4.0 <15.5.16',
+305 silly audit report       cwe: [Array],
+305 silly audit report       cvss: [Object]
+305 silly audit report     },
+305 silly audit report     {
+305 silly audit report       id: 1118958,
+305 silly audit report       url: 'https://github.com/advisories/GHSA-wfc6-r584-vfw7',
+305 silly audit report       title: 'Next.js vulnerable to cache poisoning in React Server Component responses',
+305 silly audit report       severity: 'moderate',
+305 silly audit report       vulnerable_versions: '>=14.2.0 <15.5.16',
+305 silly audit report       cwe: [Array],
+305 silly audit report       cvss: [Object]
+305 silly audit report     },
+305 silly audit report     {
+305 silly audit report       id: 1118960,
+305 silly audit report       url: 'https://github.com/advisories/GHSA-267c-6grr-h53f',
+305 silly audit report       title: 'Next.js has a Middleware / Proxy bypass in App Router applications via segment-prefetch routes',
+305 silly audit report       severity: 'high',
+305 silly audit report       vulnerable_versions: '>=15.2.0 <15.5.16',
+305 silly audit report       cwe: [Array],
+305 silly audit report       cvss: [Object]
+305 silly audit report     },
+305 silly audit report     {
+305 silly audit report       id: 1118962,
+305 silly audit report       url: 'https://github.com/advisories/GHSA-36qx-fr4f-26g5',
+305 silly audit report       title: 'Next.js has a Middleware / Proxy bypass in Pages Router applications using i18n',
+305 silly audit report       severity: 'high',
+305 silly audit report       vulnerable_versions: '>=12.2.0 <15.5.16',
+305 silly audit report       cwe: [Array],
+305 silly audit report       cvss: [Object]
+305 silly audit report     },
+305 silly audit report     {
+305 silly audit report       id: 1112593,
+305 silly audit report       url: 'https://github.com/advisories/GHSA-9g9p-9gw9-jx7f',
+305 silly audit report       title: 'Next.js self-hosted applications vulnerable to DoS via Image Optimizer remotePatterns configuration',
+305 silly audit report       severity: 'moderate',
+305 silly audit report       vulnerable_versions: '>=10.0.0 <15.5.10',
+305 silly audit report       cwe: [Array],
+305 silly audit report       cvss: [Object]
+305 silly audit report     },
+305 silly audit report     {
+305 silly audit report       id: 1112648,
+305 silly audit report       url: 'https://github.com/advisories/GHSA-h25m-26qc-wcjf',
+305 silly audit report       title: 'Next.js HTTP request deserialization can lead to DoS when using insecure React Server Components',
+305 silly audit report       severity: 'high',
+305 silly audit report       vulnerable_versions: '>=15.5.1-canary.0 <15.5.10',
+305 silly audit report       cwe: [Array],
+305 silly audit report       cvss: [Object]
+305 silly audit report     },
+305 silly audit report     {
+305 silly audit report       id: 1114897,
+305 silly audit report       url: 'https://github.com/advisories/GHSA-ggv3-7p47-pfv8',
+305 silly audit report       title: 'Next.js: HTTP request smuggling in rewrites',
+305 silly audit report       severity: 'moderate',
+305 silly audit report       vulnerable_versions: '>=9.5.0 <15.5.13',
+305 silly audit report       cwe: [Array],
+305 silly audit report       cvss: [Object]
+305 silly audit report     },
+305 silly audit report     {
+305 silly audit report       id: 1114940,
+305 silly audit report       url: 'https://github.com/advisories/GHSA-3x4c-7xq6-9pq8',
+305 silly audit report       title: 'Next.js: Unbounded next/image disk cache growth can exhaust storage',
+305 silly audit report       severity: 'moderate',
+305 silly audit report       vulnerable_versions: '>=10.0.0 <15.5.14',
+305 silly audit report       cwe: [Array],
+305 silly audit report       cvss: [Object]
+305 silly audit report     },
+305 silly audit report     {
+305 silly audit report       id: 1116376,
+305 silly audit report       url: 'https://github.com/advisories/GHSA-q4gf-8mx6-v5v3',
+305 silly audit report       title: 'Next.js has a Denial of Service with Server Components',
+305 silly audit report       severity: 'high',
+305 silly audit report       vulnerable_versions: '>=13.0.0 <15.5.15',
+305 silly audit report       cwe: [Array],
+305 silly audit report       cvss: [Object]
+305 silly audit report     },
+305 silly audit report     {
+305 silly audit report       id: 1124185,
+305 silly audit report       url: 'https://github.com/advisories/GHSA-89xv-2m56-2m9x',
+305 silly audit report       title: 'Next.js: Server-Side Request Forgery in Server Actions on custom servers',
+305 silly audit report       severity: 'high',
+305 silly audit report       vulnerable_versions: '>=14.1.1 <15.5.21',
+305 silly audit report       cwe: [Array],
+305 silly audit report       cvss: [Object]
+305 silly audit report     },
+305 silly audit report     {
+305 silly audit report       id: 1124172,
+305 silly audit report       url: 'https://github.com/advisories/GHSA-m99w-x7hq-7vfj',
+305 silly audit report       title: 'Next.js: Denial of Service in App Router using Server Actions',
+305 silly audit report       severity: 'high',
+305 silly audit report       vulnerable_versions: '>=13.0.0 <15.5.21',
+305 silly audit report       cwe: [Array],
+305 silly audit report       cvss: [Object]
+305 silly audit report     },
+305 silly audit report     {
+305 silly audit report       id: 1124187,
+305 silly audit report       url: 'https://github.com/advisories/GHSA-68g3-v927-f742',
+305 silly audit report       title: 'Next.js: Cache confusion of response bodies for requests with bodies',
+305 silly audit report       severity: 'moderate',
+305 silly audit report       vulnerable_versions: '>=13.0.0 <15.5.21',
+305 silly audit report       cwe: [Array],
+305 silly audit report       cvss: [Object]
+305 silly audit report     },
+305 silly audit report     {
+305 silly audit report       id: 1124189,
+305 silly audit report       url: 'https://github.com/advisories/GHSA-4633-3j49-mh5q',
+305 silly audit report       title: 'Next.js: Cache confusion of response bodies for requests with bodies containing invalid UTF-8 byte sequences',
+305 silly audit report       severity: 'moderate',
+305 silly audit report       vulnerable_versions: '>=13.0.0 <15.5.21',
+305 silly audit report       cwe: [Array],
+305 silly audit report       cvss: [Object]
+305 silly audit report     },
+305 silly audit report     {
+305 silly audit report       id: 1124191,
+305 silly audit report       url: 'https://github.com/advisories/GHSA-4c39-4ccg-62r3',
+305 silly audit report       title: 'Next.js: Unbounded Server Action payload in Edge runtime',
+305 silly audit report       severity: 'moderate',
+305 silly audit report       vulnerable_versions: '>=13.0.0 <15.5.21',
+305 silly audit report       cwe: [Array],
+305 silly audit report       cvss: [Object]
+305 silly audit report     },
+305 silly audit report     {
+305 silly audit report       id: 1124193,
+305 silly audit report       url: 'https://github.com/advisories/GHSA-p9j2-gv94-2wf4',
+305 silly audit report       title: 'Next.js: Server-Side Request Forgery in rewrites via attacker-controlled destination hostname',
+305 silly audit report       severity: 'high',
+305 silly audit report       vulnerable_versions: '>=12.0.0 <15.5.21',
+305 silly audit report       cwe: [Array],
+305 silly audit report       cvss: [Object]
+305 silly audit report     },
+305 silly audit report     {
+305 silly audit report       id: 1124195,
+305 silly audit report       url: 'https://github.com/advisories/GHSA-q8wf-6r8g-63ch',
+305 silly audit report       title: 'Next.js: Denial of Service in the Image Optimization API using SVGs',
+305 silly audit report       severity: 'moderate',
+305 silly audit report       vulnerable_versions: '>=15.5.0 <15.5.21',
+305 silly audit report       cwe: [Array],
+305 silly audit report       cvss: [Object]
+305 silly audit report     },
+305 silly audit report     {
+305 silly audit report       id: 1124197,
+305 silly audit report       url: 'https://github.com/advisories/GHSA-955p-x3mx-jcvp',
+305 silly audit report       title: 'Next.js: Unauthenticated disclosure of internal Server Function endpoints',
+305 silly audit report       severity: 'moderate',
+305 silly audit report       vulnerable_versions: '>=13.0.0 <15.5.21',
+305 silly audit report       cwe: [Array],
+305 silly audit report       cvss: [Object]
+305 silly audit report     }
+305 silly audit report   ],
+305 silly audit report   postcss: [
+305 silly audit report     {
+305 silly audit report       id: 1130709,
+305 silly audit report       url: 'https://github.com/advisories/GHSA-fxqj-rqcc-2cmp',
+305 silly audit report       title: 'PostCSS: incomplete fix of GHSA-6g55-p6wh-862q — attacker-controlled sourceMappingURL reads arbitrary .map files when `from` is unset',
+305 silly audit report       severity: 'moderate',
+305 silly audit report       vulnerable_versions: '<=8.5.22',
+305 silly audit report       cwe: [Array],
+305 silly audit report       cvss: [Object]
+305 silly audit report     },
+305 silly audit report     {
+305 silly audit report       id: 1117015,
+305 silly audit report       url: 'https://github.com/advisories/GHSA-qx2v-qp2m-jg93',
+305 silly audit report       title: 'PostCSS has XSS via Unescaped </style> in its CSS Stringify Output',
+305 silly audit report       severity: 'moderate',
+305 silly audit report       vulnerable_versions: '<8.5.10',
+305 silly audit report       cwe: [Array],
+305 silly audit report       cvss: [Object]
+305 silly audit report     },
+305 silly audit report     {
+305 silly audit report       id: 1124252,
+305 silly audit report       url: 'https://github.com/advisories/GHSA-6g55-p6wh-862q',
+305 silly audit report       title: 'PostCSS: Arbitrary file read and information disclosure via attacker-controlled sourceMappingURL in CSS comments',
+305 silly audit report       severity: 'high',
+305 silly audit report       vulnerable_versions: '<=8.5.11',
+305 silly audit report       cwe: [Array],
+305 silly audit report       cvss: [Object]
+305 silly audit report     },
+305 silly audit report     {
+305 silly audit report       id: 1139510,
+305 silly audit report       url: 'https://github.com/advisories/GHSA-r28c-9q8g-f849',
+305 silly audit report       title: 'PostCSS: Path Traversal in Previous Source Map Auto-Loading (sourceMappingURL) leads to Arbitrary .map File Disclosure',
+305 silly audit report       severity: 'high',
+305 silly audit report       vulnerable_versions: '<=8.5.17',
+305 silly audit report       cwe: [Array],
+305 silly audit report       cvss: [Object]
+305 silly audit report     }
+305 silly audit report   ],
+305 silly audit report   sharp: [
+305 silly audit report     {
+305 silly audit report       id: 1124066,
+305 silly audit report       url: 'https://github.com/advisories/GHSA-f88m-g3jw-g9cj',
+305 silly audit report       title: 'sharp inherited vulnerabilities in libvips: CVE-2026-33327, CVE-2026-33328, CVE-2026-35590, CVE-2026-35591',
+305 silly audit report       severity: 'high',
+305 silly audit report       vulnerable_versions: '<0.35.0',
+305 silly audit report       cwe: [Array],
+305 silly audit report       cvss: [Object]
+305 silly audit report     }
+305 silly audit report   ],
+305 silly audit report   uuid: [
+305 silly audit report     {
+305 silly audit report       id: 1119441,
+305 silly audit report       url: 'https://github.com/advisories/GHSA-w5hq-g745-h8pq',
+305 silly audit report       title: 'uuid: Missing buffer bounds check in v3/v5/v6 when buf is provided',
+305 silly audit report       severity: 'moderate',
+305 silly audit report       vulnerable_versions: '<11.1.1',
+305 silly audit report       cwe: [Array],
+305 silly audit report       cvss: [Object]
+305 silly audit report     }
+305 silly audit report   ],
+305 silly audit report   ws: [
+305 silly audit report     {
+305 silly audit report       id: 1119108,
+305 silly audit report       url: 'https://github.com/advisories/GHSA-58qx-3vcg-4xpx',
+305 silly audit report       title: 'ws: Uninitialized memory disclosure',
+305 silly audit report       severity: 'moderate',
+305 silly audit report       vulnerable_versions: '>=8.0.0 <8.20.1',
+305 silly audit report       cwe: [Array],
+305 silly audit report       cvss: [Object]
+305 silly audit report     },
+305 silly audit report     {
+305 silly audit report       id: 1123259,
+305 silly audit report       url: 'https://github.com/advisories/GHSA-96hv-2xvq-fx4p',
+305 silly audit report       title: 'ws: Memory exhaustion DoS from tiny fragments and data chunks',
+305 silly audit report       severity: 'high',
+305 silly audit report       vulnerable_versions: '>=8.0.0 <8.21.0',
+305 silly audit report       cwe: [Array],
+305 silly audit report       cvss: [Object]
+305 silly audit report     }
+305 silly audit report   ]
+305 silly audit report }
+306 silly packumentCache corgi:https://registry.npmjs.org/tar cache-miss
+307 silly packumentCache corgi:https://registry.npmjs.org/picomatch cache-miss
+308 silly packumentCache corgi:https://registry.npmjs.org/@tootallnate%2fonce cache-miss
+309 silly packumentCache corgi:https://registry.npmjs.org/brace-expansion cache-miss
+310 silly packumentCache corgi:https://registry.npmjs.org/esbuild cache-miss
+311 silly packumentCache corgi:https://registry.npmjs.org/undici cache-miss
+312 silly packumentCache corgi:https://registry.npmjs.org/path-to-regexp cache-miss
+313 silly packumentCache corgi:https://registry.npmjs.org/ajv cache-miss
+314 silly packumentCache corgi:https://registry.npmjs.org/cookie cache-miss
+315 silly packumentCache corgi:https://registry.npmjs.org/flatted cache-miss
+316 silly packumentCache corgi:https://registry.npmjs.org/js-yaml cache-miss
+317 silly packumentCache corgi:https://registry.npmjs.org/nanoid cache-miss
+318 silly packumentCache corgi:https://registry.npmjs.org/next cache-miss
+319 silly packumentCache corgi:https://registry.npmjs.org/postcss cache-miss
+320 silly packumentCache corgi:https://registry.npmjs.org/sharp cache-miss
+321 silly packumentCache corgi:https://registry.npmjs.org/uuid cache-miss
+322 silly packumentCache corgi:https://registry.npmjs.org/ws cache-miss
+323 http fetch GET 200 https://registry.npmjs.org/ajv 129ms (cache revalidated)
+324 silly packumentCache corgi:https://registry.npmjs.org/ajv set size:467559 disposed:false
+325 http fetch GET 200 https://registry.npmjs.org/flatted 150ms (cache updated)
+326 silly packumentCache corgi:https://registry.npmjs.org/flatted set size:undefined disposed:false
+327 http fetch GET 200 https://registry.npmjs.org/sharp 217ms (cache revalidated)
+328 silly packumentCache corgi:https://registry.npmjs.org/sharp set size:291503 disposed:false
+329 http fetch GET 200 https://registry.npmjs.org/path-to-regexp 316ms (cache revalidated)
+330 silly packumentCache corgi:https://registry.npmjs.org/path-to-regexp set size:66575 disposed:false
+331 http fetch GET 200 https://registry.npmjs.org/tar 322ms (cache updated)
+332 silly packumentCache corgi:https://registry.npmjs.org/tar set size:undefined disposed:false
+333 http fetch GET 200 https://registry.npmjs.org/@tootallnate%2fonce 329ms (cache revalidated)
+334 silly packumentCache corgi:https://registry.npmjs.org/@tootallnate%2fonce set size:11748 disposed:false
+335 http fetch GET 200 https://registry.npmjs.org/cookie 326ms (cache revalidated)
+336 silly packumentCache corgi:https://registry.npmjs.org/cookie set size:25657 disposed:false
+337 http fetch GET 200 https://registry.npmjs.org/uuid 326ms (cache revalidated)
+338 silly packumentCache corgi:https://registry.npmjs.org/uuid set size:82973 disposed:false
+339 http fetch GET 200 https://registry.npmjs.org/picomatch 331ms (cache revalidated)
+340 silly packumentCache corgi:https://registry.npmjs.org/picomatch set size:45123 disposed:false
+341 http fetch GET 200 https://registry.npmjs.org/js-yaml 330ms (cache updated)
+342 silly packumentCache corgi:https://registry.npmjs.org/js-yaml set size:undefined disposed:false
+343 http fetch GET 200 https://registry.npmjs.org/nanoid 332ms (cache updated)
+344 silly packumentCache corgi:https://registry.npmjs.org/nanoid set size:undefined disposed:false
+345 http fetch GET 200 https://registry.npmjs.org/ws 335ms (cache updated)
+346 silly packumentCache corgi:https://registry.npmjs.org/ws set size:undefined disposed:false
+347 http fetch GET 200 https://registry.npmjs.org/brace-expansion 413ms (cache updated)
+348 silly packumentCache corgi:https://registry.npmjs.org/brace-expansion set size:undefined disposed:false
+349 http fetch GET 200 https://registry.npmjs.org/undici 415ms (cache updated)
+350 silly packumentCache corgi:https://registry.npmjs.org/undici set size:undefined disposed:false
+351 http fetch GET 200 https://registry.npmjs.org/postcss 445ms (cache updated)
+352 silly packumentCache corgi:https://registry.npmjs.org/postcss set size:undefined disposed:false
+353 http fetch GET 200 https://registry.npmjs.org/esbuild 474ms (cache updated)
+354 silly packumentCache corgi:https://registry.npmjs.org/esbuild set size:undefined disposed:false
+355 http fetch GET 200 https://registry.npmjs.org/next 620ms (cache updated)
+356 silly packumentCache corgi:https://registry.npmjs.org/next set size:undefined disposed:false
+357 silly packumentCache corgi:https://registry.npmjs.org/@vercel%2ffun cache-miss
+358 http fetch GET 200 https://registry.npmjs.org/@vercel%2ffun 241ms (cache revalidated)
+359 silly packumentCache corgi:https://registry.npmjs.org/@vercel%2ffun set size:23528 disposed:false
+360 silly packumentCache corgi:https://registry.npmjs.org/@mapbox%2fnode-pre-gyp cache-miss
+361 http fetch GET 200 https://registry.npmjs.org/@mapbox%2fnode-pre-gyp 108ms (cache revalidated)
+362 silly packumentCache corgi:https://registry.npmjs.org/@mapbox%2fnode-pre-gyp set size:47144 disposed:false
+363 silly packumentCache corgi:https://registry.npmjs.org/anymatch cache-miss
+364 silly packumentCache corgi:https://registry.npmjs.org/micromatch cache-miss
+365 silly packumentCache corgi:https://registry.npmjs.org/readdirp cache-miss
+366 http fetch GET 200 https://registry.npmjs.org/anymatch 94ms (cache revalidated)
+367 silly packumentCache corgi:https://registry.npmjs.org/anymatch set size:18345 disposed:false
+368 http fetch GET 200 https://registry.npmjs.org/micromatch 97ms (cache revalidated)
+369 silly packumentCache corgi:https://registry.npmjs.org/micromatch set size:71776 disposed:false
+370 http fetch GET 200 https://registry.npmjs.org/readdirp 98ms (cache updated)
+371 silly packumentCache corgi:https://registry.npmjs.org/readdirp set size:undefined disposed:false
+372 silly packumentCache corgi:https://registry.npmjs.org/@rollup%2fpluginutils cache-miss
+373 silly packumentCache corgi:https://registry.npmjs.org/@vercel%2fnft cache-miss
+374 silly packumentCache corgi:https://registry.npmjs.org/tinyglobby cache-miss
+375 silly packumentCache corgi:https://registry.npmjs.org/fdir cache-miss
+376 http fetch GET 200 https://registry.npmjs.org/fdir 93ms (cache revalidated)
+377 silly packumentCache corgi:https://registry.npmjs.org/fdir set size:76905 disposed:false
+378 http fetch GET 200 https://registry.npmjs.org/tinyglobby 94ms (cache revalidated)
+379 silly packumentCache corgi:https://registry.npmjs.org/tinyglobby set size:19921 disposed:false
+380 http fetch GET 200 https://registry.npmjs.org/@rollup%2fpluginutils 107ms (cache revalidated)
+381 silly packumentCache corgi:https://registry.npmjs.org/@rollup%2fpluginutils set size:48416 disposed:false
+382 http fetch GET 200 https://registry.npmjs.org/@vercel%2fnft 405ms (cache revalidated)
+383 silly packumentCache corgi:https://registry.npmjs.org/@vercel%2fnft set size:305015 disposed:false
+384 silly packumentCache corgi:https://registry.npmjs.org/minimatch cache-miss
+385 http fetch GET 200 https://registry.npmjs.org/minimatch 108ms (cache updated)
+386 silly packumentCache corgi:https://registry.npmjs.org/minimatch set size:undefined disposed:false
+387 silly packumentCache corgi:https://registry.npmjs.org/@vercel%2fgatsby-plugin-vercel-builder cache-miss
+388 silly packumentCache corgi:https://registry.npmjs.org/@vercel%2fnode cache-miss
+389 silly packumentCache corgi:https://registry.npmjs.org/@cloudflare%2fnext-on-pages cache-miss
+390 http fetch GET 200 https://registry.npmjs.org/@vercel%2fgatsby-plugin-vercel-builder 126ms (cache updated)
+391 silly packumentCache corgi:https://registry.npmjs.org/@vercel%2fgatsby-plugin-vercel-builder set size:undefined disposed:false
+392 http fetch GET 200 https://registry.npmjs.org/@vercel%2fnode 281ms (cache updated)
+393 silly packumentCache corgi:https://registry.npmjs.org/@vercel%2fnode set size:undefined disposed:false
+394 http fetch GET 200 https://registry.npmjs.org/@cloudflare%2fnext-on-pages 392ms (cache revalidated)
+395 silly packumentCache corgi:https://registry.npmjs.org/@cloudflare%2fnext-on-pages set size:722105 disposed:false
+396 silly packumentCache corgi:https://registry.npmjs.org/wrangler cache-miss
+397 http fetch GET 200 https://registry.npmjs.org/wrangler 311ms (cache updated)
+398 silly packumentCache corgi:https://registry.npmjs.org/wrangler set size:undefined disposed:false
+399 silly packumentCache corgi:https://registry.npmjs.org/miniflare cache-miss
+400 http fetch GET 200 https://registry.npmjs.org/miniflare 142ms (cache updated)
+401 silly packumentCache corgi:https://registry.npmjs.org/miniflare set size:undefined disposed:false
+402 silly packumentCache corgi:https://registry.npmjs.org/@vercel%2frouting-utils cache-miss
+403 http fetch GET 200 https://registry.npmjs.org/@vercel%2frouting-utils 441ms (cache updated)
+404 silly packumentCache corgi:https://registry.npmjs.org/@vercel%2frouting-utils set size:undefined disposed:false
+405 silly packumentCache corgi:https://registry.npmjs.org/@vercel%2fstatic-config cache-miss
+406 http fetch GET 200 https://registry.npmjs.org/@vercel%2fstatic-config 115ms (cache updated)
+407 silly packumentCache corgi:https://registry.npmjs.org/@vercel%2fstatic-config set size:undefined disposed:false
+408 silly packumentCache corgi:https://registry.npmjs.org/flat-cache cache-miss
+409 http fetch GET 200 https://registry.npmjs.org/flat-cache 96ms (cache updated)
+410 silly packumentCache corgi:https://registry.npmjs.org/flat-cache set size:undefined disposed:false
+411 silly packumentCache corgi:https://registry.npmjs.org/@eslint%2feslintrc cache-miss
+412 silly packumentCache corgi:https://registry.npmjs.org/eslint cache-miss
+413 silly packumentCache corgi:https://registry.npmjs.org/package-manager-manager cache-miss
+414 http fetch GET 200 https://registry.npmjs.org/@eslint%2feslintrc 106ms (cache revalidated)
+415 silly packumentCache corgi:https://registry.npmjs.org/@eslint%2feslintrc set size:84432 disposed:false
+416 http fetch GET 200 https://registry.npmjs.org/eslint 130ms (cache updated)
+417 silly packumentCache corgi:https://registry.npmjs.org/eslint set size:undefined disposed:false
+418 http fetch GET 200 https://registry.npmjs.org/package-manager-manager 268ms (cache revalidated)
+419 silly packumentCache corgi:https://registry.npmjs.org/package-manager-manager set size:39785 disposed:false
+420 silly packumentCache corgi:https://registry.npmjs.org/vercel cache-miss
+421 http fetch GET 200 https://registry.npmjs.org/vercel 242ms (cache updated)
+422 silly packumentCache corgi:https://registry.npmjs.org/vercel set size:undefined disposed:false
+423 silly packumentCache corgi:https://registry.npmjs.org/@vercel%2fstatic-build cache-miss
+424 http fetch GET 200 https://registry.npmjs.org/@vercel%2fstatic-build 135ms (cache updated)
+425 silly packumentCache corgi:https://registry.npmjs.org/@vercel%2fstatic-build set size:undefined disposed:false
+426 silly packumentCache corgi:https://registry.npmjs.org/@vercel%2fredwood cache-miss
+427 http fetch GET 200 https://registry.npmjs.org/@vercel%2fredwood 251ms (cache updated)
+428 silly packumentCache corgi:https://registry.npmjs.org/@vercel%2fredwood set size:undefined disposed:false
+429 silly packumentCache corgi:https://registry.npmjs.org/@vercel%2fhydrogen cache-miss
+430 silly packumentCache corgi:https://registry.npmjs.org/@vercel%2fremix-builder cache-miss
+431 http fetch GET 200 https://registry.npmjs.org/@vercel%2fremix-builder 114ms (cache updated)
+432 silly packumentCache corgi:https://registry.npmjs.org/@vercel%2fremix-builder set size:undefined disposed:false
+433 http fetch GET 200 https://registry.npmjs.org/@vercel%2fhydrogen 119ms (cache updated)
+434 silly packumentCache corgi:https://registry.npmjs.org/@vercel%2fhydrogen set size:undefined disposed:false
+435 silly ADD
+436 silly ADD
+437 silly ADD
+438 silly ADD
+439 silly ADD
+440 silly ADD
+441 silly ADD
+442 silly ADD
+443 silly ADD
+444 silly ADD
+445 silly ADD
+446 silly ADD
+447 silly ADD
+448 silly ADD
+449 silly ADD
+450 silly ADD
+451 silly ADD
+452 silly ADD
+453 silly ADD
+454 silly ADD
+455 silly ADD
+456 silly ADD
+457 silly ADD
+458 silly ADD
+459 silly ADD
+460 silly ADD
+461 silly ADD
+462 silly ADD
+463 silly ADD
+464 silly ADD
+465 silly ADD
+466 silly ADD
+467 silly ADD
+468 silly ADD
+469 silly ADD
+470 silly ADD
+471 silly ADD
+472 silly ADD
+473 silly ADD
+474 silly ADD
+475 silly ADD
+476 silly ADD
+477 silly ADD
+478 silly ADD
+479 silly ADD
+480 silly ADD
+481 silly ADD
+482 silly ADD
+483 silly ADD
+484 silly ADD
+485 silly ADD
+486 silly ADD
+487 silly ADD
+488 silly ADD
+489 silly ADD
+490 silly ADD
+491 silly ADD
+492 silly ADD
+493 silly ADD
+494 silly ADD
+495 silly ADD
+496 silly ADD
+497 silly ADD
+498 silly ADD
+499 silly ADD
+500 silly ADD
+501 silly ADD
+502 silly ADD
+503 silly ADD
+504 silly ADD
+505 silly ADD
+506 silly ADD
+507 silly ADD
+508 silly ADD
+509 silly ADD
+510 silly ADD
+511 silly ADD
+512 silly ADD
+513 silly ADD
+514 silly ADD
+515 silly ADD
+516 silly ADD
+517 silly ADD
+518 silly ADD
+519 silly ADD
+520 silly ADD
+521 silly ADD
+522 silly ADD
+523 silly ADD
+524 silly ADD
+525 silly ADD
+526 silly ADD
+527 silly ADD
+528 silly ADD
+529 silly ADD
+530 silly ADD
+531 silly ADD
+532 silly ADD
+533 silly ADD
+534 silly ADD
+535 silly ADD
+536 silly ADD
+537 silly ADD
+538 silly ADD
+539 silly ADD
+540 silly ADD
+541 silly ADD
+542 silly ADD
+543 silly ADD
+544 silly ADD
+545 silly ADD
+546 silly ADD
+547 silly ADD
+548 silly ADD
+549 silly ADD
+550 silly ADD
+551 silly ADD
+552 silly ADD
+553 silly ADD
+554 silly ADD
+555 silly ADD
+556 silly ADD
+557 silly ADD
+558 silly ADD
+559 silly ADD
+560 silly ADD
+561 silly ADD
+562 silly ADD
+563 silly ADD
+564 silly ADD
+565 silly ADD
+566 silly ADD
+567 silly ADD
+568 silly ADD
+569 silly ADD
+570 silly ADD
+571 silly ADD
+572 silly ADD
+573 silly ADD
+574 silly ADD
+575 silly ADD
+576 silly ADD
+577 silly ADD
+578 verbose cwd /Users/mariia/code/my_progect/cake_orders
+579 verbose os Darwin 25.5.0
+580 verbose node v20.20.0
+581 verbose npm  v10.8.2
+582 notice
+582 notice New [31mmajor[39m version of npm available! [31m10.8.2[39m -> [34m12.0.2[39m
+582 notice Changelog: [34mhttps://github.com/npm/cli/releases/tag/v12.0.2[39m
+582 notice To update run: [4mnpm install -g npm@12.0.2[24m
+582 notice  { force: true, [Symbol(proc-log.meta)]: true }
+583 verbose exit 0
+584 info ok

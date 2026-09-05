@@ -32,6 +32,15 @@ export const products: Product[] = [
     }
   },
   {
+    id: "bento-l",
+    name: "Бенто L",
+    pricing: {
+      type: "fixed",
+      price: 4300,
+      summaryLabel: "Бенто L"
+    }
+  },
+  {
     id: "cup-cake",
     name: "Тортик в стаканчике",
     pricing: {
@@ -49,7 +58,7 @@ export const products: Product[] = [
       type: "perItem",
       pricePerItem: 350,
       minQty: 1,
-      maxQty: 200,
+      maxQty: 60,
       summaryLabel: "Капкейки"
     }
   }
