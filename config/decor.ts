@@ -84,7 +84,7 @@ export const decorOptions: DecorOption[] = [
     title: "Рисунок",
     description:
       "Не сложный рисунок, состоящий из 2–3 цветов, только контур. Укажите цвета, детали можно описать в комментарии и загрузить референс.",
-    hasSurcharge: true,
+    hasSurcharge: false,
     fields: [
       { key: "colors", label: "Цвета", kind: "text", required: false },
       {
