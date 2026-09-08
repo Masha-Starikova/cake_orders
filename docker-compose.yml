@@ -8,6 +8,11 @@ services:
     env_file: .env
     restart: unless-stopped
     networks: [web]
+    # С некоторых российских сетей часть адресов api.telegram.org недоступна,
+    # а DNS отдаёт именно их. Закрепляем рабочий адрес; переопределяется
+    # переменной TELEGRAM_API_IP в .env.
+    extra_hosts:
+      - "api.telegram.org:${TELEGRAM_API_IP:-149.154.167.220}"
 
 networks:
   web:

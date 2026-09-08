@@ -1,0 +1,52 @@
+# Автодеплой: push в main → код по SSH на сервер → пересборка контейнера.
+# Секреты репозитория: SSH_HOST (IP сервера), SSH_KEY (приватный ключ деплоя).
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Tests
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm test
+
+      - name: SSH key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_KEY }}" > ~/.ssh/deploy
+          chmod 600 ~/.ssh/deploy
+          ssh-keyscan -H "${{ secrets.SSH_HOST }}" >> ~/.ssh/known_hosts
+
+      - name: Upload code
+        run: |
+          rsync -az --delete \
+            -e "ssh -i ~/.ssh/deploy" \
+            --exclude node_modules --exclude .next --exclude .git \
+            --exclude '.env*' --exclude .github \
+            ./ deploy@${{ secrets.SSH_HOST }}:~/apps/cake_orders/
+
+      - name: Build and restart
+        run: |
+          ssh -i ~/.ssh/deploy deploy@${{ secrets.SSH_HOST }} \
+            'cd ~/apps/cake_orders && docker compose up -d --build && docker image prune -f'
+
+      - name: Smoke test
+        run: |
+          sleep 5
+          ssh -i ~/.ssh/deploy deploy@${{ secrets.SSH_HOST }} \
+            'curl -sf -o /dev/null http://localhost:80/ -H "Host: thecakeclub.ru" || docker logs --tail 50 cake_orders-app'

@@ -100,30 +100,56 @@ function readEnv() {
   return { api: `https://api.telegram.org/bot${token}`, chatId };
 }
 
+// С российских сетей api.telegram.org отвечает нестабильно: часть попыток
+// упирается в таймаут. Поэтому короткий таймаут и несколько повторов.
+const ATTEMPTS = 4;
+const TIMEOUT_MS = 8_000;
+const RETRY_DELAY_MS = 1_500;
+
+const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
 async function call(method: string, body: FormData | object): Promise<TelegramResult> {
+  let env: { api: string; chatId: string };
   try {
-    const { api, chatId } = readEnv();
-    const isForm = body instanceof FormData;
-    if (isForm) {
-      body.set("chat_id", chatId);
-    }
-    const response = await fetch(`${api}/${method}`, {
-      method: "POST",
-      headers: isForm ? undefined : { "Content-Type": "application/json" },
-      body: isForm ? body : JSON.stringify({ chat_id: chatId, ...body })
-    });
-    const data = (await response.json()) as {
-      ok: boolean;
-      description?: string;
-      result?: { message_id: number };
-    };
-    if (!data.ok) {
-      return { ok: false, error: `Telegram ${method}: ${data.description ?? response.status}` };
-    }
-    return { ok: true, messageId: data.result?.message_id ?? 0 };
+    env = readEnv();
   } catch (error) {
-    return { ok: false, error: `Telegram ${method}: ${String(error)}` };
+    return { ok: false, error: String(error) };
   }
+  const isForm = body instanceof FormData;
+  if (isForm) {
+    body.set("chat_id", env.chatId);
+  }
+  const payload = isForm ? body : JSON.stringify({ chat_id: env.chatId, ...body });
+
+  let lastError = "";
+  for (let attempt = 1; attempt <= ATTEMPTS; attempt += 1) {
+    try {
+      const response = await fetch(`${env.api}/${method}`, {
+        method: "POST",
+        headers: isForm ? undefined : { "Content-Type": "application/json" },
+        body: payload,
+        signal: AbortSignal.timeout(TIMEOUT_MS)
+      });
+      const data = (await response.json()) as {
+        ok: boolean;
+        description?: string;
+        result?: { message_id: number };
+      };
+      if (data.ok) {
+        return { ok: true, messageId: data.result?.message_id ?? 0 };
+      }
+      // Ответ пришёл, но Telegram отказал (неверный chat_id, разметка):
+      // повторять бессмысленно.
+      return { ok: false, error: `Telegram ${method}: ${data.description ?? response.status}` };
+    } catch (error) {
+      const cause = (error as { cause?: { code?: string } }).cause?.code;
+      lastError = cause ?? (error instanceof Error ? error.name : String(error));
+      if (attempt < ATTEMPTS) {
+        await sleep(RETRY_DELAY_MS);
+      }
+    }
+  }
+  return { ok: false, error: `Telegram ${method}: сеть недоступна после ${ATTEMPTS} попыток (${lastError})` };
 }
 
 export function sendMessage(text: string): Promise<TelegramResult> {
