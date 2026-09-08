@@ -26,7 +26,7 @@ export const CakeNextButton = ({
       aria-label={ariaLabel ?? "Далее"}
     >
       <img
-        src="/icons/cake-crab.svg"
+        src="/icons/cake-crab.png"
         alt=""
         aria-hidden="true"
         className={`${baseClassName}__icon`}
