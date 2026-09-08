@@ -45,9 +45,14 @@ export function verifyToken(token: string | undefined): boolean {
   return safeEqual(signature, sign(expires));
 }
 
-export function cookieHeader(token: string | null): string {
+// Флаг Secure ставим только если сам запрос пришёл по HTTPS (Caddy передаёт
+// X-Forwarded-Proto). Иначе браузер отбросит cookie при заходе по IP/HTTP.
+export function cookieHeader(token: string | null, request?: Request): string {
   const base = `${ADMIN_COOKIE}=${token ?? ""}; Path=/; HttpOnly; SameSite=Lax`;
-  const secure = process.env.NODE_ENV === "production" ? "; Secure" : "";
+  const proto =
+    request?.headers.get("x-forwarded-proto") ??
+    (request ? new URL(request.url).protocol.replace(":", "") : "");
+  const secure = proto === "https" ? "; Secure" : "";
   return token ? `${base}; Max-Age=${MAX_AGE}${secure}` : `${base}; Max-Age=0${secure}`;
 }
 

@@ -22,10 +22,10 @@ export async function POST(request: Request) {
   attempts.delete(ip);
   return Response.json(
     { ok: true },
-    { headers: { "Set-Cookie": cookieHeader(issueToken()) } }
+    { headers: { "Set-Cookie": cookieHeader(issueToken(), request) } }
   );
 }
 
-export async function DELETE() {
-  return Response.json({ ok: true }, { headers: { "Set-Cookie": cookieHeader(null) } });
+export async function DELETE(request: Request) {
+  return Response.json({ ok: true }, { headers: { "Set-Cookie": cookieHeader(null, request) } });
 }
