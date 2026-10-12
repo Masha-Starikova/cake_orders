@@ -24,7 +24,10 @@ export type OrderFormData = {
   productId: string;
   weightKg?: number;
   qty?: number;
-  filling: string;
+  // Начинки заказа. Для тортов и бенто всегда одна, для штучных
+  // продуктов (стаканчики, капкейки) их может быть несколько —
+  // предел зависит от количества штук, см. config/fillings.ts.
+  fillings: string[];
   decor: DecorData;
   dueDate: string;
   deliveryType: "pickup" | "delivery";
@@ -44,6 +47,9 @@ export type OrderPricingInput = Pick<
 // доверять нельзя (номер, время, цена) + готовые строки для таблицы и Telegram.
 export type SavedOrder = OrderFormData & {
   orderId: string;
+  // Начинки одной строкой: "Сникерс, Медовик". В таком виде уходит
+  // в Google Sheets и в Telegram.
+  filling: string;
   createdAt: string; // ISO
   createdAtLabel: string; // "05.09.2026 13:32" по Москве
   productLabel: string; // "Классический торт 3 кг"

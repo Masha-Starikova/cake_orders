@@ -6,12 +6,12 @@ import { sampleOrder } from "./fixtures";
 
 describe("generateOrderId", () => {
   it("код продукта + код начинки + 4 цифры", () => {
-    const id = generateOrderId({ productId: "cake-by-kg", filling: "Красный бархат" }, () => 0.5);
+    const id = generateOrderId({ productId: "cake-by-kg", fillings: ["Красный бархат"] }, () => 0.5);
     expect(id).toBe("TKB5500");
   });
 
   it("неизвестные значения дают X/XX", () => {
-    expect(generateOrderId({ productId: "?", filling: "?" }, () => 0)).toBe("XXX1000");
+    expect(generateOrderId({ productId: "?", fillings: ["?"] }, () => 0)).toBe("XXX1000");
   });
 });
 

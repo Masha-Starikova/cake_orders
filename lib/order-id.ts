@@ -21,15 +21,18 @@ export const fillingCodeByName: Record<string, string> = {
   Сникерс: "CN",
   "Шоколадная классика": "SH",
   Банановый: "BA",
-  Медовик: "ME"
+  Медовик: "ME",
+  "Киндер-Кантри": "KK"
 };
 
+// В номер попадает первая выбранная начинка: для ассорти из нескольких
+// вкусов номер остаётся коротким и читаемым.
 export function generateOrderId(
-  order: Pick<OrderFormData, "productId" | "filling">,
+  order: Pick<OrderFormData, "productId" | "fillings">,
   random: () => number = Math.random
 ): string {
   const productCode = productCodeById[order.productId] ?? "X";
-  const fillingCode = fillingCodeByName[order.filling] ?? "XX";
+  const fillingCode = fillingCodeByName[order.fillings?.[0] ?? ""] ?? "XX";
   const digits = Math.floor(1000 + random() * 9000);
   return `${productCode}${fillingCode}${digits}`;
 }

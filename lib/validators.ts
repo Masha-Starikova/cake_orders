@@ -1,5 +1,9 @@
 import { getDecorOption } from "@/config/decor";
-import { isFillingAllowedForProduct, fillings } from "@/config/fillings";
+import {
+  fillings,
+  isFillingAllowedForProduct,
+  maxFillingsFor
+} from "@/config/fillings";
 import { products } from "@/config/products";
 import type { OrderFormData } from "@/types/order";
 
@@ -74,12 +78,24 @@ export function getStepErrors(
   }
 
   if (step === 2) {
-    if (!order.filling) {
-      errors.filling = "Выберите начинку";
-    } else if (!fillings.includes(order.filling)) {
-      errors.filling = "Такой начинки нет";
-    } else if (!isFillingAllowedForProduct(order.filling, order.productId)) {
-      errors.filling = "Эта начинка недоступна для выбранного продукта";
+    const selected = order.fillings ?? [];
+    const limit = maxFillingsFor(order.productId, order.qty);
+
+    if (selected.length === 0) {
+      errors.fillings = "Выберите начинку";
+    } else if (new Set(selected).size !== selected.length) {
+      errors.fillings = "Начинка выбрана дважды";
+    } else if (selected.some((name) => !fillings.includes(name))) {
+      errors.fillings = "Такой начинки нет";
+    } else if (
+      selected.some((name) => !isFillingAllowedForProduct(name, order.productId))
+    ) {
+      errors.fillings = "Эта начинка недоступна для выбранного продукта";
+    } else if (selected.length > limit) {
+      errors.fillings =
+        limit === 1
+          ? "Для этого количества доступна только одна начинка"
+          : `Для этого количества можно выбрать не больше ${limit} начинок`;
     }
   }
 

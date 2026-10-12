@@ -1126,3 +1126,80 @@ body {
   transform: none;
   box-shadow: none;
 }
+
+/* Подсказка о лимите начинок для штучных продуктов. */
+.filling-limit {
+  width: 100%;
+  max-width: 520px;
+  margin: 0 auto;
+  padding: 14px 16px;
+  border-radius: 14px;
+  background: rgba(227, 25, 33, 0.06);
+  border: 1px solid rgba(227, 25, 33, 0.18);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  text-align: center;
+}
+
+.filling-limit__title {
+  margin: 0;
+  font-weight: 700;
+  font-size: 15px;
+  color: var(--brand);
+}
+
+.filling-limit__text {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--text);
+}
+
+.filling-limit__counter {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: rgba(42, 26, 26, 0.7);
+}
+
+/* Карточка начинки, недоступная из-за исчерпанного лимита. */
+.filling-card.is-locked {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.filling-card.is-locked:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+/* Уведомление о восстановленном черновике заказа. */
+.draft-notice {
+  width: 100%;
+  max-width: 520px;
+  margin: 0 auto;
+  padding: 12px 16px;
+  border-radius: 14px;
+  background: rgba(42, 26, 26, 0.06);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--text);
+  text-align: center;
+}
+
+.draft-notice__reset {
+  border: none;
+  background: none;
+  padding: 0;
+  font: inherit;
+  font-weight: 700;
+  color: var(--brand);
+  text-decoration: underline;
+  cursor: pointer;
+}

@@ -14,9 +14,23 @@ import {
   isDecorAllowedForProduct,
   type DecorField
 } from "@/config/decor";
-import { isFillingAllowedForProduct } from "@/config/fillings";
+import {
+  fillingCards,
+  fillingLimitHint,
+  fillingsForProduct,
+  isFillingAllowedForProduct,
+  isMultiFillingProduct,
+  maxFillingsFor
+} from "@/config/fillings";
 import { quotedDecorLabel, quotedDecorNote } from "@/config/price-rules";
 import { products } from "@/config/products";
+import {
+  clearDraft,
+  DRAFT_VERSION,
+  emptyFormData,
+  loadDraft,
+  saveDraft
+} from "@/lib/client/draft";
 import { compressImage } from "@/lib/client/image";
 import { addDays, fromIsoDate, startOfDay } from "@/lib/dates";
 import { calculatePrice } from "@/lib/pricing";
@@ -63,49 +77,6 @@ const productMetaById: Record<string, ProductCardMeta> = {
   }
 };
 
-const fillingCards = [
-  {
-    name: "Нежнейший пломбир",
-    description:
-      "Шифоновый бисквит с натуральными семенами ванили, крем с добавлением мягкого творога, напоминающий вкус мороженого пломбир. По желанию можно добавить клубнику/малину/вишню"
-  },
-  {
-    name: "Молочная девочка",
-    description:
-      "Очень нежные коржи с добавлением сгущенного молока, крем на основе жирных сливок и сгущенного молока"
-  },
-  {
-    name: "Красный бархат",
-    description:
-      "Нежнейший бисквит на кефире, крем с добавлением мягкого творога. По желанию можно добавить клубнику/малину/вишню"
-  },
-  {
-    name: "Морковный с солёной карамелью",
-    description:
-      "Шифоновый морковный бисквит с добавлением корицы, воздушный крем на основе мягкого творога, слои солёной карамели"
-  },
-  {
-    name: "Сникерс",
-    description:
-      "Влажный шоколадный бисквит, крем на основе мягкого творога, с добавлением жареного арахиса и соленой карамели"
-  },
-  {
-    name: "Шоколадная классика",
-    description:
-      "Влажный шоколадный бисквит, крем на основе мягкого творога с добавлением шоколадно-ореховой пасты. По желанию можно добавить клубнику/малину/вишню"
-  },
-  {
-    name: "Банановый",
-    description:
-      "Влажный бисквит с добавлением сахара мусковадо, нежный крем с натуральными семенами ванили с добавлением свежих бананов, мягкой карамели и хрустящего кокосового слоя"
-  },
-  {
-    name: "Медовик",
-    description:
-      "Нежные медовые коржи, с добавлением творожно-сметанного крема и мягкой карамели"
-  }
-];
-
 const formatDate = (value: string) => {
   if (!value) {
     return "";
@@ -138,20 +109,45 @@ export default function HomePage() {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [nextWobble, setNextWobble] = useState(false);
   const nextWobbleTimeoutRef = useRef<number | null>(null);
-  const [formData, setFormData] = useState<OrderFormData>({
-    productId: "",
-    weightKg: undefined,
-    qty: undefined,
-    filling: "",
-    decor: { type: "" },
-    dueDate: "",
-    deliveryType: "pickup",
-    name: "",
-    phone: "",
-    instagram: "",
-    address: "",
-    comment: ""
-  });
+  const [formData, setFormData] = useState<OrderFormData>(emptyFormData);
+
+  // Пока черновик не прочитан, писать его нельзя: пустая форма затёрла бы
+  // сохранённые данные сразу после загрузки страницы.
+  const [draftLoaded, setDraftLoaded] = useState(false);
+  const [draftRestored, setDraftRestored] = useState(false);
+
+  // Восстановление черновика. Один раз при монтировании, до первого
+  // сохранения. localStorage недоступен на сервере, поэтому только в эффекте.
+  useEffect(() => {
+    const draft = loadDraft();
+    if (draft) {
+      setFormData(draft.formData);
+      setStep(draft.step);
+      setShowOrder(draft.showOrder);
+      // Показываем подсказку, только если человек реально что-то заполнил.
+      setDraftRestored(Boolean(draft.formData.productId));
+    }
+    setDraftLoaded(true);
+  }, []);
+
+  // Сохранение черновика при изменении формы или шага. С задержкой: к форме
+  // может быть приложено фото-референс в несколько сотен килобайт, и запись
+  // на каждое нажатие клавиши подтормаживала бы ввод на телефоне.
+  useEffect(() => {
+    if (!draftLoaded || success) {
+      return;
+    }
+    const timer = window.setTimeout(() => {
+      saveDraft({
+        version: DRAFT_VERSION,
+        savedAt: Date.now(),
+        step,
+        showOrder,
+        formData
+      });
+    }, 400);
+    return () => window.clearTimeout(timer);
+  }, [draftLoaded, formData, showOrder, step, success]);
 
   // Даты, закрытые администратором. Пустой список, пока не загрузились.
   const [blockedDates, setBlockedDates] = useState<string[]>([]);
@@ -174,12 +170,50 @@ export default function HomePage() {
 
   // Начинки и виды декора зависят от выбранного продукта.
   const availableFillings = useMemo(
-    () =>
-      fillingCards.filter((filling) =>
-        isFillingAllowedForProduct(filling.name, formData.productId)
-      ),
+    () => fillingsForProduct(formData.productId),
     [formData.productId]
   );
+
+  const selectedFillings = formData.fillings ?? [];
+
+  // Сколько начинок можно выбрать при текущем количестве штук.
+  const maxFillings = useMemo(
+    () => maxFillingsFor(formData.productId, formData.qty),
+    [formData.productId, formData.qty]
+  );
+  const allowsMultipleFillings = isMultiFillingProduct(formData.productId);
+  const fillingHint = useMemo(
+    () => fillingLimitHint(formData.productId, formData.qty),
+    [formData.productId, formData.qty]
+  );
+
+  // Клик по карточке начинки. Для тортов это обычный выбор одного варианта,
+  // для штучных продуктов — набор ассорти в пределах лимита.
+  const toggleFilling = (name: string) => {
+    setFormData((prev) => {
+      const selected = prev.fillings ?? [];
+      if (!allowsMultipleFillings) {
+        // Торты и бенто: выбор одного варианта, как было раньше.
+        // Повторный клик ничего не снимает, иначе легко остаться без начинки.
+        return { ...prev, fillings: [name] };
+      }
+      if (selected.includes(name)) {
+        return { ...prev, fillings: selected.filter((item) => item !== name) };
+      }
+      if (selected.length >= maxFillings) {
+        // Лимит исчерпан: выбор не меняем, подсказка под списком объясняет почему.
+        return prev;
+      }
+      return { ...prev, fillings: [...selected, name] };
+    });
+    setErrors((prev) => {
+      if (!prev.fillings) {
+        return prev;
+      }
+      const { fillings: _removed, ...rest } = prev;
+      return rest;
+    });
+  };
 
   const availableDecorOptions = useMemo(
     () => getDecorOptionsForProduct(formData.productId),
@@ -368,16 +402,20 @@ export default function HomePage() {
     const nextProduct = products.find((product) => product.id === productId);
     const pricing = nextProduct?.pricing;
 
+    const nextQty = pricing?.type === "perItem" ? pricing.minQty : undefined;
+
     setFormData((prev) => ({
       ...prev,
       productId: nextProduct ? productId : "",
       weightKg: pricing?.type === "perKg" ? pricing.minWeightKg : undefined,
-      qty: pricing?.type === "perItem" ? pricing.minQty : undefined,
-      // Начинка и декор могут быть недоступны для нового продукта — сбрасываем.
-      filling:
-        nextProduct && isFillingAllowedForProduct(prev.filling, productId)
-          ? prev.filling
-          : "",
+      qty: nextQty,
+      // Начинки и декор могут быть недоступны для нового продукта.
+      // Оставляем только разрешённые и обрезаем по новому лимиту.
+      fillings: nextProduct
+        ? (prev.fillings ?? [])
+            .filter((name) => isFillingAllowedForProduct(name, productId))
+            .slice(0, maxFillingsFor(productId, nextQty))
+        : [],
       decor:
         nextProduct && isDecorAllowedForProduct(prev.decor.type, productId)
           ? prev.decor
@@ -390,7 +428,7 @@ export default function HomePage() {
           key !== "productId" &&
           key !== "weightKg" &&
           key !== "qty" &&
-          key !== "filling" &&
+          key !== "fillings" &&
           !key.startsWith("decor")
         ) {
           rest[key] = value;
@@ -421,7 +459,21 @@ export default function HomePage() {
         selectedProduct.pricing.maxQty,
         Math.max(selectedProduct.pricing.minQty, current + delta)
       );
-      updateFormField("qty", nextValue);
+      // Меньше штук — меньше разрешённых начинок. Лишние снимаем сами,
+      // иначе на шаге 2 осталась бы невалидная комбинация.
+      const nextMax = maxFillingsFor(selectedProduct.id, nextValue);
+      setFormData((prev) => ({
+        ...prev,
+        qty: nextValue,
+        fillings: (prev.fillings ?? []).slice(0, nextMax)
+      }));
+      setErrors((prev) => {
+        if (!prev.qty && !prev.fillings) {
+          return prev;
+        }
+        const { qty: _qty, fillings: _fillings, ...rest } = prev;
+        return rest;
+      });
     }
   };
 
@@ -669,6 +721,10 @@ export default function HomePage() {
         return;
       }
 
+      // Заказ ушёл — черновик больше не нужен, иначе он подставится
+      // при следующем открытии сайта.
+      clearDraft();
+      setDraftRestored(false);
       setSuccess({
         orderId: data.orderId,
         directCode: data.directCode,
@@ -687,20 +743,9 @@ export default function HomePage() {
   };
 
   const resetForm = () => {
-    setFormData({
-      productId: "",
-      weightKg: undefined,
-      qty: undefined,
-      filling: "",
-      decor: { type: "" },
-      dueDate: "",
-      deliveryType: "pickup",
-      name: "",
-      phone: "",
-      instagram: "",
-      address: "",
-      comment: ""
-    });
+    setFormData(emptyFormData);
+    clearDraft();
+    setDraftRestored(false);
     setErrors({});
     setStep(1);
     setSuccess(null);
@@ -767,9 +812,11 @@ export default function HomePage() {
                     </span>
                   </div>
                   <div className="order-summary__row">
-                    <span className="order-summary__label">Начинка</span>
+                    <span className="order-summary__label">
+                      {selectedFillings.length > 1 ? "Начинки" : "Начинка"}
+                    </span>
                     <span className="order-summary__value">
-                      {formData.filling}
+                      {selectedFillings.join(", ")}
                     </span>
                   </div>
                   {decorSummary && (
@@ -916,6 +963,27 @@ export default function HomePage() {
             ) : (
               <form className="order-form" onSubmit={handleSubmit}>
                 <p className="step-indicator">ШАГ {step} ИЗ 4</p>
+                {draftRestored && (
+                  <div className="draft-notice" role="status">
+                    <span>
+                      Мы сохранили то, что вы уже выбрали. Можно вернуться
+                      назад и поменять.
+                    </span>
+                    <button
+                      type="button"
+                      className="draft-notice__reset"
+                      onClick={() => {
+                        setFormData(emptyFormData);
+                        clearDraft();
+                        setDraftRestored(false);
+                        setErrors({});
+                        setStep(1);
+                      }}
+                    >
+                      Начать заново
+                    </button>
+                  </div>
+                )}
                 {step === 1 && (
                   <div className="form-step">
                     <div className="product-grid">
@@ -957,30 +1025,53 @@ export default function HomePage() {
                 )}
                 {step === 2 && (
                   <div className="form-step">
+                    {allowsMultipleFillings && (
+                      <div className="filling-limit">
+                        <p className="filling-limit__title">
+                          {maxFillings > 1
+                            ? `Можно выбрать до ${maxFillings} начинок`
+                            : "Выберите одну начинку"}
+                        </p>
+                        <p className="filling-limit__text">{fillingHint}</p>
+                        <p className="filling-limit__counter">
+                          Выбрано: {selectedFillings.length} из {maxFillings}
+                        </p>
+                      </div>
+                    )}
                     <div className="filling-grid">
-                      {availableFillings.map((filling) => (
-                        <button
-                          key={filling.name}
-                          type="button"
-                          className={`filling-card ${
-                            formData.filling === filling.name
-                              ? "is-selected"
-                              : ""
-                          }`}
-                          onClick={() =>
-                            updateFormField("filling", filling.name)
-                          }
-                          aria-pressed={formData.filling === filling.name}
-                        >
-                          <span className="filling-title">{filling.name}</span>
-                          <span className="filling-description">
-                            {filling.description}
-                          </span>
-                        </button>
-                      ))}
+                      {availableFillings.map((filling) => {
+                        const isSelected = selectedFillings.includes(
+                          filling.name
+                        );
+                        // Лимит исчерпан — остальные карточки гасим,
+                        // чтобы было видно, что выбор ограничен.
+                        const isLocked =
+                          allowsMultipleFillings &&
+                          !isSelected &&
+                          selectedFillings.length >= maxFillings;
+                        return (
+                          <button
+                            key={filling.name}
+                            type="button"
+                            className={`filling-card ${
+                              isSelected ? "is-selected" : ""
+                            } ${isLocked ? "is-locked" : ""}`}
+                            onClick={() => toggleFilling(filling.name)}
+                            aria-pressed={isSelected}
+                            disabled={isLocked}
+                          >
+                            <span className="filling-title">
+                              {filling.name}
+                            </span>
+                            <span className="filling-description">
+                              {filling.description}
+                            </span>
+                          </button>
+                        );
+                      })}
                     </div>
-                    {errors.filling && (
-                      <p className="field-error">{errors.filling}</p>
+                    {errors.fillings && (
+                      <p className="field-error">{errors.fillings}</p>
                     )}
                     <p className="helper-text">
                       Начинка без доплаты

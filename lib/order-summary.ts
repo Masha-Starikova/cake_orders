@@ -56,6 +56,8 @@ export function buildSavedOrder(
   return {
     ...order,
     orderId,
+    // Несколько начинок склеиваем в одну строку для таблицы и Telegram.
+    filling: (order.fillings ?? []).join(", "),
     createdAt: now.toISOString(),
     createdAtLabel: formatMoscow(now),
     productLabel,

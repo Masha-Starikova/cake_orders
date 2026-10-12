@@ -113,6 +113,15 @@ function sheetUrl(): string | undefined {
 
 const str = (v: unknown, max = 5000) =>
   typeof v === "string" ? v.slice(0, max).trim() : "";
+// Список начинок: не больше 20 позиций, каждая обрезается по длине.
+// Дубликаты и недопустимые названия отсеет валидация.
+const strList = (v: unknown, max = 100) =>
+  Array.isArray(v)
+    ? v
+        .map((item) => str(item, max))
+        .filter(Boolean)
+        .slice(0, 20)
+    : [];
 const num = (v: unknown) => {
   const n = typeof v === "number" ? v : Number(v);
   return Number.isFinite(n) && n > 0 ? n : undefined;
@@ -125,7 +134,7 @@ function normalize(body: Body): OrderFormData {
     productId: str(body.productId, 50),
     weightKg: num(body.weightKg),
     qty: num(body.qty),
-    filling: str(body.filling, 100),
+    fillings: strList(body.fillings, 100),
     decor: {
       type: str(decor.type, 30) as OrderFormData["decor"]["type"],
       color: str(decor.color) || undefined,

@@ -40,7 +40,10 @@ export function formatOrderMessage(
   lines.push(`🎂 <b>Новый заказ #${e(order.orderId)}</b>`);
   lines.push("");
   lines.push(`<b>${e(order.productLabel)}</b>`);
-  lines.push(`Начинка: ${e(order.filling)}`);
+  const fillingCount = (order.fillings ?? []).length;
+  lines.push(
+    `${fillingCount > 1 ? "Начинки" : "Начинка"}: ${e(order.filling)}`
+  );
   if (order.decorLabel) {
     lines.push(`Декор: ${e(order.decorLabel)}`);
     for (const part of order.decorDetails.split("; ").filter(Boolean)) {

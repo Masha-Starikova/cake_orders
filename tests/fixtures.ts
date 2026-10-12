@@ -4,6 +4,7 @@ import type { SavedOrder } from "@/types/order";
 export const sampleOrder: SavedOrder = {
   productId: "cake-by-kg",
   weightKg: 3,
+  fillings: ["Красный бархат"],
   filling: "Красный бархат",
   decor: {
     type: "text",

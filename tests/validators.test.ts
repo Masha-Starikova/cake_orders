@@ -22,15 +22,15 @@ describe("validateOrderForm", () => {
   it("начинка, запрещённая для продукта", () => {
     const cupcakes: OrderFormData = {
       ...base, productId: "cupcakes", weightKg: undefined, qty: 6,
-      filling: "Медовик", decor: { type: "none", color: "белый", berries: "С ягодами" }
+      fillings: ["Медовик"], decor: { type: "none", color: "белый", berries: "С ягодами" }
     };
-    expect(getAllErrors(cupcakes)).toHaveProperty("filling");
+    expect(getAllErrors(cupcakes)).toHaveProperty("fillings");
   });
 
   it("декор, запрещённый для продукта", () => {
     const cupcakes: OrderFormData = {
       ...base, productId: "cupcakes", weightKg: undefined, qty: 6,
-      filling: "Сникерс", decor: { type: "text", text: "Привет", position: "центр", color: "красный" }
+      fillings: ["Сникерс"], decor: { type: "text", text: "Привет", position: "центр", color: "красный" }
     };
     expect(getAllErrors(cupcakes)).toHaveProperty("decor.type");
   });
@@ -85,5 +85,94 @@ describe("закрытые даты", () => {
     expect(getAllErrors(base, ctx)).toHaveProperty("dueDate");
     expect(getAllErrors({ ...base, dueDate: "2999-01-02" }, ctx)).not.toHaveProperty("dueDate");
     expect(getAllErrors(base, { blockedDates: new Set(["2999-01-01"]) })).toHaveProperty("dueDate");
+  });
+});
+
+describe("Киндер-Кантри: доступность по продуктам", () => {
+  const withProduct = (
+    productId: string,
+    extra: Partial<OrderFormData> = {}
+  ): OrderFormData => ({
+    ...base,
+    productId,
+    weightKg: productId === "cake-by-kg" ? 3 : undefined,
+    qty: undefined,
+    fillings: ["Киндер-Кантри"],
+    decor: { type: "none", color: "белый" },
+    ...extra
+  });
+
+  it("доступна для торта по кг и всех бенто", () => {
+    for (const id of ["cake-by-kg", "bento-s", "bento-m", "bento-l"]) {
+      expect(getAllErrors(withProduct(id))).not.toHaveProperty("fillings");
+    }
+  });
+
+  it("доступна для тортика в стаканчике", () => {
+    expect(
+      getAllErrors(withProduct("cup-cake", { qty: 3 }))
+    ).not.toHaveProperty("fillings");
+  });
+
+  it("недоступна для капкейков", () => {
+    const cupcakes = withProduct("cupcakes", {
+      qty: 6,
+      decor: { type: "none", color: "белый", berries: "Без ягод" }
+    });
+    expect(getAllErrors(cupcakes)).toHaveProperty("fillings");
+  });
+});
+
+describe("несколько начинок для штучных продуктов", () => {
+  const cups = (qty: number, fillings: string[]): OrderFormData => ({
+    ...base,
+    productId: "cup-cake",
+    weightKg: undefined,
+    qty,
+    fillings,
+    decor: { type: "none", color: "белый" }
+  });
+
+  it("одна начинка подходит всегда", () => {
+    expect(getAllErrors(cups(1, ["Сникерс"]))).not.toHaveProperty("fillings");
+  });
+
+  it("меньше 3 шт — только одна начинка", () => {
+    expect(getAllErrors(cups(2, ["Сникерс", "Медовик"]))).toHaveProperty(
+      "fillings"
+    );
+  });
+
+  it("6 шт — две начинки можно, три нельзя", () => {
+    expect(getAllErrors(cups(6, ["Сникерс", "Медовик"]))).not.toHaveProperty(
+      "fillings"
+    );
+    expect(
+      getAllErrors(cups(6, ["Сникерс", "Медовик", "Банановый"]))
+    ).toHaveProperty("fillings");
+  });
+
+  it("12 шт — до четырёх начинок", () => {
+    expect(
+      getAllErrors(
+        cups(12, ["Сникерс", "Медовик", "Банановый", "Красный бархат"])
+      )
+    ).not.toHaveProperty("fillings");
+  });
+
+  it("повтор одной начинки не проходит", () => {
+    expect(getAllErrors(cups(6, ["Сникерс", "Сникерс"]))).toHaveProperty(
+      "fillings"
+    );
+  });
+
+  it("у торта несколько начинок выбрать нельзя", () => {
+    expect(
+      getAllErrors({ ...base, fillings: ["Сникерс", "Медовик"] })
+    ).toHaveProperty("fillings");
+  });
+
+  it("пустой список — ошибка", () => {
+    expect(getAllErrors({ ...base, fillings: [] })).toHaveProperty("fillings");
   });
 });
