@@ -291,11 +291,28 @@ export default function HomePage() {
     setTimeout(() => setDirectCopied(false), 1000);
   };
 
+  // При смене шага браузер оставляет прокрутку там же, где была кнопка
+  // «Далее», то есть внизу. Новый шаг из-за этого открывается с середины
+  // или с конца. Возвращаем человека к началу формы.
+  // setTimeout(0) нужен, чтобы прокрутка случилась после перерисовки шага.
+  const scrollToFormTop = () => {
+    if (typeof window === "undefined") {
+      return;
+    }
+    const reduceMotion = window.matchMedia?.(
+      "(prefers-reduced-motion: reduce)"
+    )?.matches;
+    window.setTimeout(() => {
+      document.getElementById("order")?.scrollIntoView({
+        behavior: reduceMotion ? "auto" : "smooth",
+        block: "start"
+      });
+    }, 0);
+  };
+
   const handleShowOrder = () => {
     setShowOrder(true);
-    setTimeout(() => {
-      document.getElementById("order")?.scrollIntoView({ behavior: "smooth" });
-    }, 0);
+    scrollToFormTop();
   };
 
   const triggerNextWobble = () => {
@@ -678,17 +695,22 @@ export default function HomePage() {
   };
 
   const handleNext = () => {
-    const isValid = validateStep(step);
-    if (isValid) {
-      setStep((prev) => (prev < 4 ? ((prev + 1) as 1 | 2 | 3 | 4) : prev));
+    if (!validateStep(step)) {
+      triggerNextWobble();
       return;
     }
-    triggerNextWobble();
+    if (step < 4) {
+      setStep((step + 1) as 1 | 2 | 3 | 4);
+      scrollToFormTop();
+    }
   };
 
   const handleBack = () => {
     setErrors({});
-    setStep((prev) => (prev > 1 ? ((prev - 1) as 1 | 2 | 3 | 4) : prev));
+    if (step > 1) {
+      setStep((step - 1) as 1 | 2 | 3 | 4);
+      scrollToFormTop();
+    }
   };
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -725,6 +747,9 @@ export default function HomePage() {
       // при следующем открытии сайта.
       clearDraft();
       setDraftRestored(false);
+      // Экран успеха тоже показываем с начала, а не с того места,
+      // где была кнопка отправки.
+      scrollToFormTop();
       setSuccess({
         orderId: data.orderId,
         directCode: data.directCode,
@@ -752,6 +777,7 @@ export default function HomePage() {
     setSubmitError(null);
     setWebsite("");
     setDirectCopied(false);
+    scrollToFormTop();
   };
 
   return (
@@ -978,6 +1004,7 @@ export default function HomePage() {
                         setDraftRestored(false);
                         setErrors({});
                         setStep(1);
+                        scrollToFormTop();
                       }}
                     >
                       Начать заново
