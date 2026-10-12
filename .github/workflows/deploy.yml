@@ -40,12 +40,18 @@ jobs:
       # невнятную ошибку ssh-keyscan, и непонятно, что чинить.
       - name: SSH key
         run: |
+          # Проверяем оба секрета сразу и только потом выходим: иначе про
+          # второй недостающий узнаёшь лишь на следующем запуске.
+          missing=0
           if [ -z "${{ secrets.SSH_HOST }}" ]; then
             echo "::error::Секрет SSH_HOST не задан. Settings → Secrets and variables → Actions → New repository secret. Имя SSH_HOST, значение 135.106.197.121"
-            exit 1
+            missing=1
           fi
           if [ -z "${{ secrets.SSH_KEY }}" ]; then
-            echo "::error::Секрет SSH_KEY не задан. Значение — приватный ключ целиком: pbcopy < ~/.ssh/cake_deploy"
+            echo "::error::Секрет SSH_KEY не задан. Имя SSH_KEY, значение — приватный ключ целиком: pbcopy < ~/.ssh/cake_deploy"
+            missing=1
+          fi
+          if [ "$missing" -eq 1 ]; then
             exit 1
           fi
 
