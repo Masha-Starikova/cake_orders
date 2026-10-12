@@ -36,12 +36,48 @@ jobs:
       - name: Tests
         run: npm test
 
+      # Шаг намеренно многословен: без него пустой или неверный секрет даёт
+      # невнятную ошибку ssh-keyscan, и непонятно, что чинить.
       - name: SSH key
         run: |
+          if [ -z "${{ secrets.SSH_HOST }}" ]; then
+            echo "::error::Секрет SSH_HOST не задан. Settings → Secrets and variables → Actions → New repository secret. Имя SSH_HOST, значение 135.106.197.121"
+            exit 1
+          fi
+          if [ -z "${{ secrets.SSH_KEY }}" ]; then
+            echo "::error::Секрет SSH_KEY не задан. Значение — приватный ключ целиком: pbcopy < ~/.ssh/cake_deploy"
+            exit 1
+          fi
+
           mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_KEY }}" > ~/.ssh/deploy
+          printf '%s\n' "${{ secrets.SSH_KEY }}" > ~/.ssh/deploy
           chmod 600 ~/.ssh/deploy
-          ssh-keyscan -H "${{ secrets.SSH_HOST }}" >> ~/.ssh/known_hosts
+
+          if ! grep -q "PRIVATE KEY" ~/.ssh/deploy; then
+            echo "::error::SSH_KEY не похож на приватный ключ. Нужен файл ~/.ssh/cake_deploy целиком, вместе со строками BEGIN и END, а не ~/.ssh/cake_deploy.pub"
+            exit 1
+          fi
+          if ! ssh-keygen -y -f ~/.ssh/deploy > /dev/null 2>&1; then
+            echo "::error::SSH_KEY повреждён: OpenSSH не читает его. Скопируйте файл заново целиком, без лишних пробелов и переносов."
+            exit 1
+          fi
+
+          if ! ssh-keyscan -H "${{ secrets.SSH_HOST }}" >> ~/.ssh/known_hosts 2>/dev/null; then
+            echo "::error::Сервер ${{ secrets.SSH_HOST }} не отвечает на порту 22. Проверьте, что он включён, и что firewall не закрыл SSH."
+            exit 1
+          fi
+          if [ ! -s ~/.ssh/known_hosts ]; then
+            echo "::error::Сервер ${{ secrets.SSH_HOST }} не отдал ключ хоста. Похоже, SSH на нём не слушает."
+            exit 1
+          fi
+
+      - name: Check connection
+        run: |
+          if ! ssh -i ~/.ssh/deploy -o BatchMode=yes -o ConnectTimeout=20 \
+                 deploy@${{ secrets.SSH_HOST }} 'echo соединение установлено'; then
+            echo "::error::Не удалось войти на сервер как deploy. Публичная часть ключа должна лежать в /home/deploy/.ssh/authorized_keys"
+            exit 1
+          fi
 
       # Сервер 1 vCPU / 2 ГБ. Без swap сборка Next.js не проходит и
       # OOM-killer уносит вместе с ней работающий сайт. Лучше остановиться
