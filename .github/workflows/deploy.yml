@@ -1,5 +1,10 @@
-# Автодеплой: push в main → код по SSH на сервер → пересборка контейнера.
-# Секреты репозитория: SSH_HOST (IP сервера), SSH_KEY (приватный ключ деплоя).
+# Автодеплой: push в main → тесты → код по SSH на сервер → пересборка
+# контейнера → проверка, что сайт отвечает. Если новая версия не поднялась,
+# возвращаем предыдущий образ, чтобы сайт не остался лежать.
+#
+# Секреты репозитория:
+#   SSH_HOST — IP сервера (135.106.197.121)
+#   SSH_KEY  — приватный ключ деплоя (содержимое ~/.ssh/cake_deploy)
 name: Deploy
 
 on:
@@ -11,19 +16,25 @@ concurrency:
   group: deploy
   cancel-in-progress: false
 
+env:
+  APP_DIR: apps/cake_orders
+  CONTAINER: cake_orders-app
+  SITE: https://thecakeclub.ru
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
-      - name: Tests
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: npm
-      - run: npm ci
-      - run: npm test
+      - name: Install deps
+        run: npm ci
+      - name: Tests
+        run: npm test
 
       - name: SSH key
         run: |
@@ -32,21 +43,102 @@ jobs:
           chmod 600 ~/.ssh/deploy
           ssh-keyscan -H "${{ secrets.SSH_HOST }}" >> ~/.ssh/known_hosts
 
+      # Сервер 1 vCPU / 2 ГБ. Без swap сборка Next.js не проходит и
+      # OOM-killer уносит вместе с ней работающий сайт. Лучше остановиться
+      # здесь с понятной ошибкой, чем уронить прод.
+      - name: Preflight (swap, место на диске)
+        run: |
+          ssh -i ~/.ssh/deploy deploy@${{ secrets.SSH_HOST }} 'bash -s' <<'REMOTE'
+          set -e
+          echo "--- память ---"; free -m
+          echo "--- диск ---";   df -h /
+
+          if [ "$(swapon --show --noheadings | wc -l)" -eq 0 ]; then
+            echo "::error::На сервере нет swap. Сборка на 2 ГБ упадёт по памяти."
+            echo "Включить: sudo fallocate -l 2G /swapfile && sudo chmod 600 /swapfile \\"
+            echo "          && sudo mkswap /swapfile && sudo swapon /swapfile"
+            exit 1
+          fi
+
+          FREE_MB=$(df -m / | awk 'NR==2 {print $4}')
+          if [ "$FREE_MB" -lt 3000 ]; then
+            echo "::error::На диске меньше 3 ГБ свободно ($FREE_MB МБ). Docker не соберёт образ."
+            echo "Очистить: docker system prune -af"
+            exit 1
+          fi
+          REMOTE
+
       - name: Upload code
         run: |
           rsync -az --delete \
             -e "ssh -i ~/.ssh/deploy" \
             --exclude node_modules --exclude .next --exclude .git \
             --exclude '.env*' --exclude .github \
-            ./ deploy@${{ secrets.SSH_HOST }}:~/apps/cake_orders/
+            ./ deploy@${{ secrets.SSH_HOST }}:~/${{ env.APP_DIR }}/
 
-      - name: Build and restart
+      # Сборка отдельным шагом: пока она идёт, старый контейнер продолжает
+      # обслуживать сайт. Контейнер переключаем только на удачный образ.
+      - name: Build image
         run: |
           ssh -i ~/.ssh/deploy deploy@${{ secrets.SSH_HOST }} \
-            'cd ~/apps/cake_orders && docker compose up -d --build && docker image prune -f'
+            "cd ~/${{ env.APP_DIR }} && docker compose build"
 
+      - name: Restart and verify
+        run: |
+          ssh -i ~/.ssh/deploy deploy@${{ secrets.SSH_HOST }} 'bash -s' <<'REMOTE'
+          set -e
+          cd ~/apps/cake_orders
+
+          # Запоминаем работающую версию: id образа и имя тега, под которым
+          # его ищет compose. По ним можно вернуться, если новая версия упадёт.
+          PREV_ID=$(docker inspect --format '{{.Image}}' cake_orders-app 2>/dev/null || echo "")
+          PREV_TAG=$(docker inspect --format '{{.Config.Image}}' cake_orders-app 2>/dev/null || echo "")
+          echo "Предыдущий образ: ${PREV_ID:-нет, первый запуск} (${PREV_TAG:-—})"
+
+          docker compose up -d
+
+          # Ждём, пока приложение начнёт отвечать: до 60 секунд.
+          ok=0
+          for i in $(seq 1 20); do
+            if docker exec cake_orders-app node -e \
+                 "fetch('http://127.0.0.1:3000/').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))" \
+                 2>/dev/null; then
+              ok=1; echo "Приложение ответило с попытки $i"; break
+            fi
+            sleep 3
+          done
+
+          if [ "$ok" -ne 1 ]; then
+            echo "::error::Новая версия не поднялась. Логи контейнера:"
+            docker logs --tail 80 cake_orders-app 2>&1 || true
+            if [ -n "$PREV_ID" ] && [ -n "$PREV_TAG" ]; then
+              echo "Откатываюсь на предыдущий образ."
+              # Возвращаем старый образ под тем же тегом и поднимаем контейнер
+              # обычным compose: сеть, .env и extra_hosts применятся как всегда.
+              docker tag "$PREV_ID" "$PREV_TAG"
+              docker compose up -d --force-recreate
+              echo "Откат выполнен: сайт работает на прежней версии."
+            else
+              echo "Откатываться не на что: предыдущего образа нет."
+            fi
+            exit 1
+          fi
+
+          docker image prune -f
+          REMOTE
+
+      # Проверка снаружи, через домен и Caddy: именно так сайт видят люди.
       - name: Smoke test
         run: |
-          sleep 5
-          ssh -i ~/.ssh/deploy deploy@${{ secrets.SSH_HOST }} \
-            'curl -sf -o /dev/null http://localhost:80/ -H "Host: thecakeclub.ru" || docker logs --tail 50 cake_orders-app'
+          code=$(curl -sS -o /dev/null --max-time 30 -w '%{http_code}' "${{ env.SITE }}/")
+          echo "Главная страница ответила: $code"
+          if [ "$code" != "200" ]; then
+            echo "::error::Сайт отвечает $code вместо 200"
+            exit 1
+          fi
+          api=$(curl -sS -o /dev/null --max-time 30 -w '%{http_code}' "${{ env.SITE }}/api/blocked-dates")
+          echo "API закрытых дат ответило: $api"
+          if [ "$api" != "200" ]; then
+            echo "::error::API отвечает $api вместо 200"
+            exit 1
+          fi

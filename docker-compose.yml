@@ -8,6 +8,20 @@ services:
     env_file: .env
     restart: unless-stopped
     networks: [web]
+    # Docker сам видит зависшее приложение и перезапускает контейнер.
+    # В образе нет curl, поэтому проверяем средствами Node.
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "node",
+          "-e",
+          "fetch('http://127.0.0.1:3000/').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"
+        ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
     # С некоторых российских сетей часть адресов api.telegram.org недоступна,
     # а DNS отдаёт именно их. Закрепляем рабочий адрес; переопределяется
     # переменной TELEGRAM_API_IP в .env.

@@ -10,6 +10,10 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 ENV NEXT_TELEMETRY_DISABLED=1
+# Сервер — 2 ГБ RAM. Без явного предела Node раздувает кучу и сборку
+# убивает OOM-killer, забирая с собой работающий контейнер сайта.
+# С потолком 1,5 ГБ сборщик чаще чистит мусор и укладывается в память.
+ENV NODE_OPTIONS=--max-old-space-size=1536
 RUN npm run build
 
 # Стадия 3: запуск (только то, что нужно в проде)
