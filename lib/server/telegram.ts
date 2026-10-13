@@ -1,4 +1,5 @@
 import { DELIVERY_LABELS } from "@/lib/server/sheets";
+import { buildFillingChoices } from "@/config/fillings";
 import type { SavedOrder } from "@/types/order";
 
 // Уведомление о новом заказе в Telegram-группу кондитера.
@@ -44,10 +45,21 @@ export function formatOrderMessage(
   lines.push(`🎂 <b>Новый заказ ${e(order.orderId)}</b>`);
   lines.push("");
   lines.push(`<b>${e(order.productLabel)}</b>`);
-  const fillingCount = (order.fillings ?? []).length;
-  lines.push(
-    `${fillingCount > 1 ? "Начинки" : "Начинка"}: ${e(order.filling)}`
-  );
+  const choices = buildFillingChoices(order.fillings, order.fillingOptions);
+  const word = choices.length > 1 ? "Начинки" : "Начинка";
+  if (choices.some((c) => c.details.length)) {
+    // Есть уточнения вроде ягод или вида бисквита — показываем списком,
+    // чтобы было видно, что к какой начинке относится.
+    lines.push(`${word}:`);
+    for (const choice of choices) {
+      const extra = choice.details
+        .map((d) => `${d.label}: ${d.value}`)
+        .join(", ");
+      lines.push(`  • ${e(choice.name)}${extra ? ` — ${e(extra)}` : ""}`);
+    }
+  } else {
+    lines.push(`${word}: ${e(choices.map((c) => c.name).join(", "))}`);
+  }
   if (order.decorLabel) {
     lines.push(`Декор: ${e(order.decorLabel)}`);
     for (const part of order.decorDetails.split("; ").filter(Boolean)) {

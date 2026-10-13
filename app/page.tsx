@@ -15,12 +15,16 @@ import {
   type DecorField
 } from "@/config/decor";
 import {
+  buildFillingChoices,
   fillingCards,
   fillingLimitHint,
+  fillingOptionKey,
   fillingsForProduct,
   isFillingAllowedForProduct,
   isMultiFillingProduct,
-  maxFillingsFor
+  maxFillingsFor,
+  optionGroupsFor,
+  pruneFillingOptions
 } from "@/config/fillings";
 import { quotedDecorLabel, quotedDecorNote } from "@/config/price-rules";
 import { products } from "@/config/products";
@@ -36,6 +40,7 @@ import { addDays, fromIsoDate, startOfDay } from "@/lib/dates";
 import { calculatePrice } from "@/lib/pricing";
 import {
   getStepErrors as getSharedStepErrors,
+  instagramHandle,
   phoneDigits,
   type OrderStep
 } from "@/lib/validators";
@@ -199,10 +204,19 @@ export default function HomePage() {
       if (!allowsMultipleFillings) {
         // Торты и бенто: выбор одного варианта, как было раньше.
         // Повторный клик ничего не снимает, иначе легко остаться без начинки.
-        return { ...prev, fillings: [name] };
+        return {
+          ...prev,
+          fillings: [name],
+          fillingOptions: pruneFillingOptions([name], prev.fillingOptions)
+        };
       }
       if (selected.includes(name)) {
-        return { ...prev, fillings: selected.filter((item) => item !== name) };
+        const rest = selected.filter((item) => item !== name);
+        return {
+          ...prev,
+          fillings: rest,
+          fillingOptions: pruneFillingOptions(rest, prev.fillingOptions)
+        };
       }
       if (selected.length >= maxFillings) {
         // Лимит исчерпан: выбор не меняем, подсказка под списком объясняет почему.
@@ -218,6 +232,32 @@ export default function HomePage() {
       return rest;
     });
   };
+
+  // Выбор подпункта начинки: ягоды, вид бисквита.
+  const selectFillingOption = (
+    filling: string,
+    groupKey: string,
+    value: string
+  ) => {
+    const key = fillingOptionKey(filling, groupKey);
+    setFormData((prev) => ({
+      ...prev,
+      fillingOptions: { ...prev.fillingOptions, [key]: value }
+    }));
+    setErrors((prev) => {
+      const errorKey = `fillingOption.${key}`;
+      if (!prev[errorKey]) {
+        return prev;
+      }
+      const { [errorKey]: _removed, ...rest } = prev;
+      return rest;
+    });
+  };
+
+  const fillingChoices = useMemo(
+    () => buildFillingChoices(formData.fillings, formData.fillingOptions),
+    [formData.fillings, formData.fillingOptions]
+  );
 
   const availableDecorOptions = useMemo(
     () => getDecorOptionsForProduct(formData.productId),
@@ -419,6 +459,16 @@ export default function HomePage() {
     }
   };
 
+  // Какие начинки переживают смену продукта: разрешённые и в пределах лимита.
+  const keptFillings = (
+    current: string[] | undefined,
+    productId: string,
+    qty: number | undefined
+  ) =>
+    (current ?? [])
+      .filter((name) => isFillingAllowedForProduct(name, productId))
+      .slice(0, maxFillingsFor(productId, qty));
+
   const handleProductSelect = (productId: string) => {
     const nextProduct = products.find((product) => product.id === productId);
     const pricing = nextProduct?.pricing;
@@ -432,11 +482,13 @@ export default function HomePage() {
       qty: nextQty,
       // Начинки и декор могут быть недоступны для нового продукта.
       // Оставляем только разрешённые и обрезаем по новому лимиту.
-      fillings: nextProduct
-        ? (prev.fillings ?? [])
-            .filter((name) => isFillingAllowedForProduct(name, productId))
-            .slice(0, maxFillingsFor(productId, nextQty))
-        : [],
+      fillings: nextProduct ? keptFillings(prev.fillings, productId, nextQty) : [],
+      fillingOptions: nextProduct
+        ? pruneFillingOptions(
+            keptFillings(prev.fillings, productId, nextQty),
+            prev.fillingOptions
+          )
+        : {},
       decor:
         nextProduct && isDecorAllowedForProduct(prev.decor.type, productId)
           ? prev.decor
@@ -483,11 +535,15 @@ export default function HomePage() {
       // Меньше штук — меньше разрешённых начинок. Лишние снимаем сами,
       // иначе на шаге 2 осталась бы невалидная комбинация.
       const nextMax = maxFillingsFor(selectedProduct.id, nextValue);
-      setFormData((prev) => ({
-        ...prev,
-        qty: nextValue,
-        fillings: (prev.fillings ?? []).slice(0, nextMax)
-      }));
+      setFormData((prev) => {
+        const kept = (prev.fillings ?? []).slice(0, nextMax);
+        return {
+          ...prev,
+          qty: nextValue,
+          fillings: kept,
+          fillingOptions: pruneFillingOptions(kept, prev.fillingOptions)
+        };
+      });
       setErrors((prev) => {
         if (!prev.qty && !prev.fillings) {
           return prev;
@@ -852,6 +908,24 @@ export default function HomePage() {
                       {selectedFillings.join(", ")}
                     </span>
                   </div>
+                  {/* Уточнения к начинкам отдельными строками, как у декора. */}
+                  {fillingChoices.flatMap((choice) =>
+                    choice.details.map((detail) => (
+                      <div
+                        className="order-summary__row order-summary__row--sub"
+                        key={`${choice.name}-${detail.label}`}
+                      >
+                        <span className="order-summary__label">
+                          {fillingChoices.length > 1
+                            ? `${choice.name}, ${detail.label.toLowerCase()}`
+                            : detail.label}
+                        </span>
+                        <span className="order-summary__value">
+                          {detail.value}
+                        </span>
+                      </div>
+                    ))
+                  )}
                   {decorSummary && (
                     <>
                       <div className="order-summary__row">
@@ -1083,24 +1157,77 @@ export default function HomePage() {
                           allowsMultipleFillings &&
                           !isSelected &&
                           selectedFillings.length >= maxFillings;
+                        const groups = optionGroupsFor(filling.name);
                         return (
-                          <button
-                            key={filling.name}
-                            type="button"
-                            className={`filling-card ${
-                              isSelected ? "is-selected" : ""
-                            } ${isLocked ? "is-locked" : ""}`}
-                            onClick={() => toggleFilling(filling.name)}
-                            aria-pressed={isSelected}
-                            disabled={isLocked}
-                          >
-                            <span className="filling-title">
-                              {filling.name}
-                            </span>
-                            <span className="filling-description">
-                              {filling.description}
-                            </span>
-                          </button>
+                          <div className="filling-item" key={filling.name}>
+                            <button
+                              type="button"
+                              className={`filling-card ${
+                                isSelected ? "is-selected" : ""
+                              } ${isLocked ? "is-locked" : ""}`}
+                              onClick={() => toggleFilling(filling.name)}
+                              aria-pressed={isSelected}
+                              disabled={isLocked}
+                            >
+                              <span className="filling-title">
+                                {filling.name}
+                              </span>
+                              <span className="filling-description">
+                                {filling.description}
+                              </span>
+                            </button>
+                            {/* Уточнения появляются только у выбранной
+                                начинки, чтобы список оставался коротким. */}
+                            {isSelected && groups.length > 0 && (
+                              <div className="filling-options">
+                                {groups.map((group) => {
+                                  const key = fillingOptionKey(
+                                    filling.name,
+                                    group.key
+                                  );
+                                  const value =
+                                    formData.fillingOptions[key] ?? "";
+                                  const error = errors[`fillingOption.${key}`];
+                                  return (
+                                    <div
+                                      className="filling-options__group"
+                                      key={group.key}
+                                    >
+                                      <p className="filling-options__label">
+                                        {group.label}
+                                      </p>
+                                      <div className="toggle-group">
+                                        {group.options.map((option) => (
+                                          <button
+                                            key={option}
+                                            type="button"
+                                            className={`toggle-option ${
+                                              value === option
+                                                ? "is-active"
+                                                : ""
+                                            }`}
+                                            onClick={() =>
+                                              selectFillingOption(
+                                                filling.name,
+                                                group.key,
+                                                option
+                                              )
+                                            }
+                                            aria-pressed={value === option}
+                                          >
+                                            {option}
+                                          </button>
+                                        ))}
+                                      </div>
+                                      {error && (
+                                        <p className="field-error">{error}</p>
+                                      )}
+                                    </div>
+                                  );
+                                })}
+                              </div>
+                            )}
+                          </div>
                         );
                       })}
                     </div>
@@ -1317,15 +1444,31 @@ export default function HomePage() {
                       <label htmlFor="instagram">
                         Instagram (необязательно)
                       </label>
-                      <input
-                        id="instagram"
-                        type="text"
-                        value={formData.instagram ?? ""}
-                        onChange={(event) =>
-                          updateFormField("instagram", event.target.value)
-                        }
-                        placeholder="@username"
-                      />
+                      {/* «@» нарисована в поле и не редактируется, как «+7»
+                          у телефона. Само поле остаётся необязательным. */}
+                      <div className="phone-field">
+                        <span className="phone-field__prefix" aria-hidden="true">
+                          @
+                        </span>
+                        <input
+                          id="instagram"
+                          type="text"
+                          inputMode="text"
+                          autoCapitalize="none"
+                          autoCorrect="off"
+                          spellCheck={false}
+                          maxLength={30}
+                          value={instagramHandle(formData.instagram)}
+                          onChange={(event) =>
+                            updateFormField(
+                              "instagram",
+                              instagramHandle(event.target.value)
+                            )
+                          }
+                          placeholder="username"
+                          aria-label="Instagram, имя пользователя без собаки"
+                        />
+                      </div>
                     </div>
                     <div className="field">
                       <label htmlFor="comment">Комментарий (необязательно)</label>

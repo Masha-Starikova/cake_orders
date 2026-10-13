@@ -1007,6 +1007,9 @@ body {
 .calendar__cell {
   aspect-ratio: 1;
   min-height: 40px;
+  /* Без этого клетка не даёт колонке сузиться, и сетка вылезает за край. */
+  min-width: 0;
+  box-sizing: border-box;
 }
 
 .calendar__day {
@@ -1281,4 +1284,86 @@ body {
   font-weight: 700;
   letter-spacing: 0.04em;
   white-space: nowrap;
+}
+
+/* Уточнения к выбранной начинке: ягоды, вид бисквита.
+   Блок примыкает к карточке снизу и выглядит её продолжением. */
+.filling-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.filling-item .filling-card.is-selected {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  border-bottom-color: transparent;
+}
+
+.filling-options {
+  border: 1px solid var(--brand);
+  border-top: none;
+  border-radius: 0 0 18px 18px;
+  background: rgba(227, 25, 33, 0.06);
+  padding: 14px 16px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.filling-options__group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+}
+
+.filling-options__label {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  text-align: center;
+}
+
+.filling-options .toggle-group {
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* Календарь на узком экране: секция заказа отдавала под него слишком мало
+   места, клетки сжимались и ряды выглядели неровно. */
+@media (max-width: 560px) {
+  .order-section {
+    padding: 28px 16px;
+  }
+
+  .calendar {
+    padding: 10px 8px;
+  }
+
+  .calendar__weekdays,
+  .calendar__grid {
+    gap: 2px;
+  }
+
+  .calendar__cell {
+    min-height: 0;
+    min-width: 0;
+  }
+
+  .calendar__day {
+    font-size: 14px;
+    border-radius: 10px;
+  }
+
+  .calendar__weekdays span {
+    font-size: 11px;
+    padding: 2px 0;
+  }
+
+  .calendar__nav {
+    width: 40px;
+    height: 40px;
+    font-size: 24px;
+  }
 }

@@ -1,8 +1,10 @@
 import { getDecorOption } from "@/config/decor";
 import {
+  fillingOptionKey,
   fillings,
   isFillingAllowedForProduct,
-  maxFillingsFor
+  maxFillingsFor,
+  optionGroupsFor
 } from "@/config/fillings";
 import { products } from "@/config/products";
 import type { OrderFormData } from "@/types/order";
@@ -96,6 +98,21 @@ export function getStepErrors(
         limit === 1
           ? "Для этого количества доступна только одна начинка"
           : `Для этого количества можно выбрать не больше ${limit} начинок`;
+    }
+
+    // Обязательные подпункты выбранных начинок: ягоды, вид бисквита.
+    for (const name of selected) {
+      for (const group of optionGroupsFor(name)) {
+        const value = (order.fillingOptions ?? {})[
+          fillingOptionKey(name, group.key)
+        ];
+        const key = `fillingOption.${fillingOptionKey(name, group.key)}`;
+        if (group.required && !value) {
+          errors[key] = "Выберите вариант";
+        } else if (value && !group.options.includes(value)) {
+          errors[key] = "Выберите вариант из списка";
+        }
+      }
     }
   }
 
@@ -212,6 +229,23 @@ export function phoneDigits(phone: string): string {
 export function formatPhone(phone: string): string {
   const digits = phoneDigits(phone);
   return digits ? `+7${digits}` : "";
+}
+
+// Instagram тоже приводим к одному виду: @name. В поле «@» нарисован
+// и не редактируется, но вставить могут и ссылку целиком.
+export function instagramHandle(value: string | undefined): string {
+  return (value ?? "")
+    .trim()
+    .replace(/^https?:\/\/(www\.)?instagram\.com\//i, "")
+    .replace(/[/?#].*$/, "")
+    .replace(/^@+/, "")
+    .replace(/[^A-Za-z0-9._]/g, "")
+    .slice(0, 30);
+}
+
+export function formatInstagram(value: string | undefined): string {
+  const handle = instagramHandle(value);
+  return handle ? `@${handle}` : "";
 }
 
 // Российский мобильный: ровно 10 цифр после кода страны.

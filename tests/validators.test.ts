@@ -1,5 +1,11 @@
 import { describe, expect, it } from "vitest";
-import { getAllErrors, isValidDueDate, isValidPhone } from "@/lib/validators";
+import {
+  formatInstagram,
+  getAllErrors,
+  instagramHandle,
+  isValidDueDate,
+  isValidPhone
+} from "@/lib/validators";
 import { sampleOrder } from "./fixtures";
 import type { OrderFormData } from "@/types/order";
 
@@ -22,7 +28,7 @@ describe("validateOrderForm", () => {
   it("начинка, запрещённая для продукта", () => {
     const cupcakes: OrderFormData = {
       ...base, productId: "cupcakes", weightKg: undefined, qty: 6,
-      fillings: ["Медовик"], decor: { type: "none", color: "белый", berries: "С ягодами" }
+      fillings: ["Медовик"], fillingOptions: {}, decor: { type: "none", color: "белый", berries: "С ягодами" }
     };
     expect(getAllErrors(cupcakes)).toHaveProperty("fillings");
   });
@@ -30,7 +36,7 @@ describe("validateOrderForm", () => {
   it("декор, запрещённый для продукта", () => {
     const cupcakes: OrderFormData = {
       ...base, productId: "cupcakes", weightKg: undefined, qty: 6,
-      fillings: ["Сникерс"], decor: { type: "text", text: "Привет", position: "центр", color: "красный" }
+      fillings: ["Сникерс"], fillingOptions: {}, decor: { type: "text", text: "Привет", position: "центр", color: "красный" }
     };
     expect(getAllErrors(cupcakes)).toHaveProperty("decor.type");
   });
@@ -98,6 +104,7 @@ describe("Киндер-Кантри: доступность по продукт�
     weightKg: productId === "cake-by-kg" ? 3 : undefined,
     qty: undefined,
     fillings: ["Киндер-Кантри"],
+    fillingOptions: { "Киндер-Кантри::biscuit": "шоколадный" },
     decor: { type: "none", color: "белый" },
     ...extra
   });
@@ -130,6 +137,7 @@ describe("несколько начинок для штучных продукт
     weightKg: undefined,
     qty,
     fillings,
+    fillingOptions: {},
     decor: { type: "none", color: "белый" }
   });
 
@@ -174,5 +182,72 @@ describe("несколько начинок для штучных продукт
 
   it("пустой список — ошибка", () => {
     expect(getAllErrors({ ...base, fillings: [] })).toHaveProperty("fillings");
+  });
+});
+
+describe("подпункты начинок", () => {
+  const cake = (
+    fillings: string[],
+    fillingOptions: Record<string, string>
+  ): OrderFormData => ({ ...base, fillings, fillingOptions });
+
+  it("ягоды обязательны у начинок, где они предлагаются", () => {
+    expect(cake(["Красный бархат"], {})).toBeTruthy();
+    expect(getAllErrors(cake(["Красный бархат"], {}))).toHaveProperty(
+      "fillingOption.Красный бархат::berries"
+    );
+    expect(
+      getAllErrors(cake(["Красный бархат"], { "Красный бархат::berries": "Клубника" }))
+    ).not.toHaveProperty("fillingOption.Красный бархат::berries");
+  });
+
+  it("«Без ягод» — такой же допустимый ответ", () => {
+    expect(
+      getAllErrors(cake(["Красный бархат"], { "Красный бархат::berries": "Без ягод" }))
+    ).toEqual({});
+  });
+
+  it("вариант не из списка не проходит", () => {
+    expect(
+      getAllErrors(cake(["Красный бархат"], { "Красный бархат::berries": "манго" }))
+    ).toHaveProperty("fillingOption.Красный бархат::berries");
+  });
+
+  it("у Киндер-Кантри обязателен бисквит", () => {
+    expect(getAllErrors(cake(["Киндер-Кантри"], {}))).toHaveProperty(
+      "fillingOption.Киндер-Кантри::biscuit"
+    );
+    expect(
+      getAllErrors(cake(["Киндер-Кантри"], { "Киндер-Кантри::biscuit": "ванильный" }))
+    ).toEqual({});
+  });
+
+  it("у начинок без уточнений ничего не требуется", () => {
+    expect(getAllErrors(cake(["Медовик"], {}))).toEqual({});
+  });
+});
+
+describe("Instagram в едином виде", () => {
+  it("приводится к имени без собаки и мусора", () => {
+    for (const input of [
+      "@sasha",
+      "sasha",
+      "  @sasha  ",
+      "https://instagram.com/sasha",
+      "https://www.instagram.com/sasha/?hl=ru"
+    ]) {
+      expect(instagramHandle(input)).toBe("sasha");
+      expect(formatInstagram(input)).toBe("@sasha");
+    }
+  });
+
+  it("пустое значение остаётся пустым", () => {
+    expect(formatInstagram("")).toBe("");
+    expect(formatInstagram(undefined)).toBe("");
+    expect(formatInstagram("@@@")).toBe("");
+  });
+
+  it("поле необязательное: без него ошибок нет", () => {
+    expect(getAllErrors({ ...base, instagram: "" })).toEqual({});
   });
 });

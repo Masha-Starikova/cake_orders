@@ -4,9 +4,31 @@ import type { Filling } from "@/types/filling";
 // и ограничения по продуктам. Форма, валидация и номер заказа берут
 // данные отсюда, чтобы списки нигде не разъезжались.
 
+// Обязательный уточняющий вопрос к начинке: ягоды, вид бисквита и т. п.
+// Показывается, когда начинку выбрали, и уходит в заказ подпунктом.
+export type FillingOptionGroup = {
+  key: string;
+  // Вопрос в форме.
+  label: string;
+  // Подпись в сводке заказа, в таблице и в Telegram.
+  summaryLabel: string;
+  required: boolean;
+  options: string[];
+};
+
+// Ягоды предлагаются к нескольким начинкам, поэтому группа одна на всех.
+const berriesGroup: FillingOptionGroup = {
+  key: "berries",
+  label: "По желанию можно добавить в начинку:",
+  summaryLabel: "Ягоды",
+  required: true,
+  options: ["Клубника", "Малина", "Вишня", "Без ягод"]
+};
+
 export type FillingCard = {
   name: string;
   description: string;
+  optionGroups?: FillingOptionGroup[];
   // Начинка доступна только для этих продуктов. Поле не задано —
   // доступна для всех, кроме перечисленных в excludedFillingsByProduct.
   onlyForProducts?: string[];
@@ -19,7 +41,8 @@ export const fillingCards: FillingCard[] = [
   {
     name: "Нежнейший пломбир",
     description:
-      "Шифоновый бисквит с натуральными семенами ванили, крем с добавлением мягкого творога, напоминающий вкус мороженого пломбир. По желанию можно добавить клубнику/малину/вишню"
+      "Шифоновый бисквит с натуральными семенами ванили, крем с добавлением мягкого творога, напоминающий вкус мороженого пломбир.",
+    optionGroups: [berriesGroup]
   },
   {
     name: "Молочная девочка",
@@ -29,7 +52,8 @@ export const fillingCards: FillingCard[] = [
   {
     name: "Красный бархат",
     description:
-      "Нежнейший бисквит на кефире, крем с добавлением мягкого творога. По желанию можно добавить клубнику/малину/вишню"
+      "Нежнейший бисквит на кефире, крем с добавлением мягкого творога.",
+    optionGroups: [berriesGroup]
   },
   {
     name: "Морковный с солёной карамелью",
@@ -44,7 +68,8 @@ export const fillingCards: FillingCard[] = [
   {
     name: "Шоколадная классика",
     description:
-      "Влажный шоколадный бисквит, крем на основе мягкого творога с добавлением шоколадно-ореховой пасты. По желанию можно добавить клубнику/малину/вишню"
+      "Влажный шоколадный бисквит, крем на основе мягкого творога с добавлением шоколадно-ореховой пасты.",
+    optionGroups: [berriesGroup]
   },
   {
     name: "Банановый",
@@ -59,7 +84,16 @@ export const fillingCards: FillingCard[] = [
   {
     name: "Киндер-Кантри",
     description:
-      "Бисквит на выбор: шоколадный/ванильный, ванильный крем с добавлением белого шоколада, прослойка шоколадного ганаша и хрустящая начинка «киндер-кантри» с воздушным рисом. Бисквит уточните в комментарии к заказу.",
+      "Ванильный крем с добавлением белого шоколада, прослойка шоколадного ганаша и хрустящая начинка «киндер-кантри» с воздушным рисом.",
+    optionGroups: [
+      {
+        key: "biscuit",
+        label: "Бисквит на выбор:",
+        summaryLabel: "Бисквит",
+        required: true,
+        options: ["шоколадный", "ванильный"]
+      }
+    ],
     // Только торты и тортик в стаканчике. Для капкейков недоступна.
     onlyForProducts: [...cakeProductIds, "cup-cake"]
   }
@@ -135,4 +169,69 @@ export function fillingLimitHint(productId: string, qty?: number): string {
     return `Вы выбрали ${items} шт — доступна 1 начинка. Одна начинка на каждые ${rule.itemsPerFilling} шт: от ${forTwo} шт можно собрать ассорти из двух вкусов.`;
   }
   return `Вы выбрали ${items} шт — можно выбрать от 1 до ${max} начинок, по ${rule.itemsPerFilling} шт каждой. Сколько именно штук каждой начинки, напишите в комментарии на последнем шаге.`;
+}
+
+// ---------------------------------------------------------------------------
+// Подпункты начинок.
+//
+// Выбор хранится плоским словарём: ключ «начинка::группа», значение — вариант.
+// Плоский вид удобно передавать на сервер и класть в черновик заказа.
+// ---------------------------------------------------------------------------
+
+export const fillingOptionKey = (filling: string, groupKey: string) =>
+  `${filling}::${groupKey}`;
+
+export const optionGroupsFor = (filling: string): FillingOptionGroup[] =>
+  getFillingCard(filling)?.optionGroups ?? [];
+
+export const hasFillingOptions = (filling: string) =>
+  optionGroupsFor(filling).length > 0;
+
+export type FillingDetail = { label: string; value: string };
+export type FillingChoice = { name: string; details: FillingDetail[] };
+
+// Собирает выбранные начинки вместе с их подпунктами.
+export function buildFillingChoices(
+  fillings: readonly string[] | undefined,
+  options: Record<string, string> | undefined
+): FillingChoice[] {
+  return (fillings ?? []).map((name) => ({
+    name,
+    details: optionGroupsFor(name)
+      .map((group) => ({
+        label: group.summaryLabel,
+        value: (options ?? {})[fillingOptionKey(name, group.key)] ?? ""
+      }))
+      .filter((d) => d.value)
+  }));
+}
+
+// Одной строкой для таблицы: «Красный бархат (Клубника), Медовик».
+export function fillingsText(choices: readonly FillingChoice[]): string {
+  return choices
+    .map((c) =>
+      c.details.length
+        ? `${c.name} (${c.details.map((d) => d.value).join(", ")})`
+        : c.name
+    )
+    .join(", ");
+}
+
+// Убирает выбор подпунктов у начинок, которых больше нет в заказе.
+export function pruneFillingOptions(
+  fillings: readonly string[],
+  options: Record<string, string>
+): Record<string, string> {
+  const allowed = new Set(
+    fillings.flatMap((name) =>
+      optionGroupsFor(name).map((g) => fillingOptionKey(name, g.key))
+    )
+  );
+  const next: Record<string, string> = {};
+  for (const [key, value] of Object.entries(options ?? {})) {
+    if (allowed.has(key)) {
+      next[key] = value;
+    }
+  }
+  return next;
 }

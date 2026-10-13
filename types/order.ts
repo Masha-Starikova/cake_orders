@@ -28,6 +28,9 @@ export type OrderFormData = {
   // продуктов (стаканчики, капкейки) их может быть несколько —
   // предел зависит от количества штук, см. config/fillings.ts.
   fillings: string[];
+  // Выбор подпунктов начинок: ключ «начинка::группа» → вариант.
+  // Например «Красный бархат::berries» → «Клубника».
+  fillingOptions: Record<string, string>;
   decor: DecorData;
   dueDate: string;
   deliveryType: "pickup" | "delivery";
@@ -47,8 +50,8 @@ export type OrderPricingInput = Pick<
 // доверять нельзя (номер, время, цена) + готовые строки для таблицы и Telegram.
 export type SavedOrder = OrderFormData & {
   orderId: string;
-  // Начинки одной строкой: "Сникерс, Медовик". В таком виде уходит
-  // в Google Sheets и в Telegram.
+  // Начинки одной строкой вместе с подпунктами:
+  // "Красный бархат (Клубника), Медовик". В таком виде уходит в Google Sheets.
   filling: string;
   createdAt: string; // ISO
   createdAtLabel: string; // "05.09.2026 13:32" по Москве

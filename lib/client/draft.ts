@@ -13,7 +13,7 @@ import type { OrderFormData } from "@/types/order";
 // ---------------------------------------------------------------------------
 
 export const DRAFT_KEY = "cake-orders:draft";
-export const DRAFT_VERSION = 2;
+export const DRAFT_VERSION = 3;
 // Черновик живёт сутки: вернуться к заказу завтра — нормально,
 // через неделю — уже нет.
 export const DRAFT_TTL_MS = 24 * 60 * 60 * 1000;
@@ -23,6 +23,7 @@ export const emptyFormData: OrderFormData = {
   weightKg: undefined,
   qty: undefined,
   fillings: [],
+  fillingOptions: {},
   decor: { type: "" },
   dueDate: "",
   deliveryType: "pickup",
@@ -78,6 +79,11 @@ export function loadDraft(now = Date.now()): Draft | null {
         fillings: Array.isArray(draft.formData.fillings)
           ? draft.formData.fillings
           : [],
+        fillingOptions:
+          draft.formData.fillingOptions &&
+          typeof draft.formData.fillingOptions === "object"
+            ? draft.formData.fillingOptions
+            : {},
         decor: { ...emptyFormData.decor, ...(draft.formData.decor ?? {}) }
       }
     };

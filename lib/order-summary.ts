@@ -1,8 +1,9 @@
 import { buildDecorSummary } from "@/config/decor";
+import { buildFillingChoices, fillingsText } from "@/config/fillings";
 import { products } from "@/config/products";
 import { directCodeFor, generateOrderId } from "@/lib/order-id";
 import { calculatePrice } from "@/lib/pricing";
-import { formatPhone } from "@/lib/validators";
+import { formatInstagram, formatPhone } from "@/lib/validators";
 import type { OrderFormData, SavedOrder } from "@/types/order";
 
 // Сборка обработанного заказа: сервер добавляет номер, время, цену и
@@ -57,11 +58,15 @@ export function buildSavedOrder(
   return {
     ...order,
     orderId,
-    // Несколько начинок склеиваем в одну строку для таблицы и Telegram.
-    filling: (order.fillings ?? []).join(", "),
-    // Телефон приводим к единому виду +7XXXXXXXXXX: так он уходит
-    // и в таблицу, и в Telegram, что бы человек ни ввёл в форму.
+    // Начинки с подпунктами одной строкой для таблицы:
+    // «Красный бархат (Клубника), Медовик».
+    filling: fillingsText(
+      buildFillingChoices(order.fillings, order.fillingOptions)
+    ),
+    // Телефон и Instagram приводим к единому виду: +7XXXXXXXXXX и @name,
+    // что бы человек ни ввёл в форму.
     phone: formatPhone(order.phone),
+    instagram: formatInstagram(order.instagram) || undefined,
     createdAt: now.toISOString(),
     createdAtLabel: formatMoscow(now),
     productLabel,

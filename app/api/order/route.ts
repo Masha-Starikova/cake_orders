@@ -115,6 +115,20 @@ const str = (v: unknown, max = 5000) =>
   typeof v === "string" ? v.slice(0, max).trim() : "";
 // Список начинок: не больше 20 позиций, каждая обрезается по длине.
 // Дубликаты и недопустимые названия отсеет валидация.
+// Словарь подпунктов начинок: только строки, с потолком по числу ключей.
+const strMap = (v: unknown, max = 100) => {
+  const out: Record<string, string> = {};
+  if (v && typeof v === "object" && !Array.isArray(v)) {
+    for (const [key, value] of Object.entries(v as Record<string, unknown>).slice(0, 40)) {
+      const text = str(value, max);
+      if (text) {
+        out[key.slice(0, 120)] = text;
+      }
+    }
+  }
+  return out;
+};
+
 const strList = (v: unknown, max = 100) =>
   Array.isArray(v)
     ? v
@@ -135,6 +149,7 @@ function normalize(body: Body): OrderFormData {
     weightKg: num(body.weightKg),
     qty: num(body.qty),
     fillings: strList(body.fillings, 100),
+    fillingOptions: strMap(body.fillingOptions, 100),
     decor: {
       type: str(decor.type, 30) as OrderFormData["decor"]["type"],
       color: str(decor.color) || undefined,

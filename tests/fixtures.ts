@@ -5,6 +5,7 @@ export const sampleOrder: SavedOrder = {
   productId: "cake-by-kg",
   weightKg: 3,
   fillings: ["Красный бархат"],
+  fillingOptions: { "Красный бархат::berries": "Клубника" },
   filling: "Красный бархат",
   decor: {
     type: "text",
