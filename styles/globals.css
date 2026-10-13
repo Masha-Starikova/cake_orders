@@ -1293,7 +1293,9 @@ body {
   flex-direction: column;
 }
 
-.filling-item .filling-card.is-selected {
+/* Срезаем низ только у карточки, под которой раскрыт блок уточнений.
+   У обычной выбранной начинки рамка остаётся замкнутой. */
+.filling-item .filling-card.is-open {
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
   border-bottom-color: transparent;

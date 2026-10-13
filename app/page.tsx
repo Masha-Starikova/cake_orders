@@ -1162,8 +1162,13 @@ export default function HomePage() {
                           <div className="filling-item" key={filling.name}>
                             <button
                               type="button"
+                              // is-open ставится, только когда снизу
+                              // действительно раскрыт блок уточнений:
+                              // иначе у обычной карточки срезалась бы рамка.
                               className={`filling-card ${
                                 isSelected ? "is-selected" : ""
+                              } ${
+                                isSelected && groups.length > 0 ? "is-open" : ""
                               } ${isLocked ? "is-locked" : ""}`}
                               onClick={() => toggleFilling(filling.name)}
                               aria-pressed={isSelected}
