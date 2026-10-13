@@ -22,6 +22,10 @@ export function escapeHtml(value: string | undefined | null): string {
 export const money = (value: number) =>
   `${Math.round(value).toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")} ₽`;
 
+// Подпись поля референса из config/decor.ts. В сообщение попадает
+// только она, без имени файла.
+const REFERENCE_LABEL = "Референс (фото)";
+
 const formatDueDate = (value: string) => {
   const date = new Date(`${value}T00:00:00`);
   if (Number.isNaN(date.getTime())) {
@@ -37,7 +41,7 @@ export function formatOrderMessage(
   const e = escapeHtml;
   const lines: string[] = [];
 
-  lines.push(`🎂 <b>Новый заказ #${e(order.orderId)}</b>`);
+  lines.push(`🎂 <b>Новый заказ ${e(order.orderId)}</b>`);
   lines.push("");
   lines.push(`<b>${e(order.productLabel)}</b>`);
   const fillingCount = (order.fillings ?? []).length;
@@ -47,25 +51,28 @@ export function formatOrderMessage(
   if (order.decorLabel) {
     lines.push(`Декор: ${e(order.decorLabel)}`);
     for (const part of order.decorDetails.split("; ").filter(Boolean)) {
-      lines.push(`  • ${e(part)}`);
+      // У референса показываем только сам факт: имя файла читать незачем,
+      // фото всё равно приходит в чат следующим сообщением.
+      lines.push(
+        part.startsWith(REFERENCE_LABEL)
+          ? `  • ${REFERENCE_LABEL}`
+          : `  • ${e(part)}`
+      );
     }
   }
-  if (order.decor.referenceFileName) {
-    lines.push(`Референс: 📎 ${e(order.decor.referenceFileName)}`);
-  }
   lines.push("");
-  lines.push(`📅 К дате: ${e(formatDueDate(order.dueDate))}`);
+  lines.push(`К дате: ${e(formatDueDate(order.dueDate))}`);
   const delivery = DELIVERY_LABELS[order.deliveryType];
   lines.push(
     order.deliveryType === "delivery" && order.address
-      ? `🚚 ${delivery}: ${e(order.address)}`
-      : `🏠 ${delivery}`
+      ? `${delivery}: ${e(order.address)}`
+      : delivery
   );
   const contact = [order.name, order.phone, order.instagram]
     .filter(Boolean)
     .map((v) => e(v))
     .join(" · ");
-  lines.push(`👤 ${contact}`);
+  lines.push(contact);
   if (order.comment) {
     lines.push("");
     lines.push(`💬 ${e(order.comment)}`);
@@ -75,7 +82,7 @@ export function formatOrderMessage(
     ? "декор по договорённости"
     : `декор ${money(order.decorPrice)}`;
   lines.push(
-    `💰 Торт ${money(order.cakePrice)} + ${decorPart} = <b>${money(order.totalPrice)}</b>`
+    `Торт ${money(order.cakePrice)} + ${decorPart} = <b>${money(order.totalPrice)}</b>`
   );
   lines.push("");
   lines.push(`Код для Direct: <code>${e(order.directCode)}</code>`);

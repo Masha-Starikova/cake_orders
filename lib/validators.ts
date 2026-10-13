@@ -148,7 +148,7 @@ export function getStepErrors(
     if (!order.phone?.trim()) {
       errors.phone = "Введите телефон";
     } else if (!isValidPhone(order.phone)) {
-      errors.phone = "Проверьте номер телефона";
+      errors.phone = "Введите 10 цифр номера после +7";
     }
     if (order.deliveryType === "delivery" && !order.address?.trim()) {
       errors.address = "Укажите адрес доставки";
@@ -192,10 +192,31 @@ export function validateOrderForm(
   return { valid: Object.keys(errors).length === 0, errors };
 }
 
-// Телефон: после очистки 10–15 цифр.
+// Телефон всегда хранится и показывается в одном виде: +7XXXXXXXXXX.
+// В форме «+7» нарисован в поле и не редактируется, человек набирает
+// 10 цифр начиная с девятки. Но вставить из буфера могут что угодно,
+// поэтому нормализуем и на клиенте, и на сервере.
+
+// Оставляет 10 значащих цифр российского номера.
+// "9128459382" → "9128459382"; "89128459382" → "9128459382";
+// "+7 912 845-93-82" → "9128459382".
+export function phoneDigits(phone: string): string {
+  let digits = (phone ?? "").replace(/\D/g, "");
+  if (digits.length === 11 && (digits.startsWith("7") || digits.startsWith("8"))) {
+    digits = digits.slice(1);
+  }
+  return digits.slice(0, 10);
+}
+
+// Единый вид для таблицы, Telegram и экрана заказа.
+export function formatPhone(phone: string): string {
+  const digits = phoneDigits(phone);
+  return digits ? `+7${digits}` : "";
+}
+
+// Российский мобильный: ровно 10 цифр после кода страны.
 export function isValidPhone(phone: string): boolean {
-  const digits = phone.replace(/\D/g, "");
-  return digits.length >= 10 && digits.length <= 15;
+  return phoneDigits(phone).length === 10;
 }
 
 // Дата в формате YYYY-MM-DD, не раньше завтра (по локальному времени).

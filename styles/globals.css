@@ -1203,3 +1203,82 @@ body {
   text-decoration: underline;
   cursor: pointer;
 }
+
+/* Поле телефона: несменяемый префикс +7 и только цифры рядом. */
+.phone-field {
+  display: flex;
+  align-items: stretch;
+  border: 1px solid rgba(42, 26, 26, 0.2);
+  border-radius: 12px;
+  background: #ffffff;
+  overflow: hidden;
+}
+
+.phone-field:focus-within {
+  border-color: var(--brand);
+}
+
+.phone-field__prefix {
+  display: flex;
+  align-items: center;
+  padding: 0 10px 0 14px;
+  font-size: 16px;
+  color: var(--text);
+  background: rgba(42, 26, 26, 0.05);
+  border-right: 1px solid rgba(42, 26, 26, 0.12);
+  user-select: none;
+}
+
+.phone-field input {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  letter-spacing: 0.5px;
+}
+
+.phone-field input:focus {
+  outline: none;
+  border: none;
+  box-shadow: none;
+}
+
+/* Скрыто визуально, но доступно поисковикам и чтению с экрана. */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Код для Direct: подпись сверху, код и кнопка копирования строкой ниже,
+   в той же цветной ячейке. Раньше на узком экране код сжимался между
+   подписью и кнопкой и переносился по буквам. */
+.order-summary__row--code {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 8px;
+}
+
+.order-summary__row--code .order-summary__value--code {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  text-align: left;
+}
+
+.order-summary__row--code .direct-code {
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}

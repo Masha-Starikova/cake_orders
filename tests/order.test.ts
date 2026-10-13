@@ -5,13 +5,13 @@ import { escapeHtml, formatOrderMessage } from "@/lib/server/telegram";
 import { sampleOrder } from "./fixtures";
 
 describe("generateOrderId", () => {
-  it("код продукта + код начинки + 4 цифры", () => {
+  it("код продукта + код начинки + 3 цифры", () => {
     const id = generateOrderId({ productId: "cake-by-kg", fillings: ["Красный бархат"] }, () => 0.5);
-    expect(id).toBe("TKB5500");
+    expect(id).toBe("TKB550");
   });
 
   it("неизвестные значения дают X/XX", () => {
-    expect(generateOrderId({ productId: "?", fillings: ["?"] }, () => 0)).toBe("XXX1000");
+    expect(generateOrderId({ productId: "?", fillings: ["?"] }, () => 0)).toBe("XXX100");
   });
 });
 
@@ -54,12 +54,64 @@ describe("telegram message", () => {
 
   it("содержит ключевые поля", () => {
     const text = formatOrderMessage(sampleOrder, { sheetsError: "403" });
-    expect(text).toContain("#CBH4821");
+    expect(text).toContain("Новый заказ CBH4821");
     expect(text).toContain("Красный бархат");
     expect(text).toContain("14 сентября");
     expect(text).toContain("ул. Пример, 5");
     expect(text).toContain("9 000 ₽");
     expect(text).toContain("ZAKAZCBH4821");
     expect(text).toContain("⚠️");
+  });
+});
+
+describe("телефон в едином виде", () => {
+  it("нормализуется из любого ввода", () => {
+    const variants = [
+      "9128459382",
+      "89128459382",
+      "+7 912 845-93-82",
+      "8 (912) 845 93 82",
+      "+79128459382"
+    ];
+    for (const phone of variants) {
+      expect(buildSavedOrder({ ...sampleOrder, phone }).phone).toBe("+79128459382");
+    }
+  });
+
+  it("в сообщение Telegram уходит тот же вид", () => {
+    const saved = buildSavedOrder({ ...sampleOrder, phone: "89128459382" });
+    expect(formatOrderMessage(saved)).toContain("+79128459382");
+  });
+});
+
+describe("сообщение в Telegram без лишних значков", () => {
+  const text = formatOrderMessage({
+    ...sampleOrder,
+    decor: { type: "drawing", comment: "котик", referenceFileName: "IMG_3998.jpeg" },
+    decorDetails: "Комментарий: котик; Референс (фото): IMG_3998.jpeg"
+  });
+
+  it("номер заказа без решётки", () => {
+    expect(text).toContain("Новый заказ CBH4821");
+    expect(text).not.toContain("#CBH4821");
+  });
+
+  it("у референса нет имени файла", () => {
+    expect(text).toContain("Референс (фото)");
+    expect(text).not.toContain("IMG_3998.jpeg");
+    expect(text).not.toContain("📎");
+  });
+
+  it("убраны значки у даты, получения, контакта и суммы", () => {
+    for (const icon of ["📅", "🏠", "🚚", "👤", "💰"]) {
+      expect(text).not.toContain(icon);
+    }
+  });
+
+  it("сами данные на месте", () => {
+    expect(text).toContain("14 сентября");
+    expect(text).toContain("Доставка: ул. Пример, 5");
+    expect(text).toContain("Анна");
+    expect(text).toContain("9 000 ₽");
   });
 });

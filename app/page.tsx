@@ -34,7 +34,11 @@ import {
 import { compressImage } from "@/lib/client/image";
 import { addDays, fromIsoDate, startOfDay } from "@/lib/dates";
 import { calculatePrice } from "@/lib/pricing";
-import { getStepErrors as getSharedStepErrors, type OrderStep } from "@/lib/validators";
+import {
+  getStepErrors as getSharedStepErrors,
+  phoneDigits,
+  type OrderStep
+} from "@/lib/validators";
 import type { DecorType, OrderFormData, OrderPricingInput } from "@/types/order";
 import type { Product } from "@/types/product";
 
@@ -796,7 +800,10 @@ export default function HomePage() {
           </div>
           <header className="hero">
             <p className="eyebrow">Онлайн-заказ</p>
-            <h1 className="title">{brandName}</h1>
+            {/* Название уже есть на логотипе выше, поэтому текстом его
+                не повторяем. Заголовок оставлен скрытым: он нужен
+                поисковикам и программам чтения с экрана. */}
+            <h1 className="title visually-hidden">{brandName}</h1>
             <p className="subtitle">
               Заполните короткую форму в 4 шага — и мы подтвердим заказ в Direct.
             </p>
@@ -952,7 +959,7 @@ export default function HomePage() {
                       {success.orderId}
                     </span>
                   </div>
-                  <div className="order-summary__row">
+                  <div className="order-summary__row order-summary__row--code">
                     <span className="order-summary__label">
                       Напишите в Direct код
                     </span>
@@ -1278,15 +1285,30 @@ export default function HomePage() {
                     </div>
                     <div className="field">
                       <label htmlFor="phone">Телефон</label>
-                      <input
-                        id="phone"
-                        type="tel"
-                        value={formData.phone}
-                        onChange={(event) =>
-                          updateFormField("phone", event.target.value)
-                        }
-                        placeholder="+7"
-                      />
+                      {/* «+7» нарисован в поле и не редактируется.
+                          Человек набирает только 10 цифр, начиная с девятки,
+                          поэтому номер везде получается одного вида. */}
+                      <div className="phone-field">
+                        <span className="phone-field__prefix" aria-hidden="true">
+                          +7
+                        </span>
+                        <input
+                          id="phone"
+                          type="tel"
+                          inputMode="numeric"
+                          autoComplete="tel-national"
+                          maxLength={10}
+                          value={phoneDigits(formData.phone)}
+                          onChange={(event) =>
+                            updateFormField(
+                              "phone",
+                              phoneDigits(event.target.value)
+                            )
+                          }
+                          placeholder="9001234567"
+                          aria-label="Телефон, 10 цифр после +7"
+                        />
+                      </div>
                       {errors.phone && (
                         <p className="field-error">{errors.phone}</p>
                       )}

@@ -2,6 +2,7 @@ import { buildDecorSummary } from "@/config/decor";
 import { products } from "@/config/products";
 import { directCodeFor, generateOrderId } from "@/lib/order-id";
 import { calculatePrice } from "@/lib/pricing";
+import { formatPhone } from "@/lib/validators";
 import type { OrderFormData, SavedOrder } from "@/types/order";
 
 // Сборка обработанного заказа: сервер добавляет номер, время, цену и
@@ -58,6 +59,9 @@ export function buildSavedOrder(
     orderId,
     // Несколько начинок склеиваем в одну строку для таблицы и Telegram.
     filling: (order.fillings ?? []).join(", "),
+    // Телефон приводим к единому виду +7XXXXXXXXXX: так он уходит
+    // и в таблицу, и в Telegram, что бы человек ни ввёл в форму.
+    phone: formatPhone(order.phone),
     createdAt: now.toISOString(),
     createdAtLabel: formatMoscow(now),
     productLabel,
